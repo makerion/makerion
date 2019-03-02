@@ -34,6 +34,9 @@ defmodule MakerionFirmware.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:makerion, path: "../makerion"},
+      {:makerion_web, path: "../makerion_web"},
+
       # Dependencies for all targets
       {:nerves, "~> 1.4", runtime: false},
       {:shoehorn, "~> 0.4"},
