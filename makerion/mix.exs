@@ -31,7 +31,7 @@ defmodule Makerion.MixProject do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    []
+    [{:moddity, github: "makerion/moddity"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

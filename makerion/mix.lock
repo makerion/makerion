@@ -1,0 +1,3 @@
+%{
+  "moddity": {:git, "https://github.com/makerion/moddity.git", "1bc1d89be59c11edcf2f7cd02e34acf867f25a21", []},
+}

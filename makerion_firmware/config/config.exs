@@ -15,7 +15,7 @@ config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
 # involved with firmware updates.
 
 config :shoehorn,
-  init: [:nerves_runtime, :nerves_init_gadget],
+  init: [:nerves_runtime, :nerves_init_gadget, :nerves_network],
   app: Mix.Project.config()[:app]
 
 # Use Ringlogger as the logger backend and remove :console.
@@ -72,6 +72,9 @@ config :makerion_web, MakerionWeb.Endpoint,
   code_reloader: false
 
 config :phoenix, :json_library, Jason
+
+config :nerves_network,
+  regulatory_domain: "US"
 
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
