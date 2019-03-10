@@ -1,0 +1,9 @@
+%{
+  "elixir_make": {:hex, :elixir_make, "0.5.2", "96a28c79f5b8d34879cd95ebc04d2a0d678cfbbd3e74c43cb63a76adf0ee8054", [:mix], [], "hexpm"},
+  "input_event": {:hex, :input_event, "0.4.0", "377b6ec66829cf3448925455a3177bfdffdc6aee5db603493b24b04863e907f5", [:make, :mix], [{:elixir_make, "~> 0.4", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm"},
+  "scenic": {:hex, :scenic, "0.9.0", "129594f918b4e2dd97465b95b4fb3582294ac6bb3e931f12edd09913743964eb", [:make, :mix], [{:elixir_make, "~> 0.4", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm"},
+  "scenic_driver_glfw": {:hex, :scenic_driver_glfw, "0.9.1", "b64d345929007186c6b2ca603aec21b1fdde758d3eb32f8467a236e58ccd6a19", [:make, :mix], [{:elixir_make, "~> 0.4", [hex: :elixir_make, repo: "hexpm", optional: false]}, {:scenic, "~> 0.9", [hex: :scenic, repo: "hexpm", optional: false]}], "hexpm"},
+  "scenic_driver_nerves_rpi": {:hex, :scenic_driver_nerves_rpi, "0.9.3", "f43e7d1dfc2eeccb708e268041ff11f232d67b2993d34332b83f6dd4adb27e93", [:make, :mix], [{:elixir_make, "~> 0.4", [hex: :elixir_make, repo: "hexpm", optional: false]}, {:scenic, "~> 0.9", [hex: :scenic, repo: "hexpm", optional: false]}], "hexpm"},
+  "scenic_driver_nerves_touch": {:hex, :scenic_driver_nerves_touch, "0.9.1", "397df3ad9238f1d81fec6a3312e95e46b92838a592c7135f8d0ca2a25e53aeae", [:mix], [{:input_event, "~> 0.3", [hex: :input_event, repo: "hexpm", optional: false]}, {:scenic, "~> 0.9", [hex: :scenic, repo: "hexpm", optional: false]}], "hexpm"},
+  "scenic_sensor": {:hex, :scenic_sensor, "0.7.0", "a12aed7596fbab025a535f912325da5a087ff704e96f7acb274c3034d832f9ce", [:mix], [], "hexpm"},
+}
