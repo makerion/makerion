@@ -7,7 +7,8 @@ defmodule Makerion.Application do
 
   def start(_type, _args) do
     children = [
-      # Makerion.Worker
+      # Printer Events PubSub
+      {Registry, keys: :duplicate, name: Registry.PrinterEvents, id: Registry.PrinterEvents}
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one, name: Makerion.Supervisor)

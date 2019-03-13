@@ -1,7 +1,6 @@
 <section class="section">
   <div class="container">
-    <h1 class="title">
-      Hello World
-    </h1>
+    <h1 class="title">Printer Status</h1>
+    <p id="printer_status"></p>
   </div>
 </section>

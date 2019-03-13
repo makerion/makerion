@@ -5,13 +5,16 @@ defmodule MakerionWeb.Application do
 
   use Application
 
+  alias MakerionWeb.PrinterEventHandler
+
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
       # Start the endpoint when the application starts
-      MakerionWeb.Endpoint
+      MakerionWeb.Endpoint,
       # Starts a worker by calling: MakerionWeb.Worker.start_link(arg)
       # {MakerionWeb.Worker, arg},
+      {PrinterEventHandler, name: PrinterEventHandler}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
