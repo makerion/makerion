@@ -1,0 +1,13 @@
+.centered {
+  text-align: center;
+}
+
+.float-right {
+  float: right;
+}
+
+.clearfix::after {
+  display: block;
+  content: " ";
+  clear: both;
+}

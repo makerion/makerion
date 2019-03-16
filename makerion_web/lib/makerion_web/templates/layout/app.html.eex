@@ -8,9 +8,29 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/js/app.css") %>"/>
   </head>
   <body>
+    <div class="grid">
+      <!-- <nav>View Files | Camera</nav> -->
+      <%= render @view_module, @view_template, assigns %>
+      <div class="sidebar card-list">
+        <div class="card">
+          <div class="card__body">
+            <div class="card__title centered">Printer Status</div>
+            <ul class="data-list">
+              <li><span class="data-list__label">State</span><span class="data-list__value">Warming Up</span></li>
+              <li><span class="data-list__label">Extruder</span><span class="data-list__value">150&deg;</span></li>
+              <li><span class="data-list__label">Bed</span><span class="data-list__value">50&deg;</span></li>
+              <li><span class="data-list__label">File</span><span class="data-list__value">alien_1.gcode</span></li>
+              <li><span class="data-list__label">Started</span><span class="data-list__value">5 minutes ago</span></li>
+              <li><span class="data-list__label">Total Time</span><span class="data-list__value">4 hours</span></li>
+              <li><span class="data-list__label">Time left</span><span class="data-list__value">4 hours</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
     <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
     <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-    <%= render @view_module, @view_template, assigns %>
+
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

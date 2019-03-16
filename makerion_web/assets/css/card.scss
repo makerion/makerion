@@ -1,0 +1,40 @@
+.card-list {
+  max-width: 1080px;
+}
+
+.card {
+  margin-top: 1.5em;
+  background-color: white;
+  display: flex;
+  box-shadow: 0 6px 10px -5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.2);
+    // box-shadow: 0 20px 20px -15px rgba(0, 0, 0, 0.3);
+  }
+
+  &__title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__body {
+    color: $primary-bold;
+    flex: 1 1 100%;
+    padding: 20px;
+  }
+
+  &__footer {
+    color: darken($gray, 15%);
+  }
+
+  &__action {
+    flex: 1;
+    margin: auto 1em;
+  }
+}
