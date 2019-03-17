@@ -12,17 +12,17 @@
       <!-- <nav>View Files | Camera</nav> -->
       <%= render @view_module, @view_template, assigns %>
       <div class="sidebar card-list">
-        <div class="card">
+        <div class="card" data-test="printer_status">
           <div class="card__body">
             <div class="card__title centered">Printer Status</div>
             <ul class="data-list">
-              <li><span class="data-list__label">State</span><span class="data-list__value">Warming Up</span></li>
-              <li><span class="data-list__label">Extruder</span><span class="data-list__value">150&deg;</span></li>
-              <li><span class="data-list__label">Bed</span><span class="data-list__value">50&deg;</span></li>
-              <li><span class="data-list__label">File</span><span class="data-list__value">alien_1.gcode</span></li>
-              <li><span class="data-list__label">Started</span><span class="data-list__value">5 minutes ago</span></li>
-              <li><span class="data-list__label">Total Time</span><span class="data-list__value">4 hours</span></li>
-              <li><span class="data-list__label">Time left</span><span class="data-list__value">4 hours</span></li>
+              <li data-test="status_entry"><span class="data-list__label" data-test="status_name">State</span><span class="data-list__value" data-test="status_value">Warming Up</span></li>
+              <li data-test="status_entry"><span class="data-list__label" data-test="status_name">Extruder</span><span class="data-list__value" data-test="status_value">150&deg;</span></li>
+              <li data-test="status_entry"><span class="data-list__label" data-test="status_name">Bed</span><span class="data-list__value" data-test="status_value">50&deg;</span></li>
+              <li data-test="status_entry"><span class="data-list__label" data-test="status_name">File</span><span class="data-list__value" data-test="status_value">alien_1.gcode</span></li>
+              <li data-test="status_entry"><span class="data-list__label" data-test="status_name">Started</span><span class="data-list__value" data-test="status_value">5 minutes ago</span></li>
+              <li data-test="status_entry"><span class="data-list__label" data-test="status_name">Total Time</span><span class="data-list__value" data-test="status_value">4 hours</span></li>
+              <li data-test="status_entry"><span class="data-list__label" data-test="status_name">Time left</span><span class="data-list__value" data-test="status_value">4 hours</span></li>
             </ul>
           </div>
         </div>

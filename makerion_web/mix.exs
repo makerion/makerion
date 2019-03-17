@@ -35,6 +35,7 @@ defmodule MakerionWeb.MixProject do
     [
       {:makerion, path: "../makerion"},
 
+      {:hound, "~> 1.0"},
       {:phoenix, "~> 1.4.1"},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_html, "~> 2.11"},
