@@ -12,20 +12,7 @@
       <!-- <nav>View Files | Camera</nav> -->
       <%= render @view_module, @view_template, assigns %>
       <div class="sidebar card-list">
-        <div class="card" data-test="printer_status">
-          <div class="card__body">
-            <div class="card__title centered">Printer Status</div>
-            <ul class="data-list">
-              <li data-test="status_entry"><span class="data-list__label" data-test="status_name">State</span><span class="data-list__value" data-test="status_value">Warming Up</span></li>
-              <li data-test="status_entry"><span class="data-list__label" data-test="status_name">Extruder</span><span class="data-list__value" data-test="status_value">150&deg;</span></li>
-              <li data-test="status_entry"><span class="data-list__label" data-test="status_name">Bed</span><span class="data-list__value" data-test="status_value">50&deg;</span></li>
-              <li data-test="status_entry"><span class="data-list__label" data-test="status_name">File</span><span class="data-list__value" data-test="status_value">alien_1.gcode</span></li>
-              <li data-test="status_entry"><span class="data-list__label" data-test="status_name">Started</span><span class="data-list__value" data-test="status_value">5 minutes ago</span></li>
-              <li data-test="status_entry"><span class="data-list__label" data-test="status_name">Total Time</span><span class="data-list__value" data-test="status_value">4 hours</span></li>
-              <li data-test="status_entry"><span class="data-list__label" data-test="status_name">Time left</span><span class="data-list__value" data-test="status_value">4 hours</span></li>
-            </ul>
-          </div>
-        </div>
+        <%= live_render(@conn, MakerionWeb.PrinterStatusLive.Show) %>
       </div>
     </div>
     <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

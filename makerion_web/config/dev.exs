@@ -57,6 +57,7 @@ config :makerion_web, MakerionWeb.Endpoint,
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
+      ~r{lib/makerion_web/live/.*(ex)$},
       ~r{lib/makerion_web/views/.*(ex)$},
       ~r{lib/makerion_web/templates/.*(eex)$}
     ]

@@ -10,10 +10,16 @@ config :makerion_web,
 
 # Configures the endpoint
 config :makerion_web, MakerionWeb.Endpoint,
+  live_view: [
+    signing_salt: "vGv59K4MSRCM34UPhifRphZTURII7lfO"
+  ],
   url: [host: "localhost"],
   secret_key_base: "pYHbGO6Ir2A43i44U3VippGeoxu/wG1FjZKOX1bYvKzswsWROrSTDiFBhEoHFgrr",
   render_errors: [view: MakerionWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: MakerionWeb.PubSub, adapter: Phoenix.PubSub.PG2]
+
+config :phoenix, :template_engines, leex: Phoenix.LiveView.Engine
+
 
 config :phoenix, :json_library, Jason
 
