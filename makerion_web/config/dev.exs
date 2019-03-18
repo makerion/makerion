@@ -4,7 +4,7 @@
 # the umbrella root.
 use Mix.Config
 
-config :makerion, printer_driver: Moddity.FakeDriver
+config :makerion, printer_driver: Moddity.Driver
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

@@ -2,7 +2,6 @@ defmodule MakerionWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "printer_events", MakerionWeb.PrinterEventsChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

@@ -30,6 +30,7 @@ defmodule Makerion.Application do
   defp printer_driver_config(driver) do
     case printer_driver do
       Moddity.FakeDriver-> %Moddity.FakeDriver{}
+      Moddity.Driver-> %Moddity.Driver{}
     end
   end
 end
