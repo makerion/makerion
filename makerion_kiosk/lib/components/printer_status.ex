@@ -43,13 +43,13 @@ defmodule MakerionKiosk.Components.PrinterStatus do
   def verify(data), do: {:ok, data}
   def info, do: ""
 
-  def handle_info({:printer_event, :printer_status, %{message: message}}, graph) do
+  def handle_info({:printer_event, :printer_status, status = %Makerion.PrinterStatus{}}, graph) do
     # Process.send_after(self(), :update_devices, 1000)
 
     # update the graph
     graph =
       graph
-      |> Graph.modify(:printer_status_text, &text(&1, message))
+      |> Graph.modify(:printer_status_text, &text(&1, status.state))
       |> push_graph()
 
     {:noreply, graph}
