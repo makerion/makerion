@@ -4,6 +4,8 @@
 # the umbrella root.
 use Mix.Config
 
+import_config "#{File.cwd!}/../makerion/config/config.exs"
+
 # General application configuration
 config :makerion_web,
   generators: [context_app: :makerion]
@@ -19,7 +21,6 @@ config :makerion_web, MakerionWeb.Endpoint,
   pubsub: [name: MakerionWeb.PubSub, adapter: Phoenix.PubSub.PG2]
 
 config :phoenix, :template_engines, leex: Phoenix.LiveView.Engine
-
 
 config :phoenix, :json_library, Jason
 

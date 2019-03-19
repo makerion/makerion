@@ -4,4 +4,8 @@
 # the umbrella root.
 use Mix.Config
 
+config :makerion, printer_driver: Moddity.FakeDriver
+
+config :makerion, ecto_repos: [Makerion.Repo]
+
 import_config "#{Mix.env()}.exs"

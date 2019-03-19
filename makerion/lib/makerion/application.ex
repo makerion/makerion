@@ -5,12 +5,14 @@ defmodule Makerion.Application do
 
   use Application
 
-  alias Makerion.PrinterPoller
+  alias Makerion.{PrinterPoller, Repo}
 
   def start(_type, _args) do
     printer_driver = printer_driver()
     printer_config = printer_driver_config(printer_driver)
     children = [
+      Repo,
+
       # Printer driver to use
       printer_driver.child_spec([printer_config]),
 
@@ -28,7 +30,7 @@ defmodule Makerion.Application do
   end
 
   defp printer_driver_config(driver) do
-    case printer_driver do
+    case driver do
       Moddity.FakeDriver-> %Moddity.FakeDriver{}
       Moddity.Driver-> %Moddity.Driver{}
     end
