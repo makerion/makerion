@@ -53,6 +53,14 @@ defmodule Makerion.Print do
     %PrintFile{}
     |> PrintFile.changeset(attrs)
     |> Repo.insert()
+    |> case do
+         {:ok, print_file} ->
+           upload = attrs["file"]
+           File.mkdir(Path.join([File.cwd!, "..", "host-files", "print-files"]))
+           File.cp(upload.path, "#{File.cwd!}/../host-files/print-files/#{upload.filename}")
+           {:ok, print_file}
+         error -> error
+       end
   end
 
   @doc """
