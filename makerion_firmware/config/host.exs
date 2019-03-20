@@ -1,5 +1,11 @@
 use Mix.Config
 
+config :makerion, ecto_repos: [Makerion.Repo]
+
+config :makerion, Makerion.Repo,
+  adapter: Sqlite.Ecto2,
+  database: Path.expand("../host-files/repo.sqlite3")
+
 # Configure the main viewport for the Scenic application
 config :makerion_kiosk, :viewport, %{
   name: :main_viewport,

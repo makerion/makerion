@@ -54,6 +54,12 @@ config :nerves_init_gadget,
 config :nerves_network,
   regulatory_domain: "US"
 
+config :makerion, ecto_repos: [Makerion.Repo]
+
+config :makerion, Makerion.Repo,
+  adapter: Sqlite.Ecto2,
+  database: Path.expand("/root/repo.sqlite3")
+
 config :makerion_kiosk, :viewport, %{
   name: :main_viewport,
   # default_scene: {Nerves.Scene.Crosshair, nil},
