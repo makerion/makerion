@@ -4,7 +4,9 @@
 # the umbrella root.
 use Mix.Config
 
-config :makerion, printer_driver: Moddity.FakeDriver
+config :makerion,
+  print_file_path: Path.join([File.cwd!, "..", "host-files", "print-files"]),
+  printer_driver: Moddity.Driver
 
 config :makerion, ecto_repos: [Makerion.Repo]
 

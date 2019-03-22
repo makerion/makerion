@@ -36,7 +36,7 @@ defmodule MakerionWeb.PrintFileController do
          {:ok, print_file} ->
            conn
            |> put_flash(:info, "Created Successfully")
-           |> redirect(to: print_file_path(conn, :index))
+           |> redirect(to: page_path(conn, :index))
 
          {:error, %Ecto.Changeset{} = changeset} ->
            render(conn, "new.html", changeset: changeset)

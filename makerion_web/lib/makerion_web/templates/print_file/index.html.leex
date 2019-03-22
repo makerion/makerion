@@ -1,0 +1,16 @@
+<%= if assigns[:print_files] do %>
+  <%= for print_file <- @print_files do %>
+    <div class="card" data-test="print_file">
+      <div class="card__body">
+        <p class="card__title" data-test="print_file_name"><%= print_file.name %></p>
+        <p data-test="print_file_path"><%= print_file.path %></p>
+        <div class="card__footer">
+          <p>4 hours to print. Printed 2 days ago</p>
+        </div>
+      </div>
+      <div class="button card__action">
+        <button phx-click="print_file" phx-value="<%= print_file.id %>" type="button" class="button">Print</button>
+      </div>
+    </div>
+  <% end %>
+<% end %>

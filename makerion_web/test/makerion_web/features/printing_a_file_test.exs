@@ -1,4 +1,4 @@
-defmodule MakerionWeb.ListingPrintFilesTest do
+defmodule MakerionWeb.PrintingAFileTest do
   use MakerionWeb.FeatureCase
 
   alias Makerion.Print
@@ -16,6 +16,7 @@ defmodule MakerionWeb.ListingPrintFilesTest do
   test "it lists files", %{print_file: print_file} do
     navigate_to("/")
     all_print_files = PrintFilesIndexPage.all_print_files
+
     assert all_print_files == [%{name: print_file.name, path: print_file.path}]
   end
 end

@@ -1,4 +1,6 @@
-<div class="bg-secondary">
-  <h3 class="text-light p-3">Upload a new file</h3>
+<div class="container">
+  <div class="bg-secondary">
+    <h3 class="text-light p-3">Upload a new file</h3>
+  </div>
+  <%= render "form.html", Map.put(assigns, :action, print_file_path(@conn, :create)) %>
 </div>
-<%= render "form.html", Map.put(assigns, :action, print_file_path(@conn, :create)) %>

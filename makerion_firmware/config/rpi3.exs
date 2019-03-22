@@ -56,6 +56,10 @@ config :nerves_network,
 
 config :makerion, ecto_repos: [Makerion.Repo]
 
+config :makerion,
+  print_file_path: "/root/print-files",
+  printer_driver: Moddity.FakeDriver
+
 config :makerion, Makerion.Repo,
   adapter: Sqlite.Ecto2,
   database: Path.expand("/root/repo.sqlite3")

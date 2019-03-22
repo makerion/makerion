@@ -17,8 +17,8 @@ defmodule MakerionWeb.Router do
   scope "/", MakerionWeb do
     pipe_through :browser
 
-    get "/", PrintFileController, :index
-    resources "/print_files", PrintFileController, only: [:new, :create, :index]
+    get "/", PageController, :index
+    resources "/print_files", PrintFileController, only: [:new, :create]
   end
 
   # Other scopes may use custom stacks.

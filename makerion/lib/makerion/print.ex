@@ -56,11 +56,15 @@ defmodule Makerion.Print do
     |> case do
          {:ok, print_file} ->
            upload = attrs["file"]
-           File.mkdir(Path.join([File.cwd!, "..", "host-files", "print-files"]))
-           File.cp(upload.path, "#{File.cwd!}/../host-files/print-files/#{upload.filename}")
+           File.mkdir(print_file_path())
+           File.cp(upload.path, Path.join(print_file_path(), upload.filename))
            {:ok, print_file}
          error -> error
        end
+  end
+
+  def print_file_path do
+    Application.get_env(:makerion, :print_file_path)
   end
 
   @doc """
