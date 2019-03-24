@@ -5,6 +5,7 @@ defmodule MakerionWeb.PrintFileController do
 
   alias Makerion.Print
   alias Makerion.Print.PrintFile
+  alias MakerionWeb.ErrorHelpers
 
   def index(conn, _params) do
     print_files = Print.list_print_files()
@@ -34,12 +35,14 @@ defmodule MakerionWeb.PrintFileController do
     |> Print.create_print_file()
     |> case do
          {:ok, print_file} ->
-           conn
-           |> put_flash(:info, "Created Successfully")
-           |> redirect(to: page_path(conn, :index))
+           json(conn, %{status: "success"})
 
          {:error, %Ecto.Changeset{} = changeset} ->
-           render(conn, "new.html", changeset: changeset)
+           json(conn, %{status: "error", errors: traverse_errors(changeset)})
        end
+  end
+
+  defp traverse_errors(changeset) do
+    Ecto.Changeset.traverse_errors(changeset, &ErrorHelpers.translate_error/1)
   end
 end

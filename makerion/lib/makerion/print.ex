@@ -4,8 +4,9 @@ defmodule Makerion.Print do
   """
 
   import Ecto.Query, warn: false
-  alias Makerion.Repo
 
+  alias Ecto.Changeset
+  alias Makerion.Repo
   alias Makerion.Print.PrintFile
 
   @doc """
@@ -51,7 +52,7 @@ defmodule Makerion.Print do
   """
   def create_print_file(attrs \\ %{}) do
     %PrintFile{}
-    |> PrintFile.changeset(attrs)
+    |> PrintFile.changeset(Map.put(attrs, "name", String.replace(attrs["file"].filename, ".gcode", "")))
     |> Repo.insert()
     |> case do
          {:ok, print_file} ->

@@ -13,6 +13,8 @@ defmodule Makerion.Print.PrintFile do
   def changeset(print_file, attrs) do
     print_file
     |> cast(attrs, [:name, :path])
-    |> validate_required([:name, :path])
+    |> unsafe_validate_unique(:name, Makerion.Repo)
+    |> unsafe_validate_unique(:path, Makerion.Repo)
+    |> validate_required([:path])
   end
 end

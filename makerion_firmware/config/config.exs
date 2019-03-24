@@ -10,8 +10,6 @@ use Mix.Config
 
 config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
 
-config :makerion, printer_driver: Moddity.FakeDriver
-
 config :makerion_web, MakerionWeb.Endpoint,
   url: [host: "localhost"],
   http: [port: 80],

@@ -3,10 +3,20 @@
     <div class="card">
       <div class="card__body">
         <p class="card__title">Upload a New File</p>
+
+        <%= form_for @conn, print_file_path(@conn, :create), [as: :print_file, multipart: true, class: "form form-horizontal file-upload-form"], fn f -> %>
+
+          <%= label f, :file, "G-Code File"%>
+          <div>
+            <%= file_input f, :file, "data-test": "print_file_file_input" %>
+          </div>
+
+          <div class="actions">
+            <%= submit "Upload", "data-test": "upload_print_file_submit" %>
+          </div>
+        <% end %>
       </div>
-      <div class="button card__action">
-        <%= button "", to: print_file_path(@conn, :new), method: :get, class: "plus-button plus-button--large", "data-test": "upload_new_file" %>
-      </div>
+
     </div>
     <%= live_render(@conn, MakerionWeb.PrintFileLive.Index) %>
   </div>

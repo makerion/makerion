@@ -9,5 +9,7 @@ defmodule Makerion.Repo.Migrations.CreatePrintFiles do
       timestamps()
     end
 
+    create unique_index(:print_files, [:name])
+    create unique_index(:print_files, [:path])
   end
 end

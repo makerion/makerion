@@ -58,7 +58,7 @@ config :makerion, ecto_repos: [Makerion.Repo]
 
 config :makerion,
   print_file_path: "/root/print-files",
-  printer_driver: Moddity.FakeDriver
+  printer_driver: Moddity.Driver
 
 config :makerion, Makerion.Repo,
   adapter: Sqlite.Ecto2,
