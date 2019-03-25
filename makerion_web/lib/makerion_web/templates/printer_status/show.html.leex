@@ -1,0 +1,27 @@
+<%= if assigns[:printer_status] do %>
+  <div class="card" data-test="printer_status">
+    <div class="card__body">
+      <div class="card__title centered">Printer Status</div>
+      <ul class="data-list">
+        <li data-test="status_entry">
+          <span class="data-list__label" data-test="status_name">State</span>
+          <span class="data-list__value" data-test="status_value"><%= @printer_status.state %></span>
+        </li>
+        <li data-test="status_entry">
+          <span class="data-list__label" data-test="status_name">Progress</span>
+          <span class="data-list__value" data-test="status_value"><%= @printer_status.progress %>%</span>
+        </li>
+        <li data-test="status_entry">
+          <span class="data-list__label" data-test="status_name">Extruder</span>
+          <span class="data-list__value" data-test="status_value"><%= @printer_status.extruder_temperature %>&deg; / <%= @printer_status.extruder_target_temperature %>&deg;</span>
+        </li>
+        <%= if @printer_status.error != nil do %>
+        <li data-test="status_entry">
+          <span class="data-list__label" data-test="status_name">Error</span>
+          <span class="data-list__value" data-test="status_value"><%= @printer_status.error %></span>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,26 @@
+.data-list {
+  color: darken($gray, 15%);
+  font-size: 0.9rem;
+
+  li + li {
+    margin-top: 0.7em;
+  }
+
+  li {
+    display: flex;
+  }
+
+  &__label {
+    flex: 1 1 40%;
+    color: lighten($dark, 25%);
+    text-align: right;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-right: 0.5em;
+  }
+
+  &__value {
+    flex: 1 1 60%;
+    text-align: right;
+  }
+}

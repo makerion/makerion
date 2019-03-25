@@ -1,7 +1,26 @@
-<section class="section">
-  <div class="container">
-    <h1 class="title">
-      Hello World
-    </h1>
+<div class="container">
+  <div class="card-list">
+    <div class="card">
+      <div class="card__body">
+        <p class="card__title">Upload a New File</p>
+      </div>
+      <div class="button card__action">
+        <button class="plus-button plus-button--large"></button>
+      </div>
+    </div>
+    <%= for x <- 1..10 do %>
+    <div class="card">
+      <div class="card__body">
+        <p class="card__title">Alien Print</p>
+        <p>alien_print1.gcode</p>
+        <div class="card__footer">
+          <p>4 hours to print. Printed 2 days ago</p>
+        </div>
+      </div>
+      <div class="button card__action">
+        <button class="button">Print</button>
+      </div>
+    </div>
+    <% end %>
   </div>
-</section>
+</div>

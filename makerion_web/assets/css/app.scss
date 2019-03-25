@@ -1,4 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
+@import "../node_modules/normalize.css/normalize.css";
 @import "variables.scss";
-@import "../node_modules/bulma/bulma.sass"
+@import "base.scss";
+@import "button.scss";
+@import "utility.scss";
+
+@import "container.scss";
+@import "card.scss";
+@import "data-list.scss";

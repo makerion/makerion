@@ -6,14 +6,18 @@
     "watch": "parcel watch ./js/app.js --out-dir priv/static"
   },
   "dependencies": {
-    "bulma": "^0.7.4",
+    "autoprefixer": "^9.5.0",
+    "normalize.css": "^8.0.1",
     "parcel-bundler": "^1.11.0",
+    "parcel-plugin-asset-copier": "^1.0.0",
     "phoenix": "file:../deps/phoenix",
-    "phoenix_html": "file:../deps/phoenix_html"
+    "phoenix_html": "file:../deps/phoenix_html",
+    "phoenix_live_view": "file:../deps/phoenix_live_view"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "sass": "^1.17.2"
-  }
+  },
+  "assetsPath": "file:./static"
 }

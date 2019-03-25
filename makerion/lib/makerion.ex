@@ -1,9 +1,9 @@
 defmodule Makerion do
-  @moduledoc """
-  Makerion keeps the contexts that define your domain
-  and business logic.
-
-  Contexts are also responsible for managing your data, regardless
-  if it comes from the database, an external API or others.
-  """
+  def send_data(event_type, event_data) do
+    Registry.dispatch(Registry.PrinterEvents, event_type, fn entries ->
+      for {pid, _registered_val} <- entries do
+        send(pid, {:printer_event, event_type, event_data})
+      end
+    end)
+  end
 end
