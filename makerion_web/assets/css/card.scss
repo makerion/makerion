@@ -34,7 +34,12 @@
   }
 
   &__action {
-    flex: 1;
+    flex: 1 2 50%;
     margin: auto 1em;
+    text-align: right;
+
+    & button {
+      margin-left: 1em;
+    }
   }
 }

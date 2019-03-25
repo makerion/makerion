@@ -10,6 +10,7 @@
           <div>
             <%= file_input f, :file, "data-test": "print_file_file_input" %>
           </div>
+          <div data-field-name="file" class="status"></div>
 
           <div class="actions">
             <%= submit "Upload", "data-test": "upload_print_file_submit" %>

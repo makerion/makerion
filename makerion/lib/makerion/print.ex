@@ -9,6 +9,10 @@ defmodule Makerion.Print do
   alias Makerion.Repo
   alias Makerion.Print.PrintFile
 
+  def subscribe do
+    Registry.register(Registry.PrintEvents, :print_file, [])
+  end
+
   @doc """
   Returns the list of print_files.
 
@@ -59,6 +63,7 @@ defmodule Makerion.Print do
            upload = attrs["file"]
            File.mkdir(print_file_path())
            File.cp(upload.path, Path.join(print_file_path(), upload.filename))
+           notify_subscribers(:print_file, {:print_file, :added})
            {:ok, print_file}
          error -> error
        end
@@ -66,24 +71,6 @@ defmodule Makerion.Print do
 
   def print_file_path do
     Application.get_env(:makerion, :print_file_path)
-  end
-
-  @doc """
-  Updates a print_file.
-
-  ## Examples
-
-      iex> update_print_file(print_file, %{field: new_value})
-      {:ok, %PrintFile{}}
-
-      iex> update_print_file(print_file, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_print_file(%PrintFile{} = print_file, attrs) do
-    print_file
-    |> PrintFile.changeset(attrs)
-    |> Repo.update()
   end
 
   @doc """
@@ -99,7 +86,15 @@ defmodule Makerion.Print do
 
   """
   def delete_print_file(%PrintFile{} = print_file) do
-    Repo.delete(print_file)
+    print_file
+    |> Repo.delete()
+    |> case do
+         {:ok, response} ->
+           File.rm(Path.join(print_file_path(), print_file.filename))
+           {:ok, response}
+         error -> error
+       end
+
   end
 
   @doc """
@@ -113,5 +108,11 @@ defmodule Makerion.Print do
   """
   def change_print_file(%PrintFile{} = print_file) do
     PrintFile.changeset(print_file, %{})
+  end
+
+  defp notify_subscribers(topic, message) do
+    Registry.dispatch(Registry.PrintEvents, topic, fn entries ->
+      for {pid, _} <- entries, do: send(pid, message)
+    end)
   end
 end

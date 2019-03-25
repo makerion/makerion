@@ -10,11 +10,19 @@ defmodule MakerionWeb.PrintFileLive.Index do
   end
 
   def mount(_user, socket) do
+    Print.subscribe()
     {:ok, fetch(socket)}
   end
 
-  def handle_info({:printer_event, :printer_status, event_data}, socket) do
-    {:noreply, assign(socket, printer_status: event_data)}
+  def handle_info({:print_file, _}, socket) do
+    {:noreply, fetch(socket)}
+  end
+
+  def handle_event("delete_file", id, socket) do
+    file = Print.get_print_file!(id)
+    Print.delete_print_file(file)
+
+    {:noreply, socket}
   end
 
   def handle_event("print_file", id, socket) do

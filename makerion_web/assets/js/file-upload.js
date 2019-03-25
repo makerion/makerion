@@ -39,13 +39,15 @@ class FileUploadHandler {
         body: data
       })
       .then(response => response.json())
-      .catch(error => console.error('Error:', error))
-      // .then((data) => {
-      //   console.loag('Success')
-      //   // return new Promise((resolve) => {
-      //     // resolve(humps.camelizeKeys(data))
-      //   // })
-      // })
+      .then((data) => {
+        const statusElement = document.querySelector('[data-field-name="file"].status')
+        if(data.status === "success") {
+          statusElement.innerHTML = "File Uploaded Successfully"
+          this.fileInput.value = '';
+        } else {
+          statusElement.innerHTML = `Path ${data.errors.path[0]}`
+        }
+      })
   }
 }
 

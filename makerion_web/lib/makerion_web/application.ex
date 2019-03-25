@@ -14,7 +14,10 @@ defmodule MakerionWeb.Application do
       MakerionWeb.Endpoint,
       # Starts a worker by calling: MakerionWeb.Worker.start_link(arg)
       # {MakerionWeb.Worker, arg},
-      {PrinterEventHandler, name: PrinterEventHandler}
+      {PrinterEventHandler, name: PrinterEventHandler},
+
+      # Print context events pubsub
+      {Registry, keys: :duplicate, name: Registry.PrintEvents, id: Registry.PrintEvents}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

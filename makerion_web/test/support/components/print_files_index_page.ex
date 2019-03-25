@@ -6,13 +6,14 @@ defmodule MakerionWeb.PrintFilesIndexPage do
     |> map_print_file_elements()
   end
 
-  def upload_file(name, file) do
-    click({:css, "[data-test='upload_new_file']"})
+  def print_file(path) do
+    find_element(:css, "[data-test-print-file-path='#{path}']")
+  end
 
+  def upload_file(file) do
     file_input = find_element(:css, "[data-test='print_file_file_input']")
     attach_file(file_input, file)
 
-    fill_field({:css, "[data-test='print_file_name']"}, name)
     click({:css, "[data-test='upload_print_file_submit']"})
   end
 

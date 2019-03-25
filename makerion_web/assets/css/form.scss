@@ -16,5 +16,10 @@
       margin-top: 1em;
       text-align: right;
     }
+
+    .status {
+      grid-column: 2 / 3;
+      margin-top: 0.75em;
+    }
   }
 }
