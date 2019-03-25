@@ -19,7 +19,7 @@ defmodule Makerion.MixProject do
   def application do
     [
       mod: {Makerion.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :sqlite_ecto2, :ecto]
     ]
   end
 
@@ -31,7 +31,11 @@ defmodule Makerion.MixProject do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:moddity, path: "../../moddity"}]
+    [
+      {:moddity, path: "../../moddity"},
+
+      {:sqlite_ecto2, "~> 2.2"}
+    ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

@@ -1,5 +1,6 @@
 defprotocol Makerion.Printer do
   def get_status(printer_backend)
+  def send_gcode(printer_backend, file_path)
 end
 
 defimpl Makerion.Printer, for: Moddity.Driver do
@@ -18,6 +19,10 @@ defimpl Makerion.Printer, for: Moddity.Driver do
           error: error
         }
     end
+  end
+
+  def send_gcode(_printer_backend, file_path) do
+    Moddity.Driver.send_gcode(file_path)
   end
 
   defp translate_state("STATE_IDLE"), do: "Idle"
@@ -46,6 +51,10 @@ defimpl Makerion.Printer, for: Moddity.FakeDriver do
       extruder_target_temperature: status["status"]["extruder_target_temperature"],
       extruder_temperature: status["status"]["extruder_temperature"]
     }
+  end
+
+  def send_gcode(_printer_backend, file_path) do
+    Moddity.FakeDriver.send_gcode(file_path)
   end
 
   defp translate_state("STATE_IDLE"), do: "Idle"

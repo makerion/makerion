@@ -48,6 +48,7 @@ defmodule MakerionFirmware.MixProject do
       {:nerves_runtime, "~> 0.6", targets: @all_targets},
       {:nerves_init_gadget, "~> 0.4", targets: @all_targets},
       {:nerves_network, "~> 0.5", targets: @all_targets},
+      {:yaml_elixir, "~> 2.0"},
 
       # Dependencies for specific targets
       {:nerves_system_rpi0, "~> 1.6", runtime: false, targets: :rpi0},

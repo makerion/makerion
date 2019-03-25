@@ -23,7 +23,8 @@ defmodule MakerionKiosk.Components.PrinterStatus do
   fn g ->
     g
     |> text("System")
-    |> text(@system_info, translate: {10, 20}, font_size: 18, id: :printer_status_text)
+    |> text("IP Address", translate: {10, 20}, id: :ip_address)
+    |> text(@system_info, translate: {0, 40}, font_size: 18, id: :printer_status_text)
   end,
   t: {10, 30}
   )
@@ -36,12 +37,31 @@ defmodule MakerionKiosk.Components.PrinterStatus do
     |> push_graph()
 
     Registry.register(Registry.PrinterEvents, :printer_status, [])
+    Process.send_after(self(), :update_ip, 5_000)
 
     {:ok, graph}
   end
 
   def verify(data), do: {:ok, data}
   def info, do: ""
+
+  def handle_info(:update_ip, graph) do
+    case Nerves.NetworkInterface.settings "wlan0" do
+      {:ok, %{ipv4_address: ipv4_address}} when ipv4_address != <<>> ->
+        graph =
+          graph
+          |> Graph.modify(:ip_address, &text(&1, "IP Address #{ipv4_address}"))
+          |> push_graph()
+
+        Process.send_after(self(), :update_ip, 120_000)
+        {:noreply, graph}
+
+      _ ->
+        Process.send_after(self(), :update_ip, 5_000)
+        {:noreply, graph}
+    end
+
+  end
 
   def handle_info({:printer_event, :printer_status, status = %Makerion.PrinterStatus{}}, graph) do
     # Process.send_after(self(), :update_devices, 1000)

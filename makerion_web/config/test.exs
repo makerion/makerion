@@ -4,8 +4,6 @@
 # the umbrella root.
 use Mix.Config
 
-config :makerion, printer_driver: Moddity.FakeDriver
-
 config :hound, driver: "chrome_driver"# , browser: "chrome_headless"
 
 config :makerion_web, sql_sandbox: true
