@@ -7,6 +7,7 @@
   "esqlite": {:hex, :esqlite, "0.3.0", "f6c96fae1236fd8da73da904278b820c807aee4f41c7c837c33de1c2edb857fb", [:rebar3], [], "hexpm"},
   "input_event": {:hex, :input_event, "0.4.0", "377b6ec66829cf3448925455a3177bfdffdc6aee5db603493b24b04863e907f5", [:make, :mix], [{:elixir_make, "~> 0.4", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm"},
   "jason": {:hex, :jason, "1.1.2", "b03dedea67a99223a2eaf9f1264ce37154564de899fd3d8b9a21b1a6fd64afe7", [:mix], [{:decimal, "~> 1.0", [hex: :decimal, repo: "hexpm", optional: true]}], "hexpm"},
+  "moddity": {:git, "https://github.com/makerion/moddity.git", "744f7d50af6cd422f0606cc1fc6fd4d92c18df94", [branch: "master"]},
   "poolboy": {:hex, :poolboy, "1.5.2", "392b007a1693a64540cead79830443abf5762f5d30cf50bc95cb2c1aaafa006b", [:rebar3], [], "hexpm"},
   "sbroker": {:hex, :sbroker, "1.0.0", "28ff1b5e58887c5098539f236307b36fe1d3edaa2acff9d6a3d17c2dcafebbd0", [:rebar3], [], "hexpm"},
   "scenic": {:hex, :scenic, "0.9.0", "129594f918b4e2dd97465b95b4fb3582294ac6bb3e931f12edd09913743964eb", [:make, :mix], [{:elixir_make, "~> 0.4", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm"},

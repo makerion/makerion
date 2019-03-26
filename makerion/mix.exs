@@ -32,7 +32,7 @@ defmodule Makerion.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:moddity, path: "../../moddity"},
+      {:moddity, github: "makerion/moddity", branch: "master"},
 
       {:sqlite_ecto2, "~> 2.2"}
     ]
