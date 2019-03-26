@@ -8,17 +8,27 @@ Initially, this project is starting as a method of supporting people who purchas
 
 # Getting Started
 
+## Software Prerequisites
+
+* [fwup](https://github.com/fhunleth/fwup)
+
+Makerion uses a tool called fwup to support installing and upgrading firmware on SD cards. You'll need to install the tool locally on your laptop.
+
 ## Hardware
 
-* Raspberry Pi 3 (any of the variants should work)
-* WiFi (Hardwired Ethernet not yet supported)
+* Raspberry Pi 3 -- any of the variants should work
+* Micro SD card -- anything 2GB or larger should do fine
+* WiFi network -- you'll need your ssid and psk (password) to connect
 * HDMI display (only for initial setup to determined IP address)
 * Laptop with Micro SD card slot
 
 ## Installation
 
 * download the latest .fw file in the [releases page](https://github.com/makerion/makerion/releases)
-* Using a toole like [Etcher](https://www.balena.io/etcher/), burn the fw file to a suitable SD card (8 GB minimum recommended)
+* Insert the micro SD card into your laptop or desktop
+* Using fwup, burn the image to an SD card
+  * This usually involves opening a terminal on Linux or macOS or opening cmd.exe, then executing fwup from the prompt
+  * `sudo fwup <makerion_firmware.fw>` (Replace makerion_firmware.fw with the file you downloaded)
 * Remove and re-insert the SD card once the fw burning tool has finished
 * on the /boot/ filesystem of the SD card, add a `wifi.yml` file with each of the networks you would like the device to be able to join.
 
