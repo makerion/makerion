@@ -39,4 +39,6 @@ _Note: higher numbers are higher priority, as with wpa-supplicant_
 * Plug the Pi into a TV or HDMI monitor and power on the Pi
 * You should see some boot up messages eventually followed by an IP address
 * Write down the IP address for later
-* In a web browser, visit the IP address you wrote down. You should see something like the following:
+* Put the Raspberry Pi next to the MOD-t and plug the MOD-t into one of the Pi's USB ports
+* Power on the Pi
+* In a web browser, visit the IP address you wrote down. You should see a page with "Upload a New File" and "Printer Status" headers.
