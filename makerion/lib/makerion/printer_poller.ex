@@ -13,12 +13,28 @@ defmodule Makerion.PrinterPoller do
     {:ok, %{printer_source: printer_source, status: nil}}
   end
 
+  def load_filament do
+    GenServer.call(__MODULE__, {:load_filament}, 60_000)
+  end
+
   def send_gcode(file_path) do
     GenServer.call(__MODULE__, {:send_gcode, file_path}, 60_000)
   end
 
+  def unload_filament do
+    GenServer.call(__MODULE__, {:unload_filament}, 60_000)
+  end
+
+  def handle_call({:load_filament}, _sender, state) do
+    {:reply, Printer.load_filament(state.printer_source), state}
+  end
+
   def handle_call({:send_gcode, file_path}, _sender, state) do
     {:reply, Printer.send_gcode(state.printer_source, file_path), state}
+  end
+
+  def handle_call({:unload_filament}, _sender, state) do
+    {:reply, Printer.unload_filament(state.printer_source), state}
   end
 
   def handle_info({:poll_status}, state) do
