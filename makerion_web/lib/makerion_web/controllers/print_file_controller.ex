@@ -8,8 +8,8 @@ defmodule MakerionWeb.PrintFileController do
   alias MakerionWeb.ErrorHelpers
 
   def create(conn, %{"print_file" => print_file_params} = params) do
-    print_file_params
-    |> Map.put("path", print_file_params["file"].filename)
+    file = print_file_params["file"]
+    %{tempfile: file.path, path: file.filename, name: Path.basename(file.filename, ".gcode")}
     |> Print.create_print_file()
     |> case do
          {:ok, print_file} ->

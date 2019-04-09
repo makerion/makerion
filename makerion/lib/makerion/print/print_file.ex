@@ -3,6 +3,7 @@ defmodule Makerion.Print.PrintFile do
   import Ecto.Changeset
 
   schema "print_files" do
+    field :tempfile, :string, virtual: true
     field :name, :string
     field :path, :string
 
@@ -10,11 +11,14 @@ defmodule Makerion.Print.PrintFile do
   end
 
   @doc false
-  def changeset(print_file, attrs) do
+  def create_changeset(print_file, attrs) do
     print_file
-    |> cast(attrs, [:name, :path])
+    |> cast(attrs, [:name, :path, :tempfile])
     |> unsafe_validate_unique(:name, Makerion.Repo)
     |> unsafe_validate_unique(:path, Makerion.Repo)
-    |> validate_required([:path])
+    |> validate_required([:name, :path, :tempfile])
   end
+
+  defp path(:error), do: nil
+  defp path({:ok, tempfile}), do: Path.basename(tempfile)
 end
