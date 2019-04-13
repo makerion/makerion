@@ -5,7 +5,6 @@ defmodule Makerion.Print do
 
   import Ecto.Query, warn: false
 
-  alias Ecto.Changeset
   alias Makerion.Repo
   alias Makerion.Print.PrintFile
 

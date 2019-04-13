@@ -18,7 +18,4 @@ defmodule Makerion.Print.PrintFile do
     |> unsafe_validate_unique(:path, Makerion.Repo)
     |> validate_required([:name, :path, :tempfile])
   end
-
-  defp path(:error), do: nil
-  defp path({:ok, tempfile}), do: Path.basename(tempfile)
 end
