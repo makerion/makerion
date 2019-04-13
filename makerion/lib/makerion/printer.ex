@@ -2,6 +2,8 @@ require Protocol
 Protocol.derive(Jason.Encoder, Moddity.PrinterStatus)
 
 defprotocol Makerion.Printer do
+  @fallback_to_any true
+
   def get_status(printer_backend)
   def load_filament(printer_backend)
   def send_gcode(printer_backend, file_path)
@@ -42,4 +44,11 @@ defimpl Makerion.Printer, for: Moddity.FakeDriver do
   def unload_filament(_printer_backend) do
     Moddity.FakeDriver.unload_filament()
   end
+end
+
+defimpl Makerion.Printer, for: Any do
+  def get_status(printer_backend), do: {:error, "No implementation found for #{inspect(printer_backend)}"}
+  def load_filament(printer_backend), do: {:error, "No implementation found for #{inspect(printer_backend)}"}
+  def send_gcode(printer_backend, _file_path), do: {:error, "No implementation found for #{inspect(printer_backend)}"}
+  def unload_filament(printer_backend), do: {:error, "No implementation found for #{inspect(printer_backend)}"}
 end
