@@ -1,4 +1,8 @@
 defmodule Makerion.PrinterPoller do
+  @moduledoc """
+  Proxies commands to the printer and polls for status updates
+  """
+
   use GenServer
 
   alias Makerion.Printer

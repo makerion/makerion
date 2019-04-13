@@ -13,6 +13,8 @@ defmodule Makerion.DataCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Ecto.Adapters.SQL.Sandbox
+  alias Makerion.{DataCase, Repo}
 
   using do
     quote do
@@ -21,15 +23,15 @@ defmodule Makerion.DataCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Makerion.DataCase
+      import DataCase
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Makerion.Repo)
+    :ok = Sandbox.checkout(Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Makerion.Repo, {:shared, self()})
+      Sandbox.mode(Repo, {:shared, self()})
     end
 
     :ok

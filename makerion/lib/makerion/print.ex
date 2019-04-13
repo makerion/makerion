@@ -5,8 +5,8 @@ defmodule Makerion.Print do
 
   import Ecto.Query, warn: false
 
-  alias Makerion.Repo
   alias Makerion.Print.PrintFile
+  alias Makerion.Repo
 
   def subscribe do
     Registry.register(Registry.PrinterEvents, :print_file, [])

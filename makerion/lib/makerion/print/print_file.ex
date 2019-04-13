@@ -1,4 +1,8 @@
 defmodule Makerion.Print.PrintFile do
+  @moduledoc """
+  Contains schema and changeset information for print_files, which represent a gcode file and metadata
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 
