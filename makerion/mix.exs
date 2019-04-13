@@ -9,7 +9,7 @@ defmodule Makerion.MixProject do
       dialyzer: [
         plt_add_deps: :transitive,
         plt_add_apps: ~w(ex_unit mix)a,
-        ignore_warnings: ".dialyzer-ignore"
+        ignore_warnings: "../.dialyzer-ignore"
       ],
       elixir: "~> 1.8",
       elixirc_options: [warnings_as_errors: true],
