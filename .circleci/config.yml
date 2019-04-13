@@ -124,7 +124,7 @@ jobs:
           command: mix dialyzer --halt-exit-status
           working_directory: ~/project/makerion
 
-  test:
+  makerion_test:
     docker:
       - image: circleci/elixir:1.8.1
         environment:
