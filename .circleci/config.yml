@@ -1,0 +1,173 @@
+version: 2
+jobs:
+  makerion_build:
+    docker:
+      - image: circleci/elixir:1.8.1
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - checkout
+
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
+
+      - run:
+          name: "ELIXIR_VERSION.lock"
+          command: echo "${ELIXIR_VERSION}" > ELIXIR_VERSION.lock
+      - run:
+          name: "OTP_VERSION.lock"
+          command: echo "${OTP_VERSION}" > OTP_VERSION.lock
+
+      - restore_cache:
+          keys:
+            - v1-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
+            - v1-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+
+      - run:
+          command: mix deps.get
+          working_directory: ~/project/makerion
+
+      - run:
+          command: mix compile
+          working_directory: ~/project/makerion
+
+      - save_cache:
+          key: v1-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
+          paths:
+            - makerion/deps
+            - makerion/_build
+      - save_cache:
+          key: v1-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          paths:
+            - makerion/deps
+            - makerion/_build
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .circleci
+            - .git
+            - .gitignore
+            - ELIXIR_VERSION.lock
+            - OTP_VERSION.lock
+            - makerion
+
+  makerion_credo:
+    docker:
+      - image: circleci/elixir:1.8.1
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - run:
+          command: mix local.hex --force
+          working_directory: ~/project/makerion
+
+      - run:
+          command: mix credo --strict
+          working_directory: ~/project/makerion
+
+  makerion_dialyzer:
+    docker:
+      - image: circleci/elixir:1.8.1
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - run:
+          command: mix local.hex --force
+          working_directory: ~/project/makerion
+
+      - restore_cache:
+          keys:
+            - v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
+            - v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+
+      - run:
+          name: Unpack PLT cache
+          command: |
+            mkdir -p _build/test
+            cp plts/dialyxir*.plt _build/test/ || true
+            mkdir -p ~/.mix
+            cp plts/dialyxir*.plt ~/.mix/ || true
+          working_directory: ~/project/makerion
+
+      - run:
+          command: mix dialyzer --plt
+          working_directory: ~/project/makerion
+
+      - run:
+          name: Pack PLT cache
+          command: |
+            mkdir -p plts
+            cp _build/test/dialyxir*.plt plts/
+            cp ~/.mix/dialyxir*.plt plts/
+          working_directory: ~/project/makerion
+
+      - save_cache:
+          key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
+          paths:
+            - plts
+      - save_cache:
+          key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          paths:
+            - plts
+
+      - run:
+          command: mix dialyzer --halt-exit-status
+          working_directory: ~/project/makerion
+
+  test:
+    docker:
+      - image: circleci/elixir:1.8.1
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - run:
+          command: mix local.hex --force
+          working_directory: ~/project/makerion
+      - run:
+          command: mix local.rebar --force
+          working_directory: ~/project/makerion
+
+      - run:
+          name: mix test
+          command: |
+            if [[ -z "$COVERALLS_REPO_TOKEN" ]]; then
+              mix coveralls.html
+            else
+              mix coveralls.circle ||
+                (retval=$? && curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CIRCLE_WORKFLOW_WORKSPACE_ID&payload[status]=done" && return $retval)
+            fi
+          working_directory: ~/project/makerion
+
+      - store_artifacts:
+          path: makerion/cover/excoveralls.html
+      - store_test_results:
+          path: makerion/_build/test/junit
+
+workflows:
+  version: 2
+  primary:
+    jobs:
+      - makerion_build
+      - makerion_credo:
+          requires:
+            - makerion_build
+      - makerion_dialyzer:
+          requires:
+            - makerion_build
+      - makerion_test:
+          requires:
+            - makerion_build

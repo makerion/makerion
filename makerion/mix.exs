@@ -3,13 +3,28 @@ defmodule Makerion.MixProject do
 
   def project do
     [
-      app: :makerion,
-      version: "0.1.0",
-      elixir: "~> 1.8",
-      elixirc_paths: elixirc_paths(Mix.env()),
-      start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      app: :makerion,
+      deps: deps(),
+      dialyzer: [
+        plt_add_deps: :transitive,
+        plt_add_apps: ~w(ex_unit mix)a,
+        ignore_warnings: ".dialyzer-ignore"
+      ],
+      elixir: "~> 1.8",
+      elixirc_options: [warnings_as_errors: true],
+      elixirc_paths: elixirc_paths(Mix.env()),
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test,
+        credo: :test,
+        dialyzer: :test
+      ],
+      start_permanent: Mix.env() == :prod,
+      test_coverage: [tool: ExCoveralls],
+      version: "0.1.0",
     ]
   end
 
@@ -34,6 +49,9 @@ defmodule Makerion.MixProject do
     [
       {:moddity, github: "makerion/moddity", branch: "master"},
 
+      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
+      {:excoveralls, "~> 0.10", only: :test},
       {:sqlite_ecto2, "~> 2.2"}
     ]
   end
