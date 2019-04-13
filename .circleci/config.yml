@@ -47,6 +47,7 @@ jobs:
           root: .
           paths:
             - .circleci
+            - .dialyzer-ignore
             - .git
             - .gitignore
             - ELIXIR_VERSION.lock
