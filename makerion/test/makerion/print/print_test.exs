@@ -7,7 +7,7 @@ defmodule Makerion.PrintTest do
     alias Makerion.Print.PrintFile
 
     @valid_attrs %{name: "print_fixture", path: "print_fixture.gcode", tempfile: Path.join([File.cwd!, "test", "fixtures", "print_fixture.gcode"])}
-    @invalid_attrs %{name: nil, path: nil, path: nil}
+    @invalid_attrs %{name: nil, path: nil, tempfile: nil}
 
     def print_file_fixture(attrs \\ %{}) do
       {:ok, print_file} =
