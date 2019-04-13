@@ -142,7 +142,7 @@ jobs:
           working_directory: ~/project/makerion
 
       - run:
-          command: mix ecto.create
+          command: mix do ecto.create, ecto.migrate
           working_directory: ~/project/makerion
       - run:
           name: mix test
