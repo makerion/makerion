@@ -142,6 +142,9 @@ jobs:
           working_directory: ~/project/makerion
 
       - run:
+          command: mix ecto.create
+          working_directory: ~/project/makerion
+      - run:
           name: mix test
           command: |
             if [[ -z "$COVERALLS_REPO_TOKEN" ]]; then
