@@ -26,13 +26,13 @@ defmodule Makerion.Application do
   end
 
   defp printer_driver do
-    Application.get_env(:makerion, :printer_driver)
+    Application.get_env(:makerion, :printer_driver, Moddity.FakeDriver)
   end
 
   defp printer_driver_config(driver) do
     case driver do
-      Moddity.FakeDriver -> %Moddity.FakeDriver{}
       Moddity.Driver -> %Moddity.Driver{}
+      Moddity.FakeDriver -> %Moddity.FakeDriver{}
     end
   end
 end

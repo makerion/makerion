@@ -84,6 +84,9 @@ config :makerion_kiosk, :viewport, %{
   ]
 }
 
+config :makerion_firmware,
+  nerves_network: Nerves.Network
+
 if File.exists?("rpi3.secret.exs") do
   import_config "rpi3.secret.exs"
 end

@@ -57,7 +57,12 @@ defmodule MakerionFirmware.Application do
         end)
 
       settings = [networks: networks]
-      Nerves.Network.setup("wlan0", settings)
+      case Application.get_env(:makerion_firmware, :nerves_network) do
+        nil ->
+          nil
+        nerves_network ->
+          nerves_network.setup("wlan0", settings)
+      end
     end
   end
 
