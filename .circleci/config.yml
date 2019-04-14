@@ -15,7 +15,7 @@ install_nerves_bootstrap: &install_nerves_bootstrap
 jobs:
   build:
     docker:
-      - image: tmecklem/docker-scenic:1.8.1
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
           MIX_ENV: test
 
@@ -127,7 +127,7 @@ jobs:
 
   makerion_credo:
     docker:
-      - image: tmecklem/docker-scenic:1.8.1
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
           MIX_ENV: test
 
@@ -142,7 +142,7 @@ jobs:
 
   makerion_test:
     docker:
-      - image: tmecklem/docker-scenic:1.8.1
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
           MIX_ENV: test
 
@@ -173,7 +173,7 @@ jobs:
 
   makerion_kiosk_credo:
     docker:
-      - image: tmecklem/docker-scenic:1.8.1
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
           MIX_ENV: test
 
@@ -188,7 +188,7 @@ jobs:
 
   makerion_kiosk_test:
     docker:
-      - image: tmecklem/docker-scenic:1.8.1
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
           MIX_ENV: test
 
@@ -219,7 +219,7 @@ jobs:
 
   makerion_web_credo:
     docker:
-      - image: tmecklem/docker-scenic:1.8.1
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
           MIX_ENV: test
 
@@ -234,7 +234,7 @@ jobs:
 
   makerion_web_test:
     docker:
-      - image: tmecklem/docker-scenic:1.8.1
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
           MIX_ENV: test
 
@@ -265,7 +265,7 @@ jobs:
 
   makerion_firmware_credo:
     docker:
-      - image: tmecklem/docker-scenic:1.8.1
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
           MIX_ENV: test
 
@@ -280,7 +280,7 @@ jobs:
 
   makerion_firmware_test:
     docker:
-      - image: tmecklem/docker-scenic:1.8.1
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
           MIX_ENV: test
 
@@ -311,7 +311,7 @@ jobs:
 
   dialyzer:
     docker:
-      - image: tmecklem/docker-scenic:1.8.1
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
           MIX_ENV: test
 
