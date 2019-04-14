@@ -48,6 +48,9 @@ defmodule MakerionKiosk.MixProject do
     [
       {:makerion, path: "../makerion"},
 
+      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
+      {:excoveralls, "~> 0.10", only: :test},
       {:scenic, "~> 0.9"},
       {:scenic_driver_glfw, "~> 0.9", targets: :host},
       {:scenic_sensor, "~> 0.7"},
