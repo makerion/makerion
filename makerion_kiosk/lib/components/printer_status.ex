@@ -4,7 +4,7 @@ defmodule MakerionKiosk.Components.PrinterStatus do
   alias Scenic.Graph
   alias Moddity.PrinterStatus
 
-  import Scenic.Primitives, only: [{:text, 2}, {:text, 3}, {:update_opts, 2}, {:group, 3}]
+  import Scenic.Primitives, only: [{:text, 2}, {:text, 3}, {:group, 3}]
 
   @target System.get_env("MIX_TARGET") || "host"
 
@@ -12,12 +12,6 @@ defmodule MakerionKiosk.Components.PrinterStatus do
   MIX_TARGET: #{@target}
   MIX_ENV: #{Mix.env()}
   Scenic version: #{Scenic.version()}
-  """
-
-  @iex_note """
-  Please note: because Scenic draws over
-  the entire screen in Nerves, IEx has
-  been routed to the UART pins.
   """
 
   @graph Graph.build(font_size: 22, font: :roboto_mono)
@@ -32,7 +26,7 @@ defmodule MakerionKiosk.Components.PrinterStatus do
   )
 
   # --------------------------------------------------------
-  def init(_, opts) do
+  def init(_, _opts) do
     graph =
       @graph
     # |> Graph.modify(:device_list, &update_opts(&1, hidden: @target == "host"))

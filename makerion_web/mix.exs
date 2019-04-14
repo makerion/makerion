@@ -3,14 +3,29 @@ defmodule MakerionWeb.MixProject do
 
   def project do
     [
-      app: :makerion_web,
-      version: "0.1.0",
-      elixir: "~> 1.8",
-      elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
-      start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      app: :makerion_web,
+      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      deps: deps(),
+      dialyzer: [
+        plt_add_deps: :transitive,
+        plt_add_apps: ~w(ex_unit mix)a,
+        ignore_warnings: "../.dialyzer-ignore.exs"
+      ],
+      elixir: "~> 1.8",
+      elixirc_options: [warnings_as_errors: true],
+      elixirc_paths: elixirc_paths(Mix.env()),
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test,
+        credo: :test,
+        dialyzer: :test
+      ],
+      start_permanent: Mix.env() == :prod,
+      test_coverage: [tool: ExCoveralls],
+      version: "0.1.0"
     ]
   end
 
@@ -35,15 +50,18 @@ defmodule MakerionWeb.MixProject do
     [
       {:makerion, path: "../makerion"},
 
+      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
+      {:excoveralls, "~> 0.10", only: :test},
+      {:gettext, "~> 0.11"},
       {:hound, "~> 1.0"},
+      {:jason, "~> 1.0"},
       {:phoenix, "~> 1.4.2"},
       {:phoenix_ecto, "~> 3.6"},
-      {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
-      {:gettext, "~> 0.11"},
-      {:jason, "~> 1.0"},
+      {:phoenix_pubsub, "~> 1.1"},
       {:plug_cowboy, "~> 2.0"}
     ]
   end

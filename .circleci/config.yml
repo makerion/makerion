@@ -171,6 +171,52 @@ jobs:
       - store_test_results:
           path: makerion/_build/test/junit
 
+  makerion_kiosk_credo:
+    docker:
+      - image: tmecklem/docker-scenic:1.8.1
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - attach_workspace:
+          at: .
+      - <<: *install_hex_rebar
+
+      - run:
+          command: mix credo --strict
+          working_directory: ~/project/makerion_kiosk
+
+  makerion_kiosk_test:
+    docker:
+      - image: tmecklem/docker-scenic:1.8.1
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - attach_workspace:
+          at: .
+      - <<: *install_hex_rebar
+
+      - run:
+          name: Create Test Database
+          command: mix do ecto.create, ecto.migrate
+          working_directory: ~/project/makerion_kiosk
+      - run:
+          name: mix test
+          command: |
+            if [[ -z "$COVERALLS_REPO_TOKEN" ]]; then
+              mix coveralls.html
+            else
+              mix coveralls.circle ||
+                (retval=$? && curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CIRCLE_WORKFLOW_WORKSPACE_ID&payload[status]=done" && return $retval)
+            fi
+          working_directory: ~/project/makerion_kiosk
+
+      - store_artifacts:
+          path: makerion_kiosk/cover/excoveralls.html
+      - store_test_results:
+          path: makerion_kiosk/_build/test/junit
+
   makerion_web_credo:
     docker:
       - image: tmecklem/docker-scenic:1.8.1
@@ -216,6 +262,52 @@ jobs:
           path: makerion_web/cover/excoveralls.html
       - store_test_results:
           path: makerion_web/_build/test/junit
+
+  makerion_firmware_credo:
+    docker:
+      - image: tmecklem/docker-scenic:1.8.1
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - attach_workspace:
+          at: .
+      - <<: *install_hex_rebar
+
+      - run:
+          command: mix credo --strict
+          working_directory: ~/project/makerion_firmware
+
+  makerion_firmware_test:
+    docker:
+      - image: tmecklem/docker-scenic:1.8.1
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - attach_workspace:
+          at: .
+      - <<: *install_hex_rebar
+
+      - run:
+          name: Create Test Database
+          command: mix do ecto.create, ecto.migrate
+          working_directory: ~/project/makerion_firmware
+      - run:
+          name: mix test
+          command: |
+            if [[ -z "$COVERALLS_REPO_TOKEN" ]]; then
+              mix coveralls.html
+            else
+              mix coveralls.circle ||
+                (retval=$? && curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CIRCLE_WORKFLOW_WORKSPACE_ID&payload[status]=done" && return $retval)
+            fi
+          working_directory: ~/project/makerion_firmware
+
+      - store_artifacts:
+          path: makerion_firmware/cover/excoveralls.html
+      - store_test_results:
+          path: makerion_firmware/_build/test/junit
 
   dialyzer:
     docker:
