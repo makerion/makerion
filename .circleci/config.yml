@@ -350,6 +350,18 @@ jobs:
           command: mix do ecto.create, ecto.migrate
           working_directory: ~/project/makerion
       - run:
+          name: generate static assets
+          command: npm install && npm run deploy
+          working_directory: ~/project/makerion_web/assets
+      - run:
+          name: phx.digest
+          command: mix phx.digest
+          working_directory: ~/project/makerion_web
+      - run:
+         name: Start Chrome Driver
+         command: /usr/local/bin/chromedriver
+         background: true
+      - run:
           name: mix test
           command: |
             if [[ -z "$COVERALLS_REPO_TOKEN" ]]; then
