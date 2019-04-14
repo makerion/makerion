@@ -64,6 +64,9 @@ config :makerion, Makerion.Repo,
   adapter: Sqlite.Ecto2,
   database: Path.expand("/root/repo.sqlite3")
 
+config :makerion_kiosk,
+  nerves_networkinterface: Nerves.NetworkInterface
+
 config :makerion_kiosk, :viewport, %{
   name: :main_viewport,
   # default_scene: {Nerves.Scene.Crosshair, nil},

@@ -42,21 +42,24 @@ defmodule MakerionKiosk.Components.PrinterStatus do
   def info, do: ""
 
   def handle_info(:update_ip, graph) do
-    case Nerves.NetworkInterface.settings "wlan0" do
-      {:ok, %{ipv4_address: ipv4_address}} when ipv4_address != <<>> ->
-        graph =
-          graph
-          |> Graph.modify(:ip_address, &text(&1, "IP Address #{ipv4_address}"))
-          |> push_graph()
 
-        Process.send_after(self(), :update_ip, 120_000)
-        {:noreply, graph}
+    nerves_networkinterface = Application.get_env(:makerion_kiosk, :nerves_networkinterface)
+    if nerves_networkinterface do
+      case nerves_networkinterface.settings "wlan0" do
+        {:ok, %{ipv4_address: ipv4_address}} when ipv4_address != <<>> ->
+          graph =
+            graph
+            |> Graph.modify(:ip_address, &text(&1, "IP Address #{ipv4_address}"))
+            |> push_graph()
 
-      _ ->
-        Process.send_after(self(), :update_ip, 5_000)
-        {:noreply, graph}
+          Process.send_after(self(), :update_ip, 120_000)
+          {:noreply, graph}
+
+        _ ->
+          Process.send_after(self(), :update_ip, 5_000)
+          {:noreply, graph}
+      end
     end
-
   end
 
   def handle_info({:printer_event, :printer_status, status = %PrinterStatus{}}, graph) do
