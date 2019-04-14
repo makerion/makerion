@@ -1,8 +1,8 @@
 version: 2
 jobs:
-  makerion_build:
+  build:
     docker:
-      - image: circleci/elixir:1.8.1
+      - image: tmecklem/docker-scenic:1.8.1
         environment:
           MIX_ENV: test
 
@@ -19,19 +19,15 @@ jobs:
           name: "OTP_VERSION.lock"
           command: echo "${OTP_VERSION}" > OTP_VERSION.lock
 
+      # makerion
       - restore_cache:
           keys:
             - v1-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
             - v1-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
-
       - run:
-          command: mix deps.get
+          name: Compile Makerion
+          command: mix do deps.get, compile
           working_directory: ~/project/makerion
-
-      - run:
-          command: mix compile
-          working_directory: ~/project/makerion
-
       - save_cache:
           key: v1-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
           paths:
@@ -43,6 +39,66 @@ jobs:
             - makerion/deps
             - makerion/_build
 
+      # makerion_web
+      - restore_cache:
+          keys:
+            - v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
+            - v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+      - run:
+          name: Compile Makerion Web
+          command: mix do deps.get, compile
+          working_directory: ~/project/makerion_web
+      - save_cache:
+          key: v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
+          paths:
+            - makerion_web/deps
+            - makerion_web/_build
+      - save_cache:
+          key: v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          paths:
+            - makerion_web/deps
+            - makerion_web/_build
+
+      # makerion_kiosk
+      - restore_cache:
+          keys:
+            - v1-kiosk-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
+            - v1-kiosk-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+      - run:
+          name: Compile Makerion Kiosk
+          command: mix do deps.get, compile
+          working_directory: ~/project/makerion_kiosk
+      - save_cache:
+          key: v1-kiosk-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
+          paths:
+            - makerion_kiosk/deps
+            - makerion_kiosk/_build
+      - save_cache:
+          key: v1-kiosk-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          paths:
+            - makerion_kiosk/deps
+            - makerion_kiosk/_build
+
+      # makerion_firmware
+      - restore_cache:
+          keys:
+            - v1-firmware-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
+            - v1-firmware-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+      - run:
+          name: Compile Makerion Firmware
+          command: mix do deps.get, compile
+          working_directory: ~/project/makerion_firmware
+      - save_cache:
+          key: v1-firmware-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
+          paths:
+            - makerion_firmware/deps
+            - makerion_firmware/_build
+      - save_cache:
+          key: v1-firmware-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          paths:
+            - makerion_firmware/deps
+            - makerion_firmware/_build
+
       - persist_to_workspace:
           root: .
           paths:
@@ -53,6 +109,9 @@ jobs:
             - ELIXIR_VERSION.lock
             - OTP_VERSION.lock
             - makerion
+            - makerion_firmware
+            - makerion_kiosk
+            - makerion_web
 
   makerion_credo:
     docker:
@@ -162,7 +221,6 @@ jobs:
           path: makerion/_build/test/junit
 
 
-
   makerion_web_build:
     docker:
       - image: circleci/elixir:1.8.1
@@ -224,19 +282,19 @@ workflows:
   version: 2
   primary:
     jobs:
-      - makerion_build
+      - build
       - makerion_credo:
           requires:
-            - makerion_build
+            - build
       - makerion_dialyzer:
           requires:
-            - makerion_build
+            - build
       - makerion_test:
           requires:
-            - makerion_build
+            - build
       - makerion_web_build:
           requires:
-            - makerion_build
-      - makerion_credo:
+            - build
+      - makerion_web_credo:
           requires:
-            - makerion_web_build
+            - build
