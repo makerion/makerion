@@ -1,8 +1,12 @@
 defmodule MakerionKiosk.Components.PrinterStatus do
+  @moduledoc """
+  Component to show the current printer status and other useful info
+  """
+
   use Scenic.Component
 
-  alias Scenic.Graph
   alias Moddity.PrinterStatus
+  alias Scenic.Graph
 
   import Scenic.Primitives, only: [{:text, 2}, {:text, 3}, {:group, 3}]
 

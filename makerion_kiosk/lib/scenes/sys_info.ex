@@ -1,4 +1,6 @@
 defmodule MakerionKiosk.Scene.SysInfo do
+  @moduledoc false
+
   use Scenic.Scene
   alias Scenic.Graph
 

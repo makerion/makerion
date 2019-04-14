@@ -1,4 +1,8 @@
 defmodule MakerionWeb.PrinterStatusComponent do
+  @moduledoc """
+  Functions for interacting with the printer status component
+  """
+
   use Hound.Helpers
 
   def printer_status do

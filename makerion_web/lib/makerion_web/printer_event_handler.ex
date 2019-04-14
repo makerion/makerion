@@ -1,4 +1,8 @@
 defmodule MakerionWeb.PrinterEventHandler do
+  @moduledoc """
+  Event handler for rebroadcasting printer status events from the backend
+  """
+
   use GenServer
 
   def start_link(_) do

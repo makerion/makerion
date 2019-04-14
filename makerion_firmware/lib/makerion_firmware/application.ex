@@ -52,7 +52,7 @@ defmodule MakerionFirmware.Application do
             ssid: network["ssid"],
             psk: network["psk"],
             priority: Map.get(network, "priority", 1),
-            key_mgmt: Map.get(network, "key_mgmt", "WPA-PSK") |> String.to_atom()
+            key_mgmt: String.to_atom(Map.get(network, "key_mgmt", "WPA-PSK"))
           ]
         end)
 

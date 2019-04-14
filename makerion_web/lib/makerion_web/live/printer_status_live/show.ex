@@ -1,4 +1,8 @@
 defmodule MakerionWeb.PrinterStatusLive.Show do
+  @moduledoc """
+  LiveView component to show printer status
+  """
+
   use Phoenix.LiveView
   use Phoenix.HTML
 
