@@ -86,7 +86,7 @@ defmodule MakerionFirmware.Application do
 
   defp migrate_repo!(repo) do
     opts = [all: true]
-    {:ok, pid, apps} = Mix.Ecto.ensure_started(repo, opts)
+    {:ok, pid_val, apps} = Mix.Ecto.ensure_started(repo, opts)
 
     migrator = &Ecto.Migrator.run/4
     pool = repo.config[:pool]
@@ -98,7 +98,9 @@ defmodule MakerionFirmware.Application do
       migrator.(repo, migrations_path, :up, opts)
     end
 
-    repo.stop(pid)
+    if not(is_nil(pid_val)) do
+      repo.stop(pid_val)
+    end
     Mix.Ecto.restart_apps_if_migrated(apps, migrated)
   end
 end
