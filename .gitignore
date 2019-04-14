@@ -19,3 +19,6 @@ erl_crash.dump
 /host-files/
 
 test.sqlite3*
+
+*/priv/plts/*.plt
+*/priv/plts/*.plt.hash

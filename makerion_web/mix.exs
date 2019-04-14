@@ -8,8 +8,9 @@ defmodule MakerionWeb.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       deps: deps(),
       dialyzer: [
-        plt_add_deps: :transitive,
         plt_add_apps: ~w(ex_unit mix)a,
+        plt_add_deps: :transitive,
+        plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
         ignore_warnings: "../.dialyzer-ignore.exs"
       ],
       elixir: "~> 1.8",

@@ -7,13 +7,14 @@ defmodule MakerionFirmware.MixProject do
     [
       aliases: [loadconfig: [&bootstrap/1]],
       app: :makerion_firmware,
-      dialyzer: [
-        plt_add_deps: :transitive,
-        plt_add_apps: ~w(ex_unit mix)a,
-        ignore_warnings: "../.dialyzer-ignore.exs"
-      ],
       archives: [nerves_bootstrap: "~> 1.5"],
       build_embedded: true,
+      dialyzer: [
+        plt_add_apps: ~w(ex_unit mix)a,
+        plt_add_deps: :transitive,
+        plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
+        ignore_warnings: "../.dialyzer-ignore.exs"
+      ],
       deps: deps(),
       elixir: "~> 1.8",
       elixirc_options: [warnings_as_errors: true],

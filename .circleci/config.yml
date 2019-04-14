@@ -189,37 +189,18 @@ jobs:
             - v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
 
       - run:
-          name: Unpack PLT cache
-          command: |
-            mkdir -p _build/test
-            cp plts/dialyxir*.plt _build/test/ || true
-            mkdir -p ~/.mix
-            cp plts/dialyxir*.plt ~/.mix/ || true
-          working_directory: ~/project/makerion
-          no_output_timeout: 20m
-
-      - run:
           command: mix dialyzer --plt
-          working_directory: ~/project/makerion
-          no_output_timeout: 20m
-
-      - run:
-          name: Pack PLT cache
-          command: |
-            mkdir -p plts
-            cp _build/test/dialyxir*.plt plts/
-            cp ~/.mix/dialyxir*.plt plts/
           working_directory: ~/project/makerion
           no_output_timeout: 20m
 
       - save_cache:
           key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
           paths:
-            - plts
+            - makerion/priv/plts
       - save_cache:
           key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
           paths:
-            - plts
+            - makerion/priv/plts
 
       - run:
           command: mix dialyzer --halt-exit-status
@@ -290,37 +271,18 @@ jobs:
             - v1-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
 
       - run:
-          name: Unpack PLT cache
-          command: |
-            mkdir -p _build/test
-            cp plts/dialyxir*.plt _build/test/ || true
-            mkdir -p ~/.mix
-            cp plts/dialyxir*.plt ~/.mix/ || true
-          working_directory: ~/project/makerion_kiosk
-          no_output_timeout: 20m
-
-      - run:
           command: mix dialyzer --plt
-          working_directory: ~/project/makerion_kiosk
-          no_output_timeout: 20m
-
-      - run:
-          name: Pack PLT cache
-          command: |
-            mkdir -p plts
-            cp _build/test/dialyxir*.plt plts/
-            cp ~/.mix/dialyxir*.plt plts/
           working_directory: ~/project/makerion_kiosk
           no_output_timeout: 20m
 
       - save_cache:
           key: v1-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
           paths:
-            - plts
+            - makerion_kiosk/priv/plts
       - save_cache:
           key: v1-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
           paths:
-            - plts
+            - makerion_kiosk/priv/plts
 
       - run:
           command: mix dialyzer --halt-exit-status
@@ -403,37 +365,18 @@ jobs:
             - v1-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
 
       - run:
-          name: Unpack PLT cache
-          command: |
-            mkdir -p _build/test
-            cp plts/dialyxir*.plt _build/test/ || true
-            mkdir -p ~/.mix
-            cp plts/dialyxir*.plt ~/.mix/ || true
-          working_directory: ~/project/makerion_web
-          no_output_timeout: 20m
-
-      - run:
           command: mix dialyzer --plt
-          working_directory: ~/project/makerion_web
-          no_output_timeout: 20m
-
-      - run:
-          name: Pack PLT cache
-          command: |
-            mkdir -p plts
-            cp _build/test/dialyxir*.plt plts/
-            cp ~/.mix/dialyxir*.plt plts/
           working_directory: ~/project/makerion_web
           no_output_timeout: 20m
 
       - save_cache:
           key: v1-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
           paths:
-            - plts
+            - makerion_web/priv/plts
       - save_cache:
           key: v1-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
           paths:
-            - plts
+            - makerion_web/priv/plts
 
       - run:
           command: mix dialyzer --halt-exit-status
@@ -506,37 +449,18 @@ jobs:
             - v1-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
 
       - run:
-          name: Unpack PLT cache
-          command: |
-            mkdir -p _build/test
-            cp plts/dialyxir*.plt _build/test/ || true
-            mkdir -p ~/.mix
-            cp plts/dialyxir*.plt ~/.mix/ || true
-          working_directory: ~/project/makerion_firmware
-          no_output_timeout: 20m
-
-      - run:
           command: mix dialyzer --plt
-          working_directory: ~/project/makerion_firmware
-          no_output_timeout: 20m
-
-      - run:
-          name: Pack PLT cache
-          command: |
-            mkdir -p plts
-            cp _build/test/dialyxir*.plt plts/
-            cp ~/.mix/dialyxir*.plt plts/
           working_directory: ~/project/makerion_firmware
           no_output_timeout: 20m
 
       - save_cache:
           key: v1-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
           paths:
-            - plts
+            - makerion_firmware/priv/plts
       - save_cache:
           key: v1-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
           paths:
-            - plts
+            - makerion_firmware/priv/plts
 
       - run:
           command: mix dialyzer --halt-exit-status
