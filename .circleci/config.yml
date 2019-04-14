@@ -196,10 +196,12 @@ jobs:
             mkdir -p ~/.mix
             cp plts/dialyxir*.plt ~/.mix/ || true
           working_directory: ~/project/makerion
+          no_output_timeout: 20m
 
       - run:
           command: mix dialyzer --plt
           working_directory: ~/project/makerion
+          no_output_timeout: 20m
 
       - run:
           name: Pack PLT cache
@@ -208,6 +210,7 @@ jobs:
             cp _build/test/dialyxir*.plt plts/
             cp ~/.mix/dialyxir*.plt plts/
           working_directory: ~/project/makerion
+          no_output_timeout: 20m
 
       - save_cache:
           key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
@@ -221,6 +224,7 @@ jobs:
       - run:
           command: mix dialyzer --halt-exit-status
           working_directory: ~/project/makerion
+          no_output_timeout: 20m
 
   makerion_kiosk_credo:
     docker:
@@ -293,10 +297,12 @@ jobs:
             mkdir -p ~/.mix
             cp plts/dialyxir*.plt ~/.mix/ || true
           working_directory: ~/project/makerion_kiosk
+          no_output_timeout: 20m
 
       - run:
           command: mix dialyzer --plt
           working_directory: ~/project/makerion_kiosk
+          no_output_timeout: 20m
 
       - run:
           name: Pack PLT cache
@@ -305,6 +311,7 @@ jobs:
             cp _build/test/dialyxir*.plt plts/
             cp ~/.mix/dialyxir*.plt plts/
           working_directory: ~/project/makerion_kiosk
+          no_output_timeout: 20m
 
       - save_cache:
           key: v1-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
@@ -318,6 +325,7 @@ jobs:
       - run:
           command: mix dialyzer --halt-exit-status
           working_directory: ~/project/makerion_kiosk
+          no_output_timeout: 20m
 
   makerion_web_credo:
     docker:
@@ -402,10 +410,12 @@ jobs:
             mkdir -p ~/.mix
             cp plts/dialyxir*.plt ~/.mix/ || true
           working_directory: ~/project/makerion_web
+          no_output_timeout: 20m
 
       - run:
           command: mix dialyzer --plt
           working_directory: ~/project/makerion_web
+          no_output_timeout: 20m
 
       - run:
           name: Pack PLT cache
@@ -414,6 +424,7 @@ jobs:
             cp _build/test/dialyxir*.plt plts/
             cp ~/.mix/dialyxir*.plt plts/
           working_directory: ~/project/makerion_web
+          no_output_timeout: 20m
 
       - save_cache:
           key: v1-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
@@ -427,6 +438,7 @@ jobs:
       - run:
           command: mix dialyzer --halt-exit-status
           working_directory: ~/project/makerion_web
+          no_output_timeout: 20m
 
   makerion_firmware_credo:
     docker:
@@ -501,10 +513,12 @@ jobs:
             mkdir -p ~/.mix
             cp plts/dialyxir*.plt ~/.mix/ || true
           working_directory: ~/project/makerion_firmware
+          no_output_timeout: 20m
 
       - run:
           command: mix dialyzer --plt
           working_directory: ~/project/makerion_firmware
+          no_output_timeout: 20m
 
       - run:
           name: Pack PLT cache
@@ -513,6 +527,7 @@ jobs:
             cp _build/test/dialyxir*.plt plts/
             cp ~/.mix/dialyxir*.plt plts/
           working_directory: ~/project/makerion_firmware
+          no_output_timeout: 20m
 
       - save_cache:
           key: v1-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
@@ -526,6 +541,7 @@ jobs:
       - run:
           command: mix dialyzer --halt-exit-status
           working_directory: ~/project/makerion_firmware
+          no_output_timeout: 20m
 
 workflows:
   version: 2
