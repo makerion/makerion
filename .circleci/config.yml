@@ -171,6 +171,57 @@ jobs:
       - store_test_results:
           path: makerion/_build/test/junit
 
+  makerion_dialyzer:
+    docker:
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - attach_workspace:
+          at: .
+      - <<: *install_hex_rebar
+      - <<: *install_nerves_bootstrap
+
+      - restore_cache:
+          keys:
+            - v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
+            - v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+
+      - run:
+          name: Unpack PLT cache
+          command: |
+            mkdir -p _build/test
+            cp plts/dialyxir*.plt _build/test/ || true
+            mkdir -p ~/.mix
+            cp plts/dialyxir*.plt ~/.mix/ || true
+          working_directory: ~/project/makerion
+
+      - run:
+          command: mix dialyzer --plt
+          working_directory: ~/project/makerion
+
+      - run:
+          name: Pack PLT cache
+          command: |
+            mkdir -p plts
+            cp _build/test/dialyxir*.plt plts/
+            cp ~/.mix/dialyxir*.plt plts/
+          working_directory: ~/project/makerion
+
+      - save_cache:
+          key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
+          paths:
+            - plts
+      - save_cache:
+          key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          paths:
+            - plts
+
+      - run:
+          command: mix dialyzer --halt-exit-status
+          working_directory: ~/project/makerion
+
   makerion_kiosk_credo:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
@@ -216,6 +267,57 @@ jobs:
           path: makerion_kiosk/cover/excoveralls.html
       - store_test_results:
           path: makerion_kiosk/_build/test/junit
+
+  makerion_kiosk_dialyzer:
+    docker:
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - attach_workspace:
+          at: .
+      - <<: *install_hex_rebar
+      - <<: *install_nerves_bootstrap
+
+      - restore_cache:
+          keys:
+            - v1-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
+            - v1-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+
+      - run:
+          name: Unpack PLT cache
+          command: |
+            mkdir -p _build/test
+            cp plts/dialyxir*.plt _build/test/ || true
+            mkdir -p ~/.mix
+            cp plts/dialyxir*.plt ~/.mix/ || true
+          working_directory: ~/project/makerion_kiosk
+
+      - run:
+          command: mix dialyzer --plt
+          working_directory: ~/project/makerion_kiosk
+
+      - run:
+          name: Pack PLT cache
+          command: |
+            mkdir -p plts
+            cp _build/test/dialyxir*.plt plts/
+            cp ~/.mix/dialyxir*.plt plts/
+          working_directory: ~/project/makerion_kiosk
+
+      - save_cache:
+          key: v1-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
+          paths:
+            - plts
+      - save_cache:
+          key: v1-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          paths:
+            - plts
+
+      - run:
+          command: mix dialyzer --halt-exit-status
+          working_directory: ~/project/makerion_kiosk
 
   makerion_web_credo:
     docker:
@@ -263,6 +365,57 @@ jobs:
       - store_test_results:
           path: makerion_web/_build/test/junit
 
+  makerion_web_dialyzer:
+    docker:
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - attach_workspace:
+          at: .
+      - <<: *install_hex_rebar
+      - <<: *install_nerves_bootstrap
+
+      - restore_cache:
+          keys:
+            - v1-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
+            - v1-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+
+      - run:
+          name: Unpack PLT cache
+          command: |
+            mkdir -p _build/test
+            cp plts/dialyxir*.plt _build/test/ || true
+            mkdir -p ~/.mix
+            cp plts/dialyxir*.plt ~/.mix/ || true
+          working_directory: ~/project/makerion_web
+
+      - run:
+          command: mix dialyzer --plt
+          working_directory: ~/project/makerion_web
+
+      - run:
+          name: Pack PLT cache
+          command: |
+            mkdir -p plts
+            cp _build/test/dialyxir*.plt plts/
+            cp ~/.mix/dialyxir*.plt plts/
+          working_directory: ~/project/makerion_web
+
+      - save_cache:
+          key: v1-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
+          paths:
+            - plts
+      - save_cache:
+          key: v1-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          paths:
+            - plts
+
+      - run:
+          command: mix dialyzer --halt-exit-status
+          working_directory: ~/project/makerion_web
+
   makerion_firmware_credo:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
@@ -309,7 +462,7 @@ jobs:
       - store_test_results:
           path: makerion_firmware/_build/test/junit
 
-  dialyzer:
+  makerion_firmware_dialyzer:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
@@ -323,8 +476,8 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
-            - v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+            - v1-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
+            - v1-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
 
       - run:
           name: Unpack PLT cache
@@ -348,11 +501,11 @@ jobs:
           working_directory: ~/project/makerion_firmware
 
       - save_cache:
-          key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
+          key: v1-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
           paths:
             - plts
       - save_cache:
-          key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          key: v1-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
           paths:
             - plts
 
@@ -360,19 +513,18 @@ jobs:
           command: mix dialyzer --halt-exit-status
           working_directory: ~/project/makerion_firmware
 
-
 workflows:
   version: 2
   primary:
     jobs:
       - build
-      - dialyzer:
-          requires:
-            - build
       - makerion_credo:
           requires:
             - build
       - makerion_test:
+          requires:
+            - build
+      - makerion_dialyzer:
           requires:
             - build
       - makerion_kiosk_credo:
@@ -381,15 +533,24 @@ workflows:
       - makerion_kiosk_test:
           requires:
             - build
+      - makerion_kiosk_dialyzer:
+          requires:
+            - build
       - makerion_web_credo:
           requires:
             - build
       - makerion_web_test:
           requires:
             - build
+      - makerion_web_dialyzer:
+          requires:
+            - build
       - makerion_firmware_credo:
           requires:
             - build
       - makerion_firmware_test:
+          requires:
+            - build
+      - makerion_firmware_dialyzer:
           requires:
             - build
