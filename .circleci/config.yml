@@ -375,9 +375,21 @@ workflows:
       - makerion_test:
           requires:
             - build
+      - makerion_kiosk_credo:
+          requires:
+            - build
+      - makerion_kiosk_test:
+          requires:
+            - build
       - makerion_web_credo:
           requires:
             - build
       - makerion_web_test:
+          requires:
+            - build
+      - makerion_firmware_credo:
+          requires:
+            - build
+      - makerion_firmware_test:
           requires:
             - build
