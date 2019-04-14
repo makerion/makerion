@@ -6,3 +6,5 @@ config :makerion, Makerion.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :makerion, printer_driver: Moddity.FakeDriver
+
+config :logger, level: :warn

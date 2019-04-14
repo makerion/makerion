@@ -25,3 +25,7 @@ config :makerion_web, MakerionWeb.Endpoint,
   debug_errors: true,
   code_reloader: false,
   check_origin: false
+
+if File.exists?("#{Mix.env()}.exs") do
+  import_config "#{Mix.env()}.exs"
+end

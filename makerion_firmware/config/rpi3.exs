@@ -87,8 +87,24 @@ config :makerion_kiosk, :viewport, %{
   ]
 }
 
+config :makerion_web, MakerionWeb.Endpoint,
+  url: [host: "localhost"],
+  http: [port: 80],
+  secret_key_base: "pYHbGO6Ir2A43i44U3VippGeoxu/wG1FjZKOX1bYvKzswsWROrSTDiFBhEoHFgrr",
+  root: Path.dirname(__DIR__),
+  server: true,
+  render_errors: [view: MakerionWeb.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: MakerionWeb.PubSub, adapter: Phoenix.PubSub.PG2],
+  code_reloader: false,
+  check_origin: false,
+  live_view: [
+    signing_salt: "vGv59K4MSRCM34UPhifRphZTURII7lfO"
+  ]
+
 config :makerion_firmware,
   nerves_network: Nerves.Network
+
+config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
 
 if File.exists?("rpi3.secret.exs") do
   import_config "rpi3.secret.exs"
