@@ -251,7 +251,7 @@ jobs:
       - run:
           name: Create Test Database
           command: mix do ecto.create, ecto.migrate
-          working_directory: ~/project/makerion_kiosk
+          working_directory: ~/project/makerion
       - run:
           name: mix test
           command: |
@@ -348,7 +348,7 @@ jobs:
       - run:
           name: Create Test Database
           command: mix do ecto.create, ecto.migrate
-          working_directory: ~/project/makerion_web
+          working_directory: ~/project/makerion
       - run:
           name: mix test
           command: |
@@ -447,7 +447,7 @@ jobs:
       - run:
           name: Create Test Database
           command: mix do ecto.create, ecto.migrate
-          working_directory: ~/project/makerion_firmware
+          working_directory: ~/project/makerion
       - run:
           name: mix test
           command: |
