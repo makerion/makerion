@@ -226,7 +226,7 @@ jobs:
           working_directory: ~/project/makerion
           no_output_timeout: 20m
 
-  makerion_kiosk_credo:
+  kiosk_credo:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
@@ -241,7 +241,7 @@ jobs:
           command: mix credo --strict
           working_directory: ~/project/makerion_kiosk
 
-  makerion_kiosk_test:
+  kiosk_test:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
@@ -272,7 +272,7 @@ jobs:
       - store_test_results:
           path: makerion_kiosk/_build/test/junit
 
-  makerion_kiosk_dialyzer:
+  kiosk_dialyzer:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
@@ -327,7 +327,7 @@ jobs:
           working_directory: ~/project/makerion_kiosk
           no_output_timeout: 20m
 
-  makerion_web_credo:
+  web_credo:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
@@ -342,7 +342,7 @@ jobs:
           command: mix credo --strict
           working_directory: ~/project/makerion_web
 
-  makerion_web_test:
+  web_test:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
@@ -385,7 +385,7 @@ jobs:
       - store_test_results:
           path: makerion_web/_build/test/junit
 
-  makerion_web_dialyzer:
+  web_dialyzer:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
@@ -440,7 +440,7 @@ jobs:
           working_directory: ~/project/makerion_web
           no_output_timeout: 20m
 
-  makerion_firmware_credo:
+  firmware_credo:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
@@ -456,7 +456,7 @@ jobs:
           command: mix credo --strict
           working_directory: ~/project/makerion_firmware
 
-  makerion_firmware_test:
+  firmware_test:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
@@ -488,7 +488,7 @@ jobs:
       - store_test_results:
           path: makerion_firmware/_build/test/junit
 
-  makerion_firmware_dialyzer:
+  firmware_dialyzer:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
@@ -558,33 +558,33 @@ workflows:
           requires:
             - makerion_credo
             - makerion_test
-      - makerion_kiosk_credo:
+      - kiosk_credo:
           requires:
             - build
-      - makerion_kiosk_test:
+      - kiosk_test:
           requires:
             - build
-      - makerion_kiosk_dialyzer:
+      - kiosk_dialyzer:
           requires:
-            - makerion_kiosk_credo
-            - makerion_kiosk_test
-      - makerion_web_credo:
-          requires:
-            - build
-      - makerion_web_test:
+            - kiosk_credo
+            - kiosk_test
+      - web_credo:
           requires:
             - build
-      - makerion_web_dialyzer:
-          requires:
-            - makerion_web_credo
-            - makerion_web_test
-      - makerion_firmware_credo:
+      - web_test:
           requires:
             - build
-      - makerion_firmware_test:
+      - web_dialyzer:
+          requires:
+            - web_credo
+            - web_test
+      - firmware_credo:
           requires:
             - build
-      - makerion_firmware_dialyzer:
+      - firmware_test:
           requires:
-            - makerion_firmware_credo
-            - makerion_firmware_test
+            - build
+      - firmware_dialyzer:
+          requires:
+            - firmware_credo
+            - firmware_test
