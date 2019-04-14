@@ -34,19 +34,19 @@ jobs:
       # makerion
       - restore_cache:
           keys:
-            - v1-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
-            - v1-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+            - v2-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
+            - v2-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
       - run:
           name: Compile Makerion
           command: mix do deps.get, compile
           working_directory: ~/project/makerion
       - save_cache:
-          key: v1-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
+          key: v2-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
           paths:
             - makerion/deps
             - makerion/_build
       - save_cache:
-          key: v1-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          key: v2-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
           paths:
             - makerion/deps
             - makerion/_build
@@ -54,19 +54,19 @@ jobs:
       # makerion_web
       - restore_cache:
           keys:
-            - v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
-            - v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+            - v2-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
+            - v2-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
       - run:
           name: Compile Makerion Web
           command: mix do deps.get, compile
           working_directory: ~/project/makerion_web
       - save_cache:
-          key: v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
+          key: v2-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
           paths:
             - makerion_web/deps
             - makerion_web/_build
       - save_cache:
-          key: v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          key: v2-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
           paths:
             - makerion_web/deps
             - makerion_web/_build
@@ -74,19 +74,19 @@ jobs:
       # makerion_kiosk
       - restore_cache:
           keys:
-            - v1-kiosk-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
-            - v1-kiosk-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+            - v2-kiosk-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
+            - v2-kiosk-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
       - run:
           name: Compile Makerion Kiosk
           command: mix do deps.get, compile
           working_directory: ~/project/makerion_kiosk
       - save_cache:
-          key: v1-kiosk-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
+          key: v2-kiosk-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
           paths:
             - makerion_kiosk/deps
             - makerion_kiosk/_build
       - save_cache:
-          key: v1-kiosk-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          key: v2-kiosk-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
           paths:
             - makerion_kiosk/deps
             - makerion_kiosk/_build
@@ -94,19 +94,19 @@ jobs:
       # makerion_firmware
       - restore_cache:
           keys:
-            - v1-firmware-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
-            - v1-firmware-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+            - v2-firmware-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
+            - v2-firmware-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
       - run:
           name: Compile Makerion Firmware
           command: mix do deps.get, compile
           working_directory: ~/project/makerion_firmware
       - save_cache:
-          key: v1-firmware-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
+          key: v2-firmware-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
           paths:
             - makerion_firmware/deps
             - makerion_firmware/_build
       - save_cache:
-          key: v1-firmware-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          key: v2-firmware-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
           paths:
             - makerion_firmware/deps
             - makerion_firmware/_build
@@ -185,8 +185,8 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
-            - v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+            - v2-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
+            - v2-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
 
       - run:
           command: mix dialyzer --plt
@@ -194,11 +194,11 @@ jobs:
           no_output_timeout: 20m
 
       - save_cache:
-          key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
+          key: v2-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
           paths:
             - makerion/priv/plts
       - save_cache:
-          key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          key: v2-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
           paths:
             - makerion/priv/plts
 
@@ -267,8 +267,8 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
-            - v1-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+            - v2-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
+            - v2-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
 
       - run:
           command: mix dialyzer --plt
@@ -276,11 +276,11 @@ jobs:
           no_output_timeout: 20m
 
       - save_cache:
-          key: v1-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
+          key: v2-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
           paths:
             - makerion_kiosk/priv/plts
       - save_cache:
-          key: v1-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          key: v2-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
           paths:
             - makerion_kiosk/priv/plts
 
@@ -361,8 +361,8 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
-            - v1-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+            - v2-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
+            - v2-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
 
       - run:
           command: mix dialyzer --plt
@@ -370,11 +370,11 @@ jobs:
           no_output_timeout: 20m
 
       - save_cache:
-          key: v1-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
+          key: v2-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
           paths:
             - makerion_web/priv/plts
       - save_cache:
-          key: v1-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          key: v2-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
           paths:
             - makerion_web/priv/plts
 
@@ -445,8 +445,8 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
-            - v1-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+            - v2-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
+            - v2-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
 
       - run:
           command: mix dialyzer --plt
@@ -454,11 +454,11 @@ jobs:
           no_output_timeout: 20m
 
       - save_cache:
-          key: v1-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
+          key: v2-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
           paths:
             - makerion_firmware/priv/plts
       - save_cache:
-          key: v1-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          key: v2-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
           paths:
             - makerion_firmware/priv/plts
 
