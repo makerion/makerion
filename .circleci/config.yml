@@ -556,7 +556,8 @@ workflows:
             - build
       - makerion_dialyzer:
           requires:
-            - build
+            - makerion_credo
+            - makerion_test
       - makerion_kiosk_credo:
           requires:
             - build
@@ -565,7 +566,8 @@ workflows:
             - build
       - makerion_kiosk_dialyzer:
           requires:
-            - build
+            - makerion_kiosk_credo
+            - makerion_kiosk_test
       - makerion_web_credo:
           requires:
             - build
@@ -574,7 +576,8 @@ workflows:
             - build
       - makerion_web_dialyzer:
           requires:
-            - build
+            - makerion_web_credo
+            - makerion_web_test
       - makerion_firmware_credo:
           requires:
             - build
@@ -583,4 +586,5 @@ workflows:
             - build
       - makerion_firmware_dialyzer:
           requires:
-            - build
+            - makerion_firmware_credo
+            - makerion_firmware_test
