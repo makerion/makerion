@@ -1,4 +1,17 @@
 version: 2
+
+install_hex_rebar: &install_hex_rebar
+  run:
+    name: Install hex and rebar
+    command: |
+      mix local.hex --force
+      mix local.rebar --force
+install_nerves_bootstrap: &install_nerves_bootstrap
+  run:
+    name: Install nerves_bootstrap
+    command: |
+      mix archive.install hex nerves_bootstrap "~> 1.0" --force
+
 jobs:
   build:
     docker:
@@ -8,9 +21,8 @@ jobs:
 
     steps:
       - checkout
-
-      - run: mix local.hex --force
-      - run: mix local.rebar --force
+      - <<: *install_hex_rebar
+      - <<: *install_nerves_bootstrap
 
       - run:
           name: "ELIXIR_VERSION.lock"
@@ -122,10 +134,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-
-      - run:
-          command: mix local.hex --force
-          working_directory: ~/project/makerion
+      - <<: *install_hex_rebar
 
       - run:
           command: mix credo --strict
@@ -140,10 +149,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-
-      - run:
-          command: mix local.hex --force
-          working_directory: ~/project/makerion
+      - <<: *install_hex_rebar
 
       - restore_cache:
           keys:
@@ -193,15 +199,10 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - <<: *install_hex_rebar
 
       - run:
-          command: mix local.hex --force
-          working_directory: ~/project/makerion
-      - run:
-          command: mix local.rebar --force
-          working_directory: ~/project/makerion
-
-      - run:
+          name: Create Test Database
           command: mix do ecto.create, ecto.migrate
           working_directory: ~/project/makerion
       - run:
@@ -220,46 +221,6 @@ jobs:
       - store_test_results:
           path: makerion/_build/test/junit
 
-
-  makerion_web_build:
-    docker:
-      - image: circleci/elixir:1.8.1
-        environment:
-          MIX_ENV: test
-
-    steps:
-      - attach_workspace:
-          at: .
-
-      - restore_cache:
-          keys:
-            - v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
-            - v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
-
-      - run:
-          command: mix deps.get
-          working_directory: ~/project/makerion_web
-
-      - run:
-          command: mix compile
-          working_directory: ~/project/makerion_web
-
-      - save_cache:
-          key: v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
-          paths:
-            - makerion_web/deps
-            - makerion_web/_build
-      - save_cache:
-          key: v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
-          paths:
-            - makerion_web/deps
-            - makerion_web/_build
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - makerion_web
-
   makerion_web_credo:
     docker:
       - image: circleci/elixir:1.8.1
@@ -269,10 +230,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-
-      - run:
-          command: mix local.hex --force
-          working_directory: ~/project/makerion_web
+      - <<: *install_hex_rebar
 
       - run:
           command: mix credo --strict
@@ -290,9 +248,6 @@ workflows:
           requires:
             - build
       - makerion_test:
-          requires:
-            - build
-      - makerion_web_build:
           requires:
             - build
       - makerion_web_credo:
