@@ -1,6 +1,8 @@
 defmodule MakerionKiosk.Components.PrinterStatus do
   use Scenic.Component
+
   alias Scenic.Graph
+  alias Moddity.PrinterStatus
 
   import Scenic.Primitives, only: [{:text, 2}, {:text, 3}, {:update_opts, 2}, {:group, 3}]
 
@@ -63,7 +65,7 @@ defmodule MakerionKiosk.Components.PrinterStatus do
 
   end
 
-  def handle_info({:printer_event, :printer_status, status = %Makerion.PrinterStatus{}}, graph) do
+  def handle_info({:printer_event, :printer_status, status = %PrinterStatus{}}, graph) do
     # Process.send_after(self(), :update_devices, 1000)
 
     # update the graph
