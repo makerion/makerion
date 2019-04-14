@@ -161,6 +161,65 @@ jobs:
       - store_test_results:
           path: makerion/_build/test/junit
 
+
+
+  makerion_web_build:
+    docker:
+      - image: circleci/elixir:1.8.1
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - restore_cache:
+          keys:
+            - v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
+            - v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+
+      - run:
+          command: mix deps.get
+          working_directory: ~/project/makerion_web
+
+      - run:
+          command: mix compile
+          working_directory: ~/project/makerion_web
+
+      - save_cache:
+          key: v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
+          paths:
+            - makerion_web/deps
+            - makerion_web/_build
+      - save_cache:
+          key: v1-web-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          paths:
+            - makerion_web/deps
+            - makerion_web/_build
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - makerion_web
+
+  makerion_web_credo:
+    docker:
+      - image: circleci/elixir:1.8.1
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - run:
+          command: mix local.hex --force
+          working_directory: ~/project/makerion_web
+
+      - run:
+          command: mix credo --strict
+          working_directory: ~/project/makerion_web
+
 workflows:
   version: 2
   primary:
@@ -175,3 +234,9 @@ workflows:
       - makerion_test:
           requires:
             - makerion_build
+      - makerion_web_build:
+          requires:
+            - makerion_build
+      - makerion_credo:
+          requires:
+            - makerion_web_build
