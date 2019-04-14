@@ -127,7 +127,7 @@ jobs:
 
   makerion_credo:
     docker:
-      - image: circleci/elixir:1.8.1
+      - image: tmecklem/docker-scenic:1.8.1
         environment:
           MIX_ENV: test
 
@@ -140,59 +140,9 @@ jobs:
           command: mix credo --strict
           working_directory: ~/project/makerion
 
-  makerion_dialyzer:
-    docker:
-      - image: circleci/elixir:1.8.1
-        environment:
-          MIX_ENV: test
-
-    steps:
-      - attach_workspace:
-          at: .
-      - <<: *install_hex_rebar
-
-      - restore_cache:
-          keys:
-            - v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
-            - v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
-
-      - run:
-          name: Unpack PLT cache
-          command: |
-            mkdir -p _build/test
-            cp plts/dialyxir*.plt _build/test/ || true
-            mkdir -p ~/.mix
-            cp plts/dialyxir*.plt ~/.mix/ || true
-          working_directory: ~/project/makerion
-
-      - run:
-          command: mix dialyzer --plt
-          working_directory: ~/project/makerion
-
-      - run:
-          name: Pack PLT cache
-          command: |
-            mkdir -p plts
-            cp _build/test/dialyxir*.plt plts/
-            cp ~/.mix/dialyxir*.plt plts/
-          working_directory: ~/project/makerion
-
-      - save_cache:
-          key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
-          paths:
-            - plts
-      - save_cache:
-          key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
-          paths:
-            - plts
-
-      - run:
-          command: mix dialyzer --halt-exit-status
-          working_directory: ~/project/makerion
-
   makerion_test:
     docker:
-      - image: circleci/elixir:1.8.1
+      - image: tmecklem/docker-scenic:1.8.1
         environment:
           MIX_ENV: test
 
@@ -223,7 +173,7 @@ jobs:
 
   makerion_web_credo:
     docker:
-      - image: circleci/elixir:1.8.1
+      - image: tmecklem/docker-scenic:1.8.1
         environment:
           MIX_ENV: test
 
@@ -236,20 +186,106 @@ jobs:
           command: mix credo --strict
           working_directory: ~/project/makerion_web
 
+  makerion_web_test:
+    docker:
+      - image: tmecklem/docker-scenic:1.8.1
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - attach_workspace:
+          at: .
+      - <<: *install_hex_rebar
+
+      - run:
+          name: Create Test Database
+          command: mix do ecto.create, ecto.migrate
+          working_directory: ~/project/makerion_web
+      - run:
+          name: mix test
+          command: |
+            if [[ -z "$COVERALLS_REPO_TOKEN" ]]; then
+              mix coveralls.html
+            else
+              mix coveralls.circle ||
+                (retval=$? && curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CIRCLE_WORKFLOW_WORKSPACE_ID&payload[status]=done" && return $retval)
+            fi
+          working_directory: ~/project/makerion_web
+
+      - store_artifacts:
+          path: makerion_web/cover/excoveralls.html
+      - store_test_results:
+          path: makerion_web/_build/test/junit
+
+  dialyzer:
+    docker:
+      - image: tmecklem/docker-scenic:1.8.1
+        environment:
+          MIX_ENV: test
+
+    steps:
+      - attach_workspace:
+          at: .
+      - <<: *install_hex_rebar
+      - <<: *install_nerves_bootstrap
+
+      - restore_cache:
+          keys:
+            - v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
+            - v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+
+      - run:
+          name: Unpack PLT cache
+          command: |
+            mkdir -p _build/test
+            cp plts/dialyxir*.plt _build/test/ || true
+            mkdir -p ~/.mix
+            cp plts/dialyxir*.plt ~/.mix/ || true
+          working_directory: ~/project/makerion_firmware
+
+      - run:
+          command: mix dialyzer --plt
+          working_directory: ~/project/makerion_firmware
+
+      - run:
+          name: Pack PLT cache
+          command: |
+            mkdir -p plts
+            cp _build/test/dialyxir*.plt plts/
+            cp ~/.mix/dialyxir*.plt plts/
+          working_directory: ~/project/makerion_firmware
+
+      - save_cache:
+          key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
+          paths:
+            - plts
+      - save_cache:
+          key: v1-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          paths:
+            - plts
+
+      - run:
+          command: mix dialyzer --halt-exit-status
+          working_directory: ~/project/makerion_firmware
+
+
 workflows:
   version: 2
   primary:
     jobs:
       - build
-      - makerion_credo:
+      - dialyzer:
           requires:
             - build
-      - makerion_dialyzer:
+      - makerion_credo:
           requires:
             - build
       - makerion_test:
           requires:
             - build
       - makerion_web_credo:
+          requires:
+            - build
+      - makerion_web_test:
           requires:
             - build
