@@ -343,6 +343,9 @@ jobs:
           working_directory: ~/project/makerion_web
 
       - store_artifacts:
+          path: makerion_web/screenshots
+          prefix: screenshots
+      - store_artifacts:
           path: makerion_web/cover/excoveralls.html
       - store_test_results:
           path: makerion_web/_build/test/junit

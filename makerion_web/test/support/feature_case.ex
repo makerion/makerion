@@ -2,6 +2,7 @@ defmodule MakerionWeb.FeatureCase do
   @moduledoc false
 
   use ExUnit.CaseTemplate
+  use Hound.Helpers
 
   alias Ecto.Adapters.SQL.Sandbox
 
@@ -19,6 +20,8 @@ defmodule MakerionWeb.FeatureCase do
 
   setup tags do
     Hound.start_session()
+
+    set_window_size(current_window_handle(), 1280, 800)
 
     :ok = Sandbox.checkout(Makerion.Repo)
 
