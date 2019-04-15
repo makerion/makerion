@@ -1,5 +1,10 @@
 defmodule MakerionWeb.FeatureCase do
+  @moduledoc false
+
   use ExUnit.CaseTemplate
+  use Hound.Helpers
+
+  alias Ecto.Adapters.SQL.Sandbox
 
   using do
     quote do
@@ -16,10 +21,12 @@ defmodule MakerionWeb.FeatureCase do
   setup tags do
     Hound.start_session()
 
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Makerion.Repo)
+    set_window_size(current_window_handle(), 1280, 800)
+
+    :ok = Sandbox.checkout(Makerion.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Makerion.Repo, {:shared, self()})
+      Sandbox.mode(Makerion.Repo, {:shared, self()})
     end
 
     :ok

@@ -5,8 +5,7 @@
 use Mix.Config
 
 config :makerion,
-  print_file_path: Path.join([File.cwd!, "..", "host-files", "print-files"]),
-  printer_driver: Moddity.Driver
+  print_file_path: Path.join([File.cwd!, "..", "host-files", "print-files"])
 
 config :makerion, ecto_repos: [Makerion.Repo]
 

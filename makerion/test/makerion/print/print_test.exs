@@ -6,9 +6,8 @@ defmodule Makerion.PrintTest do
   describe "print_files" do
     alias Makerion.Print.PrintFile
 
-    @valid_attrs %{name: "some name", path: "some path"}
-    @update_attrs %{name: "some updated name", path: "some updated path"}
-    @invalid_attrs %{name: nil, path: nil}
+    @valid_attrs %{name: "print_fixture", path: "print_fixture.gcode", tempfile: Path.join([File.cwd!, "test", "fixtures", "print_fixture.gcode"])}
+    @invalid_attrs %{name: nil, path: nil, tempfile: nil}
 
     def print_file_fixture(attrs \\ %{}) do
       {:ok, print_file} =
@@ -31,36 +30,18 @@ defmodule Makerion.PrintTest do
 
     test "create_print_file/1 with valid data creates a print_file" do
       assert {:ok, %PrintFile{} = print_file} = Print.create_print_file(@valid_attrs)
-      assert print_file.name == "some name"
-      assert print_file.path == "some path"
+      assert print_file.name == "print_fixture"
+      assert print_file.path == "print_fixture.gcode"
     end
 
     test "create_print_file/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Print.create_print_file(@invalid_attrs)
     end
 
-    test "update_print_file/2 with valid data updates the print_file" do
-      print_file = print_file_fixture()
-      assert {:ok, %PrintFile{} = print_file} = Print.update_print_file(print_file, @update_attrs)
-      assert print_file.name == "some updated name"
-      assert print_file.path == "some updated path"
-    end
-
-    test "update_print_file/2 with invalid data returns error changeset" do
-      print_file = print_file_fixture()
-      assert {:error, %Ecto.Changeset{}} = Print.update_print_file(print_file, @invalid_attrs)
-      assert print_file == Print.get_print_file!(print_file.id)
-    end
-
     test "delete_print_file/1 deletes the print_file" do
       print_file = print_file_fixture()
       assert {:ok, %PrintFile{}} = Print.delete_print_file(print_file)
       assert_raise Ecto.NoResultsError, fn -> Print.get_print_file!(print_file.id) end
-    end
-
-    test "change_print_file/1 returns a print_file changeset" do
-      print_file = print_file_fixture()
-      assert %Ecto.Changeset{} = Print.change_print_file(print_file)
     end
   end
 end

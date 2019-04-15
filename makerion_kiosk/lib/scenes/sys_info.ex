@@ -1,4 +1,6 @@
 defmodule MakerionKiosk.Scene.SysInfo do
+  @moduledoc false
+
   use Scenic.Scene
   alias Scenic.Graph
 
@@ -8,7 +10,7 @@ defmodule MakerionKiosk.Scene.SysInfo do
   |> printer_status("", id: :printer_status)
 
   def init(_, opts) do
-    {:ok, info} = Scenic.ViewPort.info(opts[:viewport])
+    {:ok, _info} = Scenic.ViewPort.info(opts[:viewport])
 
     graph =
       @graph

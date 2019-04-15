@@ -5,12 +5,11 @@ defmodule Makerion.Print do
 
   import Ecto.Query, warn: false
 
-  alias Ecto.Changeset
-  alias Makerion.Repo
   alias Makerion.Print.PrintFile
+  alias Makerion.Repo
 
   def subscribe do
-    Registry.register(Registry.PrintEvents, :print_file, [])
+    Registry.register(Registry.PrinterEvents, :print_file, [])
   end
 
   @doc """
@@ -44,27 +43,17 @@ defmodule Makerion.Print do
 
   @doc """
   Creates a print_file.
-
-  ## Examples
-
-      iex> create_print_file(%{field: value})
-      {:ok, %PrintFile{}}
-
-      iex> create_print_file(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def create_print_file(attrs \\ %{}) do
     %PrintFile{}
-    |> PrintFile.changeset(Map.put(attrs, "name", String.replace(attrs["file"].filename, ".gcode", "")))
+    |> PrintFile.create_changeset(attrs)
     |> Repo.insert()
     |> case do
          {:ok, print_file} ->
-           upload = attrs["file"]
            File.mkdir(print_file_path())
-           File.cp(upload.path, Path.join(print_file_path(), upload.filename))
+           File.cp(print_file.tempfile, Path.join(print_file_path(), print_file.path))
            notify_subscribers(:print_file, {:print_file, :added})
-           {:ok, print_file}
+           {:ok, %{print_file | tempfile: nil}}
          error -> error
        end
   end
@@ -90,28 +79,15 @@ defmodule Makerion.Print do
     |> Repo.delete()
     |> case do
          {:ok, response} ->
-           File.rm(Path.join(print_file_path(), print_file.filename))
+           File.rm(Path.join(print_file_path(), print_file.path))
            {:ok, response}
          error -> error
        end
 
   end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking print_file changes.
-
-  ## Examples
-
-      iex> change_print_file(print_file)
-      %Ecto.Changeset{source: %PrintFile{}}
-
-  """
-  def change_print_file(%PrintFile{} = print_file) do
-    PrintFile.changeset(print_file, %{})
-  end
-
   defp notify_subscribers(topic, message) do
-    Registry.dispatch(Registry.PrintEvents, topic, fn entries ->
+    Registry.dispatch(Registry.PrinterEvents, topic, fn entries ->
       for {pid, _} <- entries, do: send(pid, message)
     end)
   end

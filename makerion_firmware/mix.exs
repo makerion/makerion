@@ -5,14 +5,31 @@ defmodule MakerionFirmware.MixProject do
 
   def project do
     [
-      app: :makerion_firmware,
-      version: "0.1.0",
-      elixir: "~> 1.8",
-      archives: [nerves_bootstrap: "~> 1.5"],
-      start_permanent: Mix.env() == :prod,
-      build_embedded: true,
       aliases: [loadconfig: [&bootstrap/1]],
-      deps: deps()
+      app: :makerion_firmware,
+      archives: [nerves_bootstrap: "~> 1.5"],
+      build_embedded: true,
+      dialyzer: [
+        plt_add_apps: ~w(ex_unit mix)a,
+        plt_add_deps: :transitive,
+        plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
+        ignore_warnings: "../.dialyzer-ignore.exs"
+      ],
+      deps: deps(),
+      elixir: "~> 1.8",
+      elixirc_options: [warnings_as_errors: true],
+      elixirc_paths: elixirc_paths(Mix.env()),
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test,
+        credo: :test,
+        dialyzer: :test
+      ],
+      start_permanent: Mix.env() == :prod,
+      test_coverage: [tool: ExCoveralls],
+      version: "0.1.0"
     ]
   end
 
@@ -31,6 +48,10 @@ defmodule MakerionFirmware.MixProject do
     ]
   end
 
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
+
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
@@ -39,9 +60,12 @@ defmodule MakerionFirmware.MixProject do
       {:makerion_web, path: "../makerion_web"},
 
       # Dependencies for all targets
+      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
+      {:excoveralls, "~> 0.10", only: :test},
       {:nerves, "~> 1.4", runtime: false},
-      {:shoehorn, "~> 0.4"},
       {:ring_logger, "~> 0.6"},
+      {:shoehorn, "~> 0.4"},
       {:toolshed, "~> 0.2"},
 
       # Dependencies for all targets except :host

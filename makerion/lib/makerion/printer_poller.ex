@@ -1,4 +1,8 @@
 defmodule Makerion.PrinterPoller do
+  @moduledoc """
+  Proxies commands to the printer and polls for status updates
+  """
+
   use GenServer
 
   alias Makerion.Printer
@@ -38,12 +42,18 @@ defmodule Makerion.PrinterPoller do
   end
 
   def handle_info({:poll_status}, state) do
-    # IO.puts "Getting printer_status"
-    printer_status = Printer.get_status(state.printer_source)
-    # IO.inspect printer_status
+    {:ok, printer_status} = Printer.get_status(state.printer_source)
     new_state = %{state | status: printer_status}
-    Makerion.send_data(:printer_status, printer_status)
+    send_data(:printer_status, printer_status)
     Process.send_after(self(), {:poll_status}, 1_000)
     {:noreply, new_state}
+  end
+
+  defp send_data(event_type, event_data) do
+    Registry.dispatch(Registry.PrinterEvents, event_type, fn entries ->
+      for {pid, _registered_val} <- entries do
+        send(pid, {:printer_event, event_type, event_data})
+      end
+    end)
   end
 end

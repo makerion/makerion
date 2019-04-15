@@ -52,12 +52,17 @@ defmodule MakerionFirmware.Application do
             ssid: network["ssid"],
             psk: network["psk"],
             priority: Map.get(network, "priority", 1),
-            key_mgmt: Map.get(network, "key_mgmt", "WPA-PSK") |> String.to_atom()
+            key_mgmt: String.to_atom(Map.get(network, "key_mgmt", "WPA-PSK"))
           ]
         end)
 
       settings = [networks: networks]
-      Nerves.Network.setup("wlan0", settings)
+      case Application.get_env(:makerion_firmware, :nerves_network) do
+        nil ->
+          nil
+        nerves_network ->
+          nerves_network.setup("wlan0", settings)
+      end
     end
   end
 
@@ -81,7 +86,7 @@ defmodule MakerionFirmware.Application do
 
   defp migrate_repo!(repo) do
     opts = [all: true]
-    {:ok, pid, apps} = Mix.Ecto.ensure_started(repo, opts)
+    {:ok, pid_val, apps} = Mix.Ecto.ensure_started(repo, opts)
 
     migrator = &Ecto.Migrator.run/4
     pool = repo.config[:pool]
@@ -93,7 +98,9 @@ defmodule MakerionFirmware.Application do
       migrator.(repo, migrations_path, :up, opts)
     end
 
-    pid && repo.stop(pid)
+    if not(is_nil(pid_val)) do
+      repo.stop(pid_val)
+    end
     Mix.Ecto.restart_apps_if_migrated(apps, migrated)
   end
 end

@@ -9,7 +9,7 @@ defmodule MakerionWeb.ListingPrintFilesTest do
   setup do
     path = "print_fixture.gcode"
     fixture_file = Path.join([File.cwd!, "test", "fixtures", path])
-    {:ok, file} = Print.create_print_file(%{"name" => "Test Print", "path" => path, "file" => %{filename: path, path: fixture_file}})
+    {:ok, file} = Print.create_print_file(%{"name" => "Test Print", "path" => path, "tempfile" => fixture_file})
     {:ok, print_file: file}
   end
 

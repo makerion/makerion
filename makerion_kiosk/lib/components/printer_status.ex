@@ -1,8 +1,14 @@
 defmodule MakerionKiosk.Components.PrinterStatus do
+  @moduledoc """
+  Component to show the current printer status and other useful info
+  """
+
   use Scenic.Component
+
+  alias Moddity.PrinterStatus
   alias Scenic.Graph
 
-  import Scenic.Primitives, only: [{:text, 2}, {:text, 3}, {:update_opts, 2}, {:group, 3}]
+  import Scenic.Primitives, only: [{:text, 2}, {:text, 3}, {:group, 3}]
 
   @target System.get_env("MIX_TARGET") || "host"
 
@@ -10,12 +16,6 @@ defmodule MakerionKiosk.Components.PrinterStatus do
   MIX_TARGET: #{@target}
   MIX_ENV: #{Mix.env()}
   Scenic version: #{Scenic.version()}
-  """
-
-  @iex_note """
-  Please note: because Scenic draws over
-  the entire screen in Nerves, IEx has
-  been routed to the UART pins.
   """
 
   @graph Graph.build(font_size: 22, font: :roboto_mono)
@@ -30,7 +30,7 @@ defmodule MakerionKiosk.Components.PrinterStatus do
   )
 
   # --------------------------------------------------------
-  def init(_, opts) do
+  def init(_, _opts) do
     graph =
       @graph
     # |> Graph.modify(:device_list, &update_opts(&1, hidden: @target == "host"))
@@ -46,30 +46,35 @@ defmodule MakerionKiosk.Components.PrinterStatus do
   def info, do: ""
 
   def handle_info(:update_ip, graph) do
-    case Nerves.NetworkInterface.settings "wlan0" do
-      {:ok, %{ipv4_address: ipv4_address}} when ipv4_address != <<>> ->
-        graph =
-          graph
-          |> Graph.modify(:ip_address, &text(&1, "IP Address #{ipv4_address}"))
-          |> push_graph()
 
-        Process.send_after(self(), :update_ip, 120_000)
-        {:noreply, graph}
+    nerves_networkinterface = Application.get_env(:makerion_kiosk, :nerves_networkinterface)
+    if nerves_networkinterface do
+      case nerves_networkinterface.settings "wlan0" do
+        {:ok, %{ipv4_address: ipv4_address}} when ipv4_address != <<>> ->
+          graph =
+            graph
+            |> Graph.modify(:ip_address, &text(&1, "IP Address #{ipv4_address}"))
+            |> push_graph()
 
-      _ ->
-        Process.send_after(self(), :update_ip, 5_000)
-        {:noreply, graph}
+          Process.send_after(self(), :update_ip, 120_000)
+          {:noreply, graph}
+
+        _ ->
+          Process.send_after(self(), :update_ip, 5_000)
+          {:noreply, graph}
+      end
+    else
+      {:noreply, graph}
     end
-
   end
 
-  def handle_info({:printer_event, :printer_status, status = %Makerion.PrinterStatus{}}, graph) do
+  def handle_info({:printer_event, :printer_status, status = %PrinterStatus{}}, graph) do
     # Process.send_after(self(), :update_devices, 1000)
 
     # update the graph
     graph =
       graph
-      |> Graph.modify(:printer_status_text, &text(&1, status.state))
+      |> Graph.modify(:printer_status_text, &text(&1, status.state_friendly))
       |> push_graph()
 
     {:noreply, graph}

@@ -1,4 +1,8 @@
 defmodule MakerionKiosk.Components do
+  @moduledoc """
+  helper functions for kiosk components
+  """
+
   alias MakerionKiosk.Components.PrinterStatus
   alias Scenic.Graph
 

@@ -1,7 +1,6 @@
 defmodule MakerionWeb.UploadingPrintFilesTest do
   use MakerionWeb.FeatureCase
 
-  alias Makerion.Print
   alias MakerionWeb.PrintFilesIndexPage
 
   hound_session()

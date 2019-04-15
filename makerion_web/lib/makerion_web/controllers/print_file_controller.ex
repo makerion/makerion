@@ -1,18 +1,15 @@
 defmodule MakerionWeb.PrintFileController do
   use MakerionWeb, :controller
 
-  import MakerionWeb.Router.Helpers
-
   alias Makerion.Print
-  alias Makerion.Print.PrintFile
   alias MakerionWeb.ErrorHelpers
 
-  def create(conn, %{"print_file" => print_file_params} = params) do
-    print_file_params
-    |> Map.put("path", print_file_params["file"].filename)
+  def create(conn, %{"print_file" => print_file_params}) do
+    file = print_file_params["file"]
+    %{tempfile: file.path, path: file.filename, name: Path.basename(file.filename, ".gcode")}
     |> Print.create_print_file()
     |> case do
-         {:ok, print_file} ->
+         {:ok, _print_file} ->
            json(conn, %{status: "success"})
 
          {:error, %Ecto.Changeset{} = changeset} ->

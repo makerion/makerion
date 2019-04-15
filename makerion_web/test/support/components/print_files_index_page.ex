@@ -1,4 +1,8 @@
 defmodule MakerionWeb.PrintFilesIndexPage do
+  @moduledoc """
+  Test functions for interacting with the print file index page
+  """
+
   use Hound.Helpers
 
   def all_print_files do
