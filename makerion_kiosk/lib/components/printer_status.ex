@@ -63,6 +63,8 @@ defmodule MakerionKiosk.Components.PrinterStatus do
           Process.send_after(self(), :update_ip, 5_000)
           {:noreply, graph}
       end
+    else
+      {:noreply, graph}
     end
   end
 
@@ -72,7 +74,7 @@ defmodule MakerionKiosk.Components.PrinterStatus do
     # update the graph
     graph =
       graph
-      |> Graph.modify(:printer_status_text, &text(&1, status.state))
+      |> Graph.modify(:printer_status_text, &text(&1, status.state_friendly))
       |> push_graph()
 
     {:noreply, graph}

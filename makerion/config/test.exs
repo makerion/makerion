@@ -5,6 +5,6 @@ config :makerion, Makerion.Repo,
   database: Path.expand("#{File.cwd!}/../test.sqlite3"),
   pool: Ecto.Adapters.SQL.Sandbox
 
-config :makerion, printer_driver: Moddity.FakeDriver
+config :makerion, printer_backend: Moddity.Backend.Simulator
 
 config :logger, level: :warn

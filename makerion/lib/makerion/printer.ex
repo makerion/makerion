@@ -28,24 +28,6 @@ defimpl Makerion.Printer, for: Moddity.Driver do
   end
 end
 
-defimpl Makerion.Printer, for: Moddity.FakeDriver do
-  def get_status(_printer_backend) do
-    Moddity.FakeDriver.get_status()
-  end
-
-  def load_filament(_printer_backend) do
-    Moddity.FakeDriver.load_filament()
-  end
-
-  def send_gcode(_printer_backend, file_path) do
-    Moddity.FakeDriver.send_gcode(file_path)
-  end
-
-  def unload_filament(_printer_backend) do
-    Moddity.FakeDriver.unload_filament()
-  end
-end
-
 defimpl Makerion.Printer, for: Any do
   def get_status(printer_backend), do: {:error, "No implementation found for #{inspect(printer_backend)}"}
   def load_filament(printer_backend), do: {:error, "No implementation found for #{inspect(printer_backend)}"}
