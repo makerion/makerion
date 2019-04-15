@@ -343,9 +343,6 @@ jobs:
           working_directory: ~/project/makerion_web
 
       - store_artifacts:
-          path: makerion_web/priv/static
-          prefix: static_assets
-      - store_artifacts:
           path: makerion_web/screenshots
           prefix: screenshots
       - store_artifacts:

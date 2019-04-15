@@ -6,8 +6,6 @@ defmodule MakerionWeb.PrinterStatusComponent do
   use Hound.Helpers
 
   def printer_status do
-    ss_path = Hound.Utils.temp_file_path("screenshots/screenshot", "png")
-    take_screenshot(ss_path)
     find_element(:css, "[data-test='printer_status']")
     |> find_all_within_element(:css, "[data-test='status_entry']")
     |> map_status_elements()

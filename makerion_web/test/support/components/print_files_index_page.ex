@@ -11,8 +11,6 @@ defmodule MakerionWeb.PrintFilesIndexPage do
   end
 
   def print_file(path) do
-    ss_path = Hound.Utils.temp_file_path("screenshots/screenshot", "png")
-    take_screenshot(ss_path)
     find_element(:css, "[data-test-print-file-path='#{path}']")
   end
 
