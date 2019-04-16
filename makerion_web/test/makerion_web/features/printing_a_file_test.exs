@@ -1,8 +1,8 @@
 defmodule MakerionWeb.PrintingAFileTest do
-  use MakerionWeb.FeatureCase
+  use MakerionWeb.FeatureCase, async: false
 
   alias Makerion.Print
-  alias MakerionWeb.PrintFilesIndexPage
+  alias MakerionWeb.{PrinterStatusComponent, PrintFileComponent, PrintFilesIndexPage}
 
   hound_session()
 
@@ -13,10 +13,16 @@ defmodule MakerionWeb.PrintingAFileTest do
     {:ok, print_file: file}
   end
 
-  test "it lists files", %{print_file: print_file} do
+  test "printing a file disables action buttons", %{print_file: print_file} do
     navigate_to("/")
-    all_print_files = PrintFilesIndexPage.all_print_files
 
-    assert all_print_files == [%{name: print_file.name, path: print_file.path}]
+    print_file_element = PrintFilesIndexPage.print_file_element(print_file)
+    assert PrintFileComponent.print_button(print_file_element, disabled: false)
+    assert PrinterStatusComponent.load_filament_button(disabled: false)
+    assert PrinterStatusComponent.unload_filament_button(disabled: false)
+    PrintFileComponent.click_print(print_file_element)
+    assert PrintFileComponent.print_button(print_file_element, disabled: true)
+    assert PrinterStatusComponent.load_filament_button(disabled: true)
+    assert PrinterStatusComponent.unload_filament_button(disabled: true)
   end
 end

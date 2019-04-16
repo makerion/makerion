@@ -23,8 +23,8 @@
         <% end %>
       </ul>
       <div class="card__footer centered">
-        <button phx-click="Load Filament">Load Filament</button>
-        <button phx-click="Unload Filament">Unload Filament</button>
+        <button phx-click="Load Filament" data-test="load_filament_button" <%= if !@printer_status.idle?, do: "disabled" %>>Load Filament</button>
+        <button phx-click="Unload Filament" data-test="unload_filament_button" <%= if !@printer_status.idle?, do: "disabled" %>>Unload Filament</button>
       </div>
     </div>
   </div>

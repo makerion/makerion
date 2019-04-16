@@ -8,6 +8,7 @@ defmodule MakerionWeb.PrintFileLive.Index do
 
   alias Makerion.{Print, PrinterPoller}
   alias MakerionWeb.PrintFileView
+  alias Moddity.PrinterStatus
 
   def render(assigns) do
     PrintFileView.render("index.html", assigns)
@@ -15,11 +16,20 @@ defmodule MakerionWeb.PrintFileLive.Index do
 
   def mount(_user, socket) do
     Print.subscribe()
+    Registry.register(Registry.PrinterEvents, :printer_status, [])
     {:ok, fetch(socket)}
   end
 
   def handle_info({:print_file, _}, socket) do
-    {:noreply, fetch(socket)}
+    socket =
+      socket
+      |> assign(printer_idle?: false)
+      |> fetch()
+    {:noreply, socket}
+  end
+
+  def handle_info({:printer_event, :printer_status, %PrinterStatus{idle?: idle}}, socket) do
+    {:noreply, assign(socket, printer_idle?: idle)}
   end
 
   def handle_event("delete_file", id, socket) do

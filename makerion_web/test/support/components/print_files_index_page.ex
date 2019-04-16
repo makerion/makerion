@@ -10,7 +10,11 @@ defmodule MakerionWeb.PrintFilesIndexPage do
     |> map_print_file_elements()
   end
 
-  def print_file(path) do
+  def print_file_element(%{id: id}) do
+    find_element(:css, "[data-test-id='#{id}']")
+  end
+
+  def print_file_element(%{path: path}) do
     find_element(:css, "[data-test-print-file-path='#{path}']")
   end
 

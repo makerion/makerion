@@ -41,3 +41,7 @@ button:focus {
 button:active {
   transform: scale(0.95);
 }
+
+button:disabled {
+  background: lighten(gray, 30%);
+}
