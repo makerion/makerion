@@ -5,7 +5,7 @@ defmodule Makerion.Application do
 
   use Application
 
-  alias Makerion.{PrinterPoller, Repo}
+  alias Makerion.Repo
   alias Moddity.Backend.{PythonShell, Simulator}
   alias Moddity.Driver
 
@@ -14,9 +14,8 @@ defmodule Makerion.Application do
     children = maybe_simulator(printer_backend) ++ [
       Repo,
       Driver.child_spec(backend: printer_backend),
-      PrinterPoller.child_spec([printer_source: %Driver{}]),
-      # Printer Events PubSub
-      {Registry, keys: :duplicate, name: Registry.PrinterEvents, id: Registry.PrinterEvents}
+      # Print Context Events PubSub
+      {Registry, keys: :duplicate, name: Registry.MakerionPrintEvents, id: Registry.MakerionPrintEvents}
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one, name: Makerion.Supervisor)

@@ -5,7 +5,7 @@ defmodule MakerionKiosk.Components.PrinterStatus do
 
   use Scenic.Component
 
-  alias Moddity.PrinterStatus
+  alias Moddity.{Driver, PrinterStatus}
   alias Scenic.Graph
 
   import Scenic.Primitives, only: [{:text, 2}, {:text, 3}, {:group, 3}]
@@ -36,7 +36,7 @@ defmodule MakerionKiosk.Components.PrinterStatus do
     # |> Graph.modify(:device_list, &update_opts(&1, hidden: @target == "host"))
     |> push_graph()
 
-    Registry.register(Registry.PrinterEvents, :printer_status, [])
+    Driver.subscribe()
     Process.send_after(self(), :update_ip, 5_000)
 
     {:ok, graph}
@@ -68,7 +68,7 @@ defmodule MakerionKiosk.Components.PrinterStatus do
     end
   end
 
-  def handle_info({:printer_event, :printer_status, status = %PrinterStatus{}}, graph) do
+  def handle_info({:printer_status_event, status = %PrinterStatus{}}, graph) do
     # Process.send_after(self(), :update_devices, 1000)
 
     # update the graph

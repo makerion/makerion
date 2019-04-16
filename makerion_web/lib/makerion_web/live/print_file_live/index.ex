@@ -6,9 +6,9 @@ defmodule MakerionWeb.PrintFileLive.Index do
   use Phoenix.LiveView
   use Phoenix.HTML
 
-  alias Makerion.{Print, PrinterPoller}
+  alias Makerion.Print
   alias MakerionWeb.PrintFileView
-  alias Moddity.PrinterStatus
+  alias Moddity.{Driver, PrinterStatus}
 
   def render(assigns) do
     PrintFileView.render("index.html", assigns)
@@ -16,8 +16,13 @@ defmodule MakerionWeb.PrintFileLive.Index do
 
   def mount(_user, socket) do
     Print.subscribe()
-    Registry.register(Registry.PrinterEvents, :printer_status, [])
-    {:ok, fetch(socket)}
+    Driver.subscribe()
+    case Driver.get_status() do
+      {:ok, %PrinterStatus{idle?: idle}} ->
+        {:ok, fetch(assign(socket, :printer_idle?, idle))}
+      _ ->
+        {:ok, fetch(socket)}
+    end
   end
 
   def handle_info({:print_file, _}, socket) do
@@ -28,7 +33,7 @@ defmodule MakerionWeb.PrintFileLive.Index do
     {:noreply, socket}
   end
 
-  def handle_info({:printer_event, :printer_status, %PrinterStatus{idle?: idle}}, socket) do
+  def handle_info({:printer_status_event, %PrinterStatus{idle?: idle}}, socket) do
     {:noreply, assign(socket, printer_idle?: idle)}
   end
 
@@ -42,7 +47,7 @@ defmodule MakerionWeb.PrintFileLive.Index do
   def handle_event("print_file", id, socket) do
     file = Print.get_print_file!(id)
     print_file_path = Path.join(Print.print_file_path, file.path)
-    PrinterPoller.send_gcode(print_file_path)
+    Driver.send_gcode(print_file_path)
 
     {:noreply, socket}
   end

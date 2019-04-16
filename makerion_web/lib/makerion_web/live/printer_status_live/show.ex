@@ -6,29 +6,40 @@ defmodule MakerionWeb.PrinterStatusLive.Show do
   use Phoenix.LiveView
   use Phoenix.HTML
 
-  alias Makerion.PrinterPoller
   alias MakerionWeb.PrinterStatusView
+  alias Moddity.{Driver, PrinterStatus}
 
   def render(assigns) do
     PrinterStatusView.render("show.html", assigns)
   end
 
   def mount(_user, socket) do
-    Registry.register(Registry.PrinterEvents, :printer_status, [])
-    {:ok, socket}
+    Driver.subscribe()
+    case Driver.get_status() do
+      {:ok, %PrinterStatus{} = printer_status} ->
+        {:ok, assign_printer_status(socket, printer_status)}
+      _ ->
+        {:ok, socket}
+    end
   end
 
   def handle_event("Load Filament", _, socket) do
-    PrinterPoller.load_filament()
+    Driver.load_filament()
     {:noreply, socket}
   end
 
   def handle_event("Unload Filament", _, socket) do
-    PrinterPoller.unload_filament()
+    Driver.unload_filament()
     {:noreply, socket}
   end
 
-  def handle_info({:printer_event, :printer_status, event_data}, socket) do
-    {:noreply, assign(socket, printer_status: event_data)}
+  def handle_info({:printer_status_event, printer_status}, socket) do
+    {:noreply, assign_printer_status(socket, printer_status)}
+  end
+
+  defp assign_printer_status(socket, printer_status = %PrinterStatus{idle?: idle}) do
+    socket
+    |> assign(printer_status: printer_status)
+    |> assign(printer_idle?: idle)
   end
 end

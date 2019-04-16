@@ -9,7 +9,7 @@ defmodule Makerion.Print do
   alias Makerion.Repo
 
   def subscribe do
-    Registry.register(Registry.PrinterEvents, :print_file, [])
+    Registry.register(Registry.MakerionPrintEvents, :print_file, [])
   end
 
   @doc """
@@ -87,7 +87,7 @@ defmodule Makerion.Print do
   end
 
   defp notify_subscribers(topic, message) do
-    Registry.dispatch(Registry.PrinterEvents, topic, fn entries ->
+    Registry.dispatch(Registry.MakerionPrintEvents, topic, fn entries ->
       for {pid, _} <- entries, do: send(pid, message)
     end)
   end
