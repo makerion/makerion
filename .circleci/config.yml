@@ -157,7 +157,7 @@ jobs:
       - run:
           name: Create Test Database
           command: mix do ecto.create, ecto.migrate
-          working_directory: ~/project/<< parameters.project_name >>
+          working_directory: ~/project/makerion
       - run:
           name: mix test
           command: mix coveralls.html
