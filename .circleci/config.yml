@@ -224,6 +224,27 @@ jobs:
           command: mix credo --strict
           working_directory: ~/project/<< parameters.project_name >>
 
+  deploy:
+    docker:
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
+        environment:
+          MIX_ENV: test
+          MIX_TARGET: rpi3
+    steps:
+      - checkout
+      - <<: *install_hex_rebar
+      - <<: *install_nerves_bootstrap
+      - run:
+          command: mix deps.get
+          working_directory: ~/project/makerion_firmware
+      - run:
+          command: mix compile
+          working_directory: ~/project/makerion_firmware
+      - run:
+          command: mix firmware
+          working_directory: ~/project/makerion_firmware
+
+
 workflows:
   version: 2
   primary:
@@ -295,5 +316,16 @@ workflows:
           project_name: makerion_firmware
           name: firmware_dialyzer
           requires:
+            - firmware_credo
+            - firmware_test
+
+      - deploy:
+          requires:
+            - makerion_credo
+            - makerion_test
+            - kiosk_credo
+            - kiosk_test
+            - web_credo
+            - web_test
             - firmware_credo
             - firmware_test
