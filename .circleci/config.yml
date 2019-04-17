@@ -155,42 +155,6 @@ jobs:
       - store_test_results:
           path: makerion/_build/test/junit
 
-  makerion_dialyzer:
-    docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
-        environment:
-          MIX_ENV: test
-
-    steps:
-      - attach_workspace:
-          at: .
-      - <<: *install_hex_rebar
-      - <<: *install_nerves_bootstrap
-
-      - restore_cache:
-          keys:
-            - v2-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
-            - v2-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
-
-      - run:
-          command: mix dialyzer --plt
-          working_directory: ~/project/makerion
-          no_output_timeout: 20m
-
-      - save_cache:
-          key: v2-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
-          paths:
-            - makerion/priv/plts
-      - save_cache:
-          key: v2-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
-          paths:
-            - makerion/priv/plts
-
-      - run:
-          command: mix dialyzer --halt-exit-status
-          working_directory: ~/project/makerion
-          no_output_timeout: 20m
-
   kiosk_test:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
@@ -221,42 +185,6 @@ jobs:
           path: makerion_kiosk/cover/excoveralls.html
       - store_test_results:
           path: makerion_kiosk/_build/test/junit
-
-  kiosk_dialyzer:
-    docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
-        environment:
-          MIX_ENV: test
-
-    steps:
-      - attach_workspace:
-          at: .
-      - <<: *install_hex_rebar
-      - <<: *install_nerves_bootstrap
-
-      - restore_cache:
-          keys:
-            - v2-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
-            - v2-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
-
-      - run:
-          command: mix dialyzer --plt
-          working_directory: ~/project/makerion_kiosk
-          no_output_timeout: 20m
-
-      - save_cache:
-          key: v2-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_kiosk/mix.lock" }}
-          paths:
-            - makerion_kiosk/priv/plts
-      - save_cache:
-          key: v2-kiosk-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
-          paths:
-            - makerion_kiosk/priv/plts
-
-      - run:
-          command: mix dialyzer --halt-exit-status
-          working_directory: ~/project/makerion_kiosk
-          no_output_timeout: 20m
 
   web_test:
     docker:
@@ -304,42 +232,6 @@ jobs:
       - store_test_results:
           path: makerion_web/_build/test/junit
 
-  web_dialyzer:
-    docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
-        environment:
-          MIX_ENV: test
-
-    steps:
-      - attach_workspace:
-          at: .
-      - <<: *install_hex_rebar
-      - <<: *install_nerves_bootstrap
-
-      - restore_cache:
-          keys:
-            - v2-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
-            - v2-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
-
-      - run:
-          command: mix dialyzer --plt
-          working_directory: ~/project/makerion_web
-          no_output_timeout: 20m
-
-      - save_cache:
-          key: v2-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_web/mix.lock" }}
-          paths:
-            - makerion_web/priv/plts
-      - save_cache:
-          key: v2-web-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
-          paths:
-            - makerion_web/priv/plts
-
-      - run:
-          command: mix dialyzer --halt-exit-status
-          working_directory: ~/project/makerion_web
-          no_output_timeout: 20m
-
   firmware_test:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
@@ -372,12 +264,15 @@ jobs:
       - store_test_results:
           path: makerion_firmware/_build/test/junit
 
-  firmware_dialyzer:
+  dialyzer:
+    parameters:
+      project_name:
+        description: "project name"
+        type: string
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
           MIX_ENV: test
-
     steps:
       - attach_workspace:
           at: .
@@ -386,26 +281,26 @@ jobs:
 
       - restore_cache:
           keys:
-            - v2-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
-            - v2-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+            - v2-<< parameters.project_name >>-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "<< parameters.project_name >>/mix.lock" }}
+            - v2-<< parameters.project_name >>-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
 
       - run:
           command: mix dialyzer --plt
-          working_directory: ~/project/makerion_firmware
+          working_directory: ~/project/<< parameters.project_name >>
           no_output_timeout: 20m
 
       - save_cache:
-          key: v2-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_firmware/mix.lock" }}
+          key: v2-<< parameters.project_name >>-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "<< parameters.project_name >>/mix.lock" }}
           paths:
-            - makerion_firmware/priv/plts
+            - << parameters.project_name >>/priv/plts
       - save_cache:
-          key: v2-firmware-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          key: v2-<< parameters.project_name >>-mix-dialyzer-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
           paths:
-            - makerion_firmware/priv/plts
+            - << parameters.project_name >>/priv/plts
 
       - run:
           command: mix dialyzer --halt-exit-status
-          working_directory: ~/project/makerion_firmware
+          working_directory: ~/project/<< parameters.project_name >>
           no_output_timeout: 20m
 
   credo:
@@ -413,7 +308,6 @@ jobs:
       project_name:
         description: "project name"
         type: string
-        default: makerion
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
@@ -434,10 +328,6 @@ workflows:
       - makerion_test:
           requires:
             - build
-      - makerion_dialyzer:
-          requires:
-            - makerion_credo
-            - makerion_test
       - credo:
           project_name: makerion
           name: makerion_credo
@@ -458,24 +348,36 @@ workflows:
           name: firmware_credo
           requires:
             - build
-      - kiosk_test:
+      - dialyzer:
+          project_name: makerion
+          name: makerion_dialyzer
           requires:
-            - build
-      - kiosk_dialyzer:
-          requires:
-            - kiosk_credo
-            - kiosk_test
-      - web_test:
-          requires:
-            - build
-      - web_dialyzer:
+            - makerion_credo
+            - makerion_test
+      - dialyzer:
+          project_name: makerion_web
+          name: web_dialyzer
           requires:
             - web_credo
             - web_test
-      - firmware_test:
+      - dialyzer:
+          project_name: makerion_kiosk
+          name: kiosk_dialyzer
           requires:
-            - build
-      - firmware_dialyzer:
+            - kiosk_credo
+            - kiosk_test
+      - dialyzer:
+          project_name: makerion_firmware
+          name: firmware_dialyzer
           requires:
             - firmware_credo
             - firmware_test
+      - kiosk_test:
+          requires:
+            - build
+      - web_test:
+          requires:
+            - build
+      - firmware_test:
+          requires:
+            - build
