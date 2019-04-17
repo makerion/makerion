@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 install_hex_rebar: &install_hex_rebar
   run:
@@ -11,7 +11,6 @@ install_nerves_bootstrap: &install_nerves_bootstrap
     name: Install nerves_bootstrap
     command: |
       mix archive.install hex nerves_bootstrap "~> 1.0" --force
-
 jobs:
   build:
     docker:
@@ -125,21 +124,6 @@ jobs:
             - makerion_kiosk
             - makerion_web
 
-  makerion_credo:
-    docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
-        environment:
-          MIX_ENV: test
-
-    steps:
-      - attach_workspace:
-          at: .
-      - <<: *install_hex_rebar
-
-      - run:
-          command: mix credo --strict
-          working_directory: ~/project/makerion
-
   makerion_test:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
@@ -207,21 +191,6 @@ jobs:
           working_directory: ~/project/makerion
           no_output_timeout: 20m
 
-  kiosk_credo:
-    docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
-        environment:
-          MIX_ENV: test
-
-    steps:
-      - attach_workspace:
-          at: .
-      - <<: *install_hex_rebar
-
-      - run:
-          command: mix credo --strict
-          working_directory: ~/project/makerion_kiosk
-
   kiosk_test:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
@@ -288,21 +257,6 @@ jobs:
           command: mix dialyzer --halt-exit-status
           working_directory: ~/project/makerion_kiosk
           no_output_timeout: 20m
-
-  web_credo:
-    docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
-        environment:
-          MIX_ENV: test
-
-    steps:
-      - attach_workspace:
-          at: .
-      - <<: *install_hex_rebar
-
-      - run:
-          command: mix credo --strict
-          working_directory: ~/project/makerion_web
 
   web_test:
     docker:
@@ -386,22 +340,6 @@ jobs:
           working_directory: ~/project/makerion_web
           no_output_timeout: 20m
 
-  firmware_credo:
-    docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
-        environment:
-          MIX_ENV: test
-
-    steps:
-      - attach_workspace:
-          at: .
-      - <<: *install_hex_rebar
-      - <<: *install_nerves_bootstrap
-
-      - run:
-          command: mix credo --strict
-          working_directory: ~/project/makerion_firmware
-
   firmware_test:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
@@ -470,14 +408,29 @@ jobs:
           working_directory: ~/project/makerion_firmware
           no_output_timeout: 20m
 
+  credo:
+    parameters:
+      project_name:
+        description: "project name"
+        type: string
+        default: makerion
+    docker:
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
+        environment:
+          MIX_ENV: test
+    steps:
+      - attach_workspace:
+          at: .
+      - <<: *install_hex_rebar
+      - run:
+          command: mix credo --strict
+          working_directory: ~/project/<< parameters.project_name >>
+
 workflows:
   version: 2
   primary:
     jobs:
       - build
-      - makerion_credo:
-          requires:
-            - build
       - makerion_test:
           requires:
             - build
@@ -485,7 +438,24 @@ workflows:
           requires:
             - makerion_credo
             - makerion_test
-      - kiosk_credo:
+      - credo:
+          project_name: makerion
+          name: makerion_credo
+          requires:
+            - build
+      - credo:
+          project_name: makerion_web
+          name: web_credo
+          requires:
+            - build
+      - credo:
+          project_name: makerion_kiosk
+          name: kiosk_credo
+          requires:
+            - build
+      - credo:
+          project_name: makerion_firmware
+          name: firmware_credo
           requires:
             - build
       - kiosk_test:
@@ -495,9 +465,6 @@ workflows:
           requires:
             - kiosk_credo
             - kiosk_test
-      - web_credo:
-          requires:
-            - build
       - web_test:
           requires:
             - build
@@ -505,9 +472,6 @@ workflows:
           requires:
             - web_credo
             - web_test
-      - firmware_credo:
-          requires:
-            - build
       - firmware_test:
           requires:
             - build
