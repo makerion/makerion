@@ -124,7 +124,11 @@ jobs:
             - makerion_kiosk
             - makerion_web
 
-  makerion_test:
+  test:
+    parameters:
+      project_name:
+        description: "project name"
+        type: string
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
@@ -138,53 +142,16 @@ jobs:
       - run:
           name: Create Test Database
           command: mix do ecto.create, ecto.migrate
-          working_directory: ~/project/makerion
+          working_directory: ~/project/<< parameters.project_name >>
       - run:
           name: mix test
-          command: |
-            if [[ -z "$COVERALLS_REPO_TOKEN" ]]; then
-              mix coveralls.html
-            else
-              mix coveralls.circle ||
-                (retval=$? && curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CIRCLE_WORKFLOW_WORKSPACE_ID&payload[status]=done" && return $retval)
-            fi
-          working_directory: ~/project/makerion
+          command: mix coveralls.html
+          working_directory: ~/project/<< parameters.project_name >>
 
       - store_artifacts:
-          path: makerion/cover/excoveralls.html
+          path: << parameters.project_name >>/cover/excoveralls.html
       - store_test_results:
-          path: makerion/_build/test/junit
-
-  kiosk_test:
-    docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
-        environment:
-          MIX_ENV: test
-
-    steps:
-      - attach_workspace:
-          at: .
-      - <<: *install_hex_rebar
-
-      - run:
-          name: Create Test Database
-          command: mix do ecto.create, ecto.migrate
-          working_directory: ~/project/makerion
-      - run:
-          name: mix test
-          command: |
-            if [[ -z "$COVERALLS_REPO_TOKEN" ]]; then
-              mix coveralls.html
-            else
-              mix coveralls.circle ||
-                (retval=$? && curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CIRCLE_WORKFLOW_WORKSPACE_ID&payload[status]=done" && return $retval)
-            fi
-          working_directory: ~/project/makerion_kiosk
-
-      - store_artifacts:
-          path: makerion_kiosk/cover/excoveralls.html
-      - store_test_results:
-          path: makerion_kiosk/_build/test/junit
+          path: << parameters.project_name >>/_build/test/junit
 
   web_test:
     docker:
@@ -215,13 +182,7 @@ jobs:
          background: true
       - run:
           name: mix test
-          command: |
-            if [[ -z "$COVERALLS_REPO_TOKEN" ]]; then
-              mix coveralls.html
-            else
-              mix coveralls.circle ||
-                (retval=$? && curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CIRCLE_WORKFLOW_WORKSPACE_ID&payload[status]=done" && return $retval)
-            fi
+          command: mix coveralls.html
           working_directory: ~/project/makerion_web
 
       - store_artifacts:
@@ -231,38 +192,6 @@ jobs:
           path: makerion_web/cover/excoveralls.html
       - store_test_results:
           path: makerion_web/_build/test/junit
-
-  firmware_test:
-    docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
-        environment:
-          MIX_ENV: test
-
-    steps:
-      - attach_workspace:
-          at: .
-      - <<: *install_hex_rebar
-      - <<: *install_nerves_bootstrap
-
-      - run:
-          name: Create Test Database
-          command: mix do ecto.create, ecto.migrate
-          working_directory: ~/project/makerion
-      - run:
-          name: mix test
-          command: |
-            if [[ -z "$COVERALLS_REPO_TOKEN" ]]; then
-              mix coveralls.html
-            else
-              mix coveralls.circle ||
-                (retval=$? && curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CIRCLE_WORKFLOW_WORKSPACE_ID&payload[status]=done" && return $retval)
-            fi
-          working_directory: ~/project/makerion_firmware
-
-      - store_artifacts:
-          path: makerion_firmware/cover/excoveralls.html
-      - store_test_results:
-          path: makerion_firmware/_build/test/junit
 
   dialyzer:
     parameters:
@@ -325,27 +254,15 @@ workflows:
   primary:
     jobs:
       - build
-      - makerion_test:
+
+      - test:
+          project_name: makerion
+          name: makerion_test
           requires:
             - build
       - credo:
           project_name: makerion
           name: makerion_credo
-          requires:
-            - build
-      - credo:
-          project_name: makerion_web
-          name: web_credo
-          requires:
-            - build
-      - credo:
-          project_name: makerion_kiosk
-          name: kiosk_credo
-          requires:
-            - build
-      - credo:
-          project_name: makerion_firmware
-          name: firmware_credo
           requires:
             - build
       - dialyzer:
@@ -354,30 +271,52 @@ workflows:
           requires:
             - makerion_credo
             - makerion_test
-      - dialyzer:
-          project_name: makerion_web
-          name: web_dialyzer
+
+      - test:
+          project_name: makerion_kiosk
+          name: kiosk_test
           requires:
-            - web_credo
-            - web_test
+            - build
+      - credo:
+          project_name: makerion_kiosk
+          name: kiosk_credo
+          requires:
+            - build
       - dialyzer:
           project_name: makerion_kiosk
           name: kiosk_dialyzer
           requires:
             - kiosk_credo
             - kiosk_test
+
+      - web_test:
+          requires:
+            - build
+      - credo:
+          project_name: makerion_web
+          name: web_credo
+          requires:
+            - build
+      - dialyzer:
+          project_name: makerion_web
+          name: web_dialyzer
+          requires:
+            - web_credo
+            - web_test
+
+      - test:
+          project_name: makerion_firmware
+          name: firmware_test
+          requires:
+            - build
+      - credo:
+          project_name: makerion_firmware
+          name: firmware_credo
+          requires:
+            - build
       - dialyzer:
           project_name: makerion_firmware
           name: firmware_dialyzer
           requires:
             - firmware_credo
             - firmware_test
-      - kiosk_test:
-          requires:
-            - build
-      - web_test:
-          requires:
-            - build
-      - firmware_test:
-          requires:
-            - build
