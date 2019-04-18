@@ -246,6 +246,13 @@ jobs:
       - <<: *install_nerves_bootstrap
       - <<: *install_ghr
 
+      - run:
+          name: "ELIXIR_VERSION.lock"
+          command: echo "${ELIXIR_VERSION}" > ELIXIR_VERSION.lock
+      - run:
+          name: "OTP_VERSION.lock"
+          command: echo "${OTP_VERSION}" > OTP_VERSION.lock
+
       - restore_cache:
           keys:
             - v2-<< parameters.mix_target >>-{{ .Revision }}-{{ .Environment.CIRCLE_TAG }}
@@ -286,9 +293,6 @@ jobs:
       - run:
           name: Deploy artifacts to GitHub
           command: ./ghr -draft -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME -replace $CIRCLE_TAG ~/project/makerion_firmware/deploy
-          working_directory: ~/project/makerion_firmware
-
-
 
 workflows:
   version: 2
