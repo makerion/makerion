@@ -1,6 +1,10 @@
 defmodule MakerionWeb.MixProject do
   use Mix.Project
 
+  @version Path.join([__DIR__, "..", "VERSION"])
+           |> File.read!()
+           |> String.trim()
+
   def project do
     [
       aliases: aliases(),
@@ -26,7 +30,7 @@ defmodule MakerionWeb.MixProject do
       ],
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
-      version: "0.1.0"
+      version: @version
     ]
   end
 

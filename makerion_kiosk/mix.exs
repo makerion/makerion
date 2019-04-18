@@ -2,6 +2,10 @@ defmodule MakerionKiosk.MixProject do
   use Mix.Project
 
   @target System.get_env("MIX_TARGET") || "host"
+  @version Path.join([__DIR__, "..", "VERSION"])
+           |> File.read!()
+           |> String.trim()
+
 
   def project do
     [
@@ -28,7 +32,7 @@ defmodule MakerionKiosk.MixProject do
       start_permanent: Mix.env() == :prod,
       target: @target,
       test_coverage: [tool: ExCoveralls],
-      version: "0.1.0"
+      version: @version
     ]
   end
 

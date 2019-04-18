@@ -1,7 +1,11 @@
 defmodule MakerionFirmware.MixProject do
   use Mix.Project
 
-  @all_targets [:rpi, :rpi0, :rpi2, :rpi3, :rpi3a, :bbb, :x86_64]
+  @all_targets [:rpi0, :rpi3]
+  @version Path.join([__DIR__, "..", "VERSION"])
+           |> File.read!()
+           |> String.trim()
+
 
   def project do
     [
@@ -29,7 +33,7 @@ defmodule MakerionFirmware.MixProject do
       ],
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
-      version: "0.1.0"
+      version: @version
     ]
   end
 
