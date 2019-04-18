@@ -244,7 +244,6 @@ jobs:
       - checkout
       - <<: *install_hex_rebar
       - <<: *install_nerves_bootstrap
-      - <<: *install_ghr
 
       - run:
           name: "ELIXIR_VERSION.lock"
@@ -290,9 +289,24 @@ jobs:
       - run:
           command: cp ~/project/makerion_firmware/makerion_firmware.img ~/project/makerion_firmware/deploy/makerion_firmware_<< parameters.mix_target >>.img
           working_directory: ~/project/makerion_firmware
+      - persist_to_workspace:
+          root: .
+          paths:
+            - makerion_firmware/deploy
+
+  deploy_artifacts:
+    docker:
+      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
+
+    steps:
+      - attach_workspace:
+          at: .
+      - <<: *install_ghr
       - run:
           name: Deploy artifacts to GitHub
-          command: ./ghr -draft -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME $CIRCLE_TAG ~/project/makerion_firmware/deploy
+          command: ./ghr -draft -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME -replace $CIRCLE_TAG ~/project/makerion_firmware/deploy
+
+
 
 workflows:
   version: 2
@@ -440,3 +454,12 @@ workflows:
               ignore: /.*/
             tags:
               only: /v.*/
+      - deploy_artifacts:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /v.*/
+          requires:
+            - release_rpi0
+            - release_rpi3
