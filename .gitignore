@@ -22,3 +22,4 @@ test.sqlite3*
 
 */priv/plts/*.plt
 */priv/plts/*.plt.hash
+makerion_firmware/makerion_firmware.img
