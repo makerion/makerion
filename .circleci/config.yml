@@ -292,7 +292,7 @@ jobs:
           working_directory: ~/project/makerion_firmware
       - run:
           name: Deploy artifacts to GitHub
-          command: ./ghr -draft -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME -replace $CIRCLE_TAG ~/project/makerion_firmware/deploy
+          command: ./ghr -draft -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME $CIRCLE_TAG ~/project/makerion_firmware/deploy
 
 workflows:
   version: 2
