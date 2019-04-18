@@ -75,12 +75,8 @@ defmodule MakerionFirmware.MixProject do
       {:yaml_elixir, "~> 2.0"},
 
       # Dependencies for specific targets
-      {:nerves_system_rpi0, "~> 1.6", runtime: false, targets: :rpi0},
-      {:nerves_system_rpi2, "~> 1.6", runtime: false, targets: :rpi2},
+      {:makerion_system_rpi0, "1.0.0", github: "makerion/makerion_system_rpi0", runtime: false, targets: :rpi0},
       {:makerion_system_rpi3, "1.0.0", github: "makerion/makerion_system_rpi3", runtime: false, targets: :rpi3},
-      # {:nerves_system_rpi3a, path: "../../nerves_system_rpi3a", runtime: false, targets: :rpi3a},
-      {:nerves_system_bbb, "~> 2.0", runtime: false, targets: :bbb},
-      {:nerves_system_x86_64, "~> 1.6", runtime: false, targets: :x86_64},
     ]
   end
 end
