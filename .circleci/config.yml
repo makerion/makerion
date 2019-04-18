@@ -294,75 +294,113 @@ workflows:
   version: 2
   primary:
     jobs:
-      - build
-
+      - build:
+          filters:
+            tags:
+              only: /v.*/
       - test:
           project_name: makerion
           name: makerion_test
           requires:
             - build
+          filters:
+            tags:
+              only: /v.*/
       - credo:
           project_name: makerion
           name: makerion_credo
           requires:
             - build
+          filters:
+            tags:
+              only: /v.*/
       - dialyzer:
           project_name: makerion
           name: makerion_dialyzer
           requires:
             - makerion_credo
             - makerion_test
+          filters:
+            tags:
+              only: /v.*/
 
       - test:
           project_name: makerion_kiosk
           name: kiosk_test
           requires:
             - build
+          filters:
+            tags:
+              only: /v.*/
       - credo:
           project_name: makerion_kiosk
           name: kiosk_credo
           requires:
             - build
+          filters:
+            tags:
+              only: /v.*/
       - dialyzer:
           project_name: makerion_kiosk
           name: kiosk_dialyzer
           requires:
             - kiosk_credo
             - kiosk_test
+          filters:
+            tags:
+              only: /v.*/
 
       - test:
           project_name: makerion_web
           name: web_test
           requires:
             - build
+          filters:
+            tags:
+              only: /v.*/
       - credo:
           project_name: makerion_web
           name: web_credo
           requires:
             - build
+          filters:
+            tags:
+              only: /v.*/
       - dialyzer:
           project_name: makerion_web
           name: web_dialyzer
           requires:
             - web_credo
             - web_test
+          filters:
+            tags:
+              only: /v.*/
 
       - test:
           project_name: makerion_firmware
           name: firmware_test
           requires:
             - build
+          filters:
+            tags:
+              only: /v.*/
       - credo:
           project_name: makerion_firmware
           name: firmware_credo
           requires:
             - build
+          filters:
+            tags:
+              only: /v.*/
       - dialyzer:
           project_name: makerion_firmware
           name: firmware_dialyzer
           requires:
             - firmware_credo
             - firmware_test
+          filters:
+            tags:
+              only: /v.*/
 
       - release_firmware:
           mix_target: rpi3
