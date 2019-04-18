@@ -79,7 +79,7 @@ defmodule MakerionFirmware.MixProject do
       {:yaml_elixir, "~> 2.0"},
 
       # Dependencies for specific targets
-      {:makerion_system_rpi0, "1.0.0", github: "makerion/makerion_system_rpi0", runtime: false, targets: :rpi0},
+      {:makerion_system_rpi, "1.0.0", github: "makerion/makerion_system_rpi", runtime: false, targets: :rpi0},
       {:makerion_system_rpi3, "1.0.0", github: "makerion/makerion_system_rpi3", runtime: false, targets: :rpi3},
     ]
   end
