@@ -11,6 +11,14 @@ install_nerves_bootstrap: &install_nerves_bootstrap
     name: Install nerves_bootstrap
     command: |
       mix archive.install hex nerves_bootstrap "~> 1.0" --force
+install_ghr: &install_ghr
+  run:
+    name: Install ghr (Github Releases)
+    command: |
+      wget https://github.com/tcnksm/ghr/releases/download/v0.9.0/ghr_v0.9.0_linux_amd64.tar.gz
+      tar xf ghr_v0.9.0_linux_amd64.tar.gz
+      ln -sf ghr_v0.9.0_linux_amd64/ghr .
+
 jobs:
   build:
     docker:
@@ -224,25 +232,62 @@ jobs:
           command: mix credo --strict
           working_directory: ~/project/<< parameters.project_name >>
 
-  deploy:
+  release_firmware:
+    parameters:
+      mix_target:
+        type: string
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
         environment:
-          MIX_ENV: test
-          MIX_TARGET: rpi3
+          MIX_TARGET: << parameters.mix_target >>
     steps:
       - checkout
       - <<: *install_hex_rebar
       - <<: *install_nerves_bootstrap
+      - <<: *install_ghr
+
+      - restore_cache:
+          keys:
+            - v2-<< parameters.mix_target >>-{{ .Revision }}-{{ .Environment.CIRCLE_TAG }}
+            - v2-<< parameters.mix_target >>-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
+            - v2-<< parameters.mix_target >>-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
       - run:
           command: mix deps.get
           working_directory: ~/project/makerion_firmware
       - run:
           command: mix compile
           working_directory: ~/project/makerion_firmware
+      - save_cache:
+          key: v2-<< parameters.mix_target >>-{{ .Revision }}-{{ .Environment.CIRCLE_TAG }}
+          paths:
+            - makerion_firmware/deps
+            - makerion_firmware/_build
+      - save_cache:
+          key: v2-<< parameters.mix_target >>-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
+          paths:
+            - makerion_firmware/deps
+            - makerion_firmware/_build
+      - save_cache:
+          key: v2-<< parameters.mix_target >>-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          paths:
+            - makerion_firmware/deps
+            - makerion_firmware/_build
       - run:
-          command: mix firmware
+          command: mkdir -p makerion_firmware/deploy
+      - run:
+          command: mix do firmware, firmware.image
           working_directory: ~/project/makerion_firmware
+      - run:
+          command: cp ~/project/makerion_firmware/_build/<< parameters.mix_target >>_dev/nerves/images/makerion_firmware.fw ~/project/makerion_firmware/deploy/makerion_firmware_<< parameters.mix_target >>.fw
+          working_directory: ~/project/makerion_firmware
+      - run:
+          command: cp ~/project/makerion_firmware/makerion_firmware.img ~/project/makerion_firmware/deploy/makerion_firmware_<< parameters.mix_target >>.img
+          working_directory: ~/project/makerion_firmware
+      - run:
+          name: Deploy artifacts to GitHub
+          command: ./ghr -draft -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME -replace $CIRCLE_TAG ~/project/makerion_firmware/deploy
+          working_directory: ~/project/makerion_firmware
+
 
 
 workflows:
@@ -319,7 +364,8 @@ workflows:
             - firmware_credo
             - firmware_test
 
-      - deploy:
+      - release_firmware:
+          mix_target: rpi3
           requires:
             - makerion_credo
             - makerion_test
@@ -329,3 +375,8 @@ workflows:
             - web_test
             - firmware_credo
             - firmware_test
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /v.*/
