@@ -141,6 +141,7 @@ jobs:
             - makerion_firmware
             - makerion_kiosk
             - makerion_web
+            - VERSION
 
   test:
     parameters:
