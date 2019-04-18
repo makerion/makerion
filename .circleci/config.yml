@@ -258,6 +258,18 @@ jobs:
             - v2-<< parameters.mix_target >>-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion/mix.lock" }}
             - v2-<< parameters.mix_target >>-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
       - run:
+          name: Compile Makerion Web
+          command: mix do deps.get, compile
+          working_directory: ~/project/makerion_web
+      - run:
+          name: generate static assets
+          command: npm install && npm run deploy
+          working_directory: ~/project/makerion_web/assets
+      - run:
+          name: phx.digest
+          command: mix phx.digest
+          working_directory: ~/project/makerion_web
+      - run:
           command: mix deps.get
           working_directory: ~/project/makerion_firmware
       - run:
