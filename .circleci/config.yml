@@ -297,10 +297,10 @@ jobs:
           command: mix do firmware, firmware.image
           working_directory: ~/project/makerion_firmware
       - run:
-          command: cp ~/project/makerion_firmware/_build/<< parameters.mix_target >>_dev/nerves/images/makerion_firmware.fw ~/project/makerion_firmware/deploy/makerion_firmware_<< parameters.mix_target >>.fw
+          command: cp ~/project/makerion_firmware/_build/<< parameters.mix_target >>_dev/nerves/images/makerion_firmware.fw ~/project/makerion_firmware/deploy/makerion_firmware_<< parameters.mix_target >>_{{ .Environment.CIRCLE_TAG }}.fw
           working_directory: ~/project/makerion_firmware
       - run:
-          command: cp ~/project/makerion_firmware/makerion_firmware.img ~/project/makerion_firmware/deploy/makerion_firmware_<< parameters.mix_target >>.img
+          command: cp ~/project/makerion_firmware/makerion_firmware.img ~/project/makerion_firmware/deploy/makerion_firmware_<< parameters.mix_target >>_{{ .Environment.CIRCLE_TAG }}.img
           working_directory: ~/project/makerion_firmware
       - persist_to_workspace:
           root: .
