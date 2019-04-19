@@ -33,7 +33,7 @@
   "metrics": {:hex, :metrics, "1.0.1", "25f094dea2cda98213cecc3aeff09e940299d950904393b2a29d191c346a8486", [:rebar3], [], "hexpm"},
   "mime": {:hex, :mime, "1.3.1", "30ce04ab3175b6ad0bdce0035cba77bba68b813d523d1aac73d9781b4d193cf8", [:mix], [], "hexpm"},
   "mimerl": {:hex, :mimerl, "1.2.0", "67e2d3f571088d5cfd3e550c383094b47159f3eee8ffa08e64106cdf5e981be3", [:rebar3], [], "hexpm"},
-  "moddity": {:git, "https://github.com/makerion/moddity.git", "374f2fe69eae3d254662bd3c4ab08433191e57d8", [branch: "master"]},
+  "moddity": {:git, "https://github.com/makerion/moddity.git", "636f85aab961585ad5c05b69fd258ce7a36b99a3", [branch: "master"]},
   "msgpax": {:hex, :msgpax, "2.2.2", "559a07806bbe5fdd31e4597455be030bd96356f7a621ca9eed832747c83bfb67", [:mix], [{:plug, "~> 1.0", [hex: :plug, repo: "hexpm", optional: true]}], "hexpm"},
   "nerves": {:hex, :nerves, "1.4.1", "bfbfec93d9f41abcad30a6b59e24c2d8ce3b5d746a5e9b1430a83f40871e05c4", [:mix], [{:distillery, "2.0.12", [hex: :distillery, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: true]}], "hexpm"},
   "nerves_firmware_ssh": {:hex, :nerves_firmware_ssh, "0.4.2", "315b515b872b7a4f18ae1bc37f7943064dfda984ec5ec4a6111b9d69adecee2e", [:mix], [{:nerves_runtime, "~> 0.4", [hex: :nerves_runtime, repo: "hexpm", optional: false]}], "hexpm"},
