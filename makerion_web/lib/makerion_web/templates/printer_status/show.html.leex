@@ -15,7 +15,7 @@
           <span class="data-list__label" data-test="status_name">Extruder</span>
           <span class="data-list__value" data-test="status_value"><%= @printer_status.extruder_actual_temperature %>&deg; / <%= @printer_status.extruder_target_temperature %>&deg;</span>
         </li>
-        <%= if @printer_status.error != nil do %>
+        <%= if @printer_status.error != nil && @printer_status.error != 0 do %>
         <li data-test="status_entry">
           <span class="data-list__label" data-test="status_name">Error</span>
           <span class="data-list__value" data-test="status_value"><%= @printer_status.error %></span>
