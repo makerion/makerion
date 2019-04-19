@@ -80,6 +80,7 @@ defmodule Makerion.Print do
     |> case do
          {:ok, response} ->
            File.rm(Path.join(print_file_path(), print_file.path))
+           notify_subscribers(:print_file, {:print_file, :deleted})
            {:ok, response}
          error -> error
        end
