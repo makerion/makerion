@@ -59,8 +59,8 @@ defmodule MakerionKiosk.MixProject do
       {:scenic, "~> 0.9"},
       {:scenic_driver_glfw, "~> 0.9", targets: :host},
       {:scenic_sensor, "~> 0.7"},
-      {:scenic_driver_nerves_rpi, "~> 0.9", targets: [:rpi, :rpi0, :rpi2, :rpi3, :rpi3a]},
-      {:scenic_driver_nerves_touch, "~> 0.9", targets: [:rpi, :rpi0, :rpi2, :rpi3, :rpi3a]}
+      {:scenic_driver_nerves_rpi, "~> 0.9", targets: [:rpi3]},
+      {:scenic_driver_nerves_touch, "~> 0.9", targets: [:rpi3]}
     ]
   end
 end
