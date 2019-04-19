@@ -7,6 +7,8 @@ defmodule MakerionFirmware.Application do
 
   use Application
 
+  require Logger
+
   def start(_type, _args) do
     if @target != :host do
       start_network()
@@ -39,6 +41,9 @@ defmodule MakerionFirmware.Application do
       with {:ok, _config} <- YamlElixir.read_from_file(maybe_config),
            :ok <- File.cp(maybe_config, "/root/wifi.yml") do
         File.rm(maybe_config)
+      else
+        {:error, message} ->
+          Logger.error("Couldn't apply wifi configuration: #{inspect message}")
       end
     end
 
