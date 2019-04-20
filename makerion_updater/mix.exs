@@ -1,15 +1,14 @@
-defmodule MakerionWeb.MixProject do
+defmodule MakerionUpdater.MixProject do
   use Mix.Project
 
+  @all_targets [:rpi0, :rpi3]
   @version Path.join([__DIR__, "..", "VERSION"])
            |> File.read!()
            |> String.trim()
 
   def project do
     [
-      aliases: aliases(),
-      app: :makerion_web,
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      app: :makerion_updater,
       deps: deps(),
       dialyzer: [
         plt_add_apps: ~w(ex_unit mix)a,
@@ -34,12 +33,9 @@ defmodule MakerionWeb.MixProject do
     ]
   end
 
-  # Configuration for the OTP application.
-  #
-  # Type `mix help compile.app` for more information.
+  # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      mod: {MakerionWeb.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -48,35 +44,16 @@ defmodule MakerionWeb.MixProject do
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
-  # Specifies your project dependencies.
-  #
-  # Type `mix help deps` for examples and options.
+  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:makerion, path: "../makerion"},
-      {:makerion_updater, path: "../makerion_updater"},
+      {:httpoison, "~> 1.5"},
+      {:jason, "~> 1.0"},
+      {:nerves_runtime, "~> 0.6", targets: @all_targets},
 
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
-      {:gettext, "~> 0.11"},
-      {:hound, "~> 1.0"},
-      {:jason, "~> 1.0"},
-      {:phoenix, "~> 1.4.2"},
-      {:phoenix_ecto, "~> 3.6"},
-      {:phoenix_html, "~> 2.11"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
-      {:phoenix_pubsub, "~> 1.1"},
-      {:plug_cowboy, "~> 2.0"},
-      {:timex, "~> 3.1"}
     ]
-  end
-
-  # Aliases are shortcuts or tasks specific to the current project.
-  #
-  # See the documentation for `Mix` for more info on aliases.
-  defp aliases do
-    []
   end
 end
