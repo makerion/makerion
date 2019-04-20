@@ -306,13 +306,13 @@ jobs:
           root: .
           paths:
             - makerion_firmware/deploy
-            - CHANGELOG.md
 
   deploy_artifacts:
     docker:
       - image: tmecklem/elixir:1.8.1-node-browsers-scenic
 
     steps:
+      - checkout
       - attach_workspace:
           at: .
       - <<: *install_ghr
