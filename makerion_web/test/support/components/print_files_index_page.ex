@@ -36,7 +36,17 @@ defmodule MakerionWeb.PrintFilesIndexPage do
     Enum.map(print_file_elements, fn(element) ->
       name = inner_html(find_within_element(element, :css, "[data-test='print_file_name']"))
       path = inner_html(find_within_element(element, :css, "[data-test='print_file_path']"))
-      %{name: name, path: path}
+      last_printed_at =
+        element
+        |> find_within_element(:css, "[data-test-print-file-last-printed-at]")
+        |> attribute_value("data-test-print-file-last-printed-at")
+        |> case do
+             nil -> nil
+             <<>> -> nil
+             val -> elem(Integer.parse(val), 0)
+           end
+
+      %{name: name, path: path, last_printed_at: last_printed_at}
     end)
   end
 end

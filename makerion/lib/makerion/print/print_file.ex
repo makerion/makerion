@@ -10,6 +10,7 @@ defmodule Makerion.Print.PrintFile do
     field :tempfile, :string, virtual: true
     field :name, :string
     field :path, :string
+    field :last_printed_at, :utc_datetime
 
     timestamps()
   end

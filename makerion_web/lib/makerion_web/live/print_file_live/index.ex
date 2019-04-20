@@ -46,8 +46,7 @@ defmodule MakerionWeb.PrintFileLive.Index do
 
   def handle_event("print_file", id, socket) do
     file = Print.get_print_file!(id)
-    print_file_path = Path.join(Print.print_file_path, file.path)
-    Driver.send_gcode(print_file_path)
+    :ok = Print.start_print(file)
 
     {:noreply, socket}
   end

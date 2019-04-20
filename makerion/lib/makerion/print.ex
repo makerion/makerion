@@ -3,10 +3,12 @@ defmodule Makerion.Print do
   The Print context.
   """
 
+  import Ecto.Changeset
   import Ecto.Query, warn: false
 
   alias Makerion.Print.PrintFile
   alias Makerion.Repo
+  alias Moddity.Driver
 
   def subscribe do
     Registry.register(Registry.MakerionPrintEvents, :print_file, [])
@@ -85,6 +87,18 @@ defmodule Makerion.Print do
          error -> error
        end
 
+  end
+
+  def start_print(%PrintFile{} = print_file) do
+    with print_file_path <- Path.join(print_file_path(), print_file.path),
+         :ok <- Driver.send_gcode(print_file_path),
+         {:ok, _print_file} <- Repo.update(change(print_file, last_printed_at: DateTime.utc_now())) do
+
+      notify_subscribers(:print_file, {:print_file, :updated})
+      :ok
+    else
+      error -> error
+    end
   end
 
   defp notify_subscribers(topic, message) do
