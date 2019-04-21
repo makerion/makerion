@@ -18,6 +18,7 @@ defmodule MakerionWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/firmware", FirmwareController, only: [:index, :create]
     resources "/print_files", PrintFileController, only: [:new, :create]
   end
 

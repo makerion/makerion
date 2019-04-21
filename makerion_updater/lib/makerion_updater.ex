@@ -18,7 +18,7 @@ defmodule MakerionUpdater do
     with {:ok, current_version} <- current_version(version_metadata),
          {:ok, latest_version} <- latest_version(remote_release_client),
          :lt <- Version.compare(current_version, latest_version) do
-      true
+      latest_version
     else
       _ -> false
     end
