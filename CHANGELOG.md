@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.1.6
+
+* Improvements
+  * Add initial firmware self-update capability using GitHub releases
+
 ## v0.1.5
 
 * Improvements
