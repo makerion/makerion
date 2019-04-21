@@ -320,6 +320,10 @@ jobs:
           name: Build release notes
           command: grep -Pazo "(?s)(?<=## ${CIRCLE_TAG})[^#]+" ~/project/CHANGELOG.md | sed '/./,$!d' > ~/project/RELEASE_NOTES
       - run:
+          name: Generate hashes for release files
+          command: for file in *; do sha256sum "$file" > "$file".sha256; done
+          working_directory: ~/project/makerion_firmware/deploy
+      - run:
           name: Deploy artifacts to GitHub
           command: ./ghr -draft -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME -b "$(cat ~/project/RELEASE_NOTES)" -replace $CIRCLE_TAG ~/project/makerion_firmware/deploy
 
