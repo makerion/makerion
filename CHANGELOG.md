@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.1.5
+
+* Improvements
+  * Generate a sha256 for each artifact (for firmware file verification after download)
+
 ## v0.1.4
 
 * Improvements
