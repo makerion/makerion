@@ -52,6 +52,7 @@ defmodule MakerionKiosk.MixProject do
   defp deps do
     [
       {:makerion, path: "../makerion"},
+      {:makerion_updater, path: "../makerion_updater"},
 
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},

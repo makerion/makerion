@@ -79,6 +79,11 @@ config :makerion_kiosk, :viewport, %{
   ]
 }
 
+config :makerion_updater,
+  project: "makerion/makerion",
+  runtime: Nerves.Runtime,
+  version_metadata: Nerves.Runtime.KV
+
 config :makerion_web, MakerionWeb.Endpoint,
   url: [host: "localhost"],
   http: [port: 80],
@@ -97,6 +102,8 @@ config :makerion_firmware,
   nerves_network: Nerves.Network
 
 config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
+
+config :tzdata, :data_dir, "/root"
 
 if File.exists?("rpi3.secret.exs") do
   import_config "rpi3.secret.exs"

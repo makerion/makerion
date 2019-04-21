@@ -4,4 +4,5 @@ defmodule MakerionUpdater.HostRuntime do
   """
 
   def cmd(_, _, _), do: {"success", 0}
+  def reboot, do: :ok
 end

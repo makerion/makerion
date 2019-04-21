@@ -390,6 +390,32 @@ workflows:
               only: /v.*/
 
       - test:
+          project_name: makerion_updater
+          name: updater_test
+          requires:
+            - build
+          filters:
+            tags:
+              only: /v.*/
+      - credo:
+          project_name: makerion_updater
+          name: updater_credo
+          requires:
+            - build
+          filters:
+            tags:
+              only: /v.*/
+      - dialyzer:
+          project_name: makerion_updater
+          name: updater_dialyzer
+          requires:
+            - updater_credo
+            - updater_test
+          filters:
+            tags:
+              only: /v.*/
+
+      - test:
           project_name: makerion_web
           name: web_test
           requires:
@@ -449,6 +475,8 @@ workflows:
             - makerion_test
             - kiosk_credo
             - kiosk_test
+            - updater_credo
+            - updater_test
             - web_credo
             - web_test
             - firmware_credo
@@ -466,6 +494,8 @@ workflows:
             - makerion_test
             - kiosk_credo
             - kiosk_test
+            - updater_credo
+            - updater_test
             - web_credo
             - web_test
             - firmware_credo

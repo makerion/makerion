@@ -30,6 +30,7 @@ defmodule MakerionUpdater do
          {:ok, firmware_file} <- remote_release_client.fetch_firmware(latest_version, target_board),
          {_, 0} <- @runtime.cmd("fwup", [firmware_file, "-t", "upgrade", "-d", "/dev/rootdisk0"], :warn) do
 
+      @runtime.reboot()
       :ok
     else
       error ->

@@ -9,4 +9,8 @@ defmodule MakerionUpdater.KV do
     |> File.read!()
     |> String.trim()
   end
+
+  def get_active("nerves_fw_platform") do
+    "rpi3"
+  end
 end
