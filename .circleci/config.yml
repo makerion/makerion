@@ -108,6 +108,26 @@ jobs:
             - makerion_kiosk/deps
             - makerion_kiosk/_build
 
+      # makerion_updater
+      - restore_cache:
+          keys:
+            - v2-updater-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_updater/mix.lock" }}
+            - v2-updater-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+      - run:
+          name: Compile Makerion Updater
+          command: mix do deps.get, compile
+          working_directory: ~/project/makerion_updater
+      - save_cache:
+          key: v2-updater-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_updater/mix.lock" }}
+          paths:
+            - makerion_updater/deps
+            - makerion_updater/_build
+      - save_cache:
+          key: v2-updater-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          paths:
+            - makerion_updater/deps
+            - makerion_updater/_build
+
       # makerion_firmware
       - restore_cache:
           keys:
@@ -140,6 +160,7 @@ jobs:
             - makerion
             - makerion_firmware
             - makerion_kiosk
+            - makerion_updater
             - makerion_web
             - VERSION
 
@@ -390,6 +411,32 @@ workflows:
               only: /v.*/
 
       - test:
+          project_name: makerion_updater
+          name: updater_test
+          requires:
+            - build
+          filters:
+            tags:
+              only: /v.*/
+      - credo:
+          project_name: makerion_updater
+          name: updater_credo
+          requires:
+            - build
+          filters:
+            tags:
+              only: /v.*/
+      - dialyzer:
+          project_name: makerion_updater
+          name: updater_dialyzer
+          requires:
+            - updater_credo
+            - updater_test
+          filters:
+            tags:
+              only: /v.*/
+
+      - test:
           project_name: makerion_web
           name: web_test
           requires:
@@ -449,6 +496,8 @@ workflows:
             - makerion_test
             - kiosk_credo
             - kiosk_test
+            - updater_credo
+            - updater_test
             - web_credo
             - web_test
             - firmware_credo
@@ -466,6 +515,8 @@ workflows:
             - makerion_test
             - kiosk_credo
             - kiosk_test
+            - updater_credo
+            - updater_test
             - web_credo
             - web_test
             - firmware_credo

@@ -5,6 +5,7 @@
 use Mix.Config
 
 import_config "#{File.cwd!}/../makerion/config/config.exs"
+import_config "#{File.cwd!}/../makerion_updater/config/config.exs"
 
 # General application configuration
 config :makerion_web,

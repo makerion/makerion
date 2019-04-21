@@ -1,0 +1,6 @@
+<div class="container">
+  <%= if @update_available do %>
+    There's an update available to <%= inspect @update_available %>
+    <%= button("Upgrade", to: firmware_path(@conn, :create), method: "post", class: "btn") %>
+  <% end %>
+</div>
