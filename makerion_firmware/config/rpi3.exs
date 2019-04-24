@@ -5,7 +5,7 @@ use Mix.Config
 # involved with firmware updates.
 
 config :shoehorn,
-  init: [:nerves_runtime, :nerves_init_gadget, :nerves_network],
+  init: [:nerves_runtime, :makerion_init, :nerves_network],
   app: Mix.Project.config()[:app]
 
 # Use Ringlogger as the logger backend and remove :console.
@@ -28,20 +28,6 @@ keys =
 
 config :nerves_firmware_ssh,
   authorized_keys: Enum.map(keys, &File.read!/1)
-
-# Configure nerves_init_gadget.
-# See https://hexdocs.pm/nerves_init_gadget/readme.html for more information.
-
-# Setting the node_name will enable Erlang Distribution.
-# Only enable this for prod if you understand the risks.
-node_name = if Mix.env() != :prod, do: "makerion_firmware"
-
-config :nerves_init_gadget,
-  ifname: "usb0",
-  address_method: :dhcpd,
-  mdns_domain: "nerves.local",
-  node_name: node_name,
-  node_host: :mdns_domain
 
 config :nerves_network,
   regulatory_domain: "US"

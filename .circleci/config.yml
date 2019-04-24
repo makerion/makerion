@@ -128,6 +128,26 @@ jobs:
             - makerion_updater/deps
             - makerion_updater/_build
 
+      # makerion_init
+      - restore_cache:
+          keys:
+            - v2-updater-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_init/mix.lock" }}
+            - v2-updater-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+      - run:
+          name: Compile Makerion Init
+          command: mix do deps.get, compile
+          working_directory: ~/project/makerion_init
+      - save_cache:
+          key: v2-updater-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_init/mix.lock" }}
+          paths:
+            - makerion_init/deps
+            - makerion_init/_build
+      - save_cache:
+          key: v2-updater-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          paths:
+            - makerion_init/deps
+            - makerion_init/_build
+
       # makerion_firmware
       - restore_cache:
           keys:
@@ -159,6 +179,7 @@ jobs:
             - OTP_VERSION.lock
             - makerion
             - makerion_firmware
+            - makerion_init
             - makerion_kiosk
             - makerion_updater
             - makerion_web

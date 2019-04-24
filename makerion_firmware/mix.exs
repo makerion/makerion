@@ -73,11 +73,8 @@ defmodule MakerionFirmware.MixProject do
       {:toolshed, "~> 0.2"},
 
       # Dependencies for all targets except :host
-      {:nerves_runtime, "~> 0.6", targets: @all_targets},
-      {:nerves_init_gadget, "~> 0.4", targets: @all_targets},
-      {:nerves_network, "~> 0.5", targets: @all_targets},
+      {:makerion_init, path: "../makerion_init", targets: @all_targets},
       {:nerves_time, "~> 0.2", targets: @all_targets},
-      {:yaml_elixir, "~> 2.0"},
 
       # Dependencies for specific targets
       {:makerion_system_rpi, "1.0.0", github: "makerion/makerion_system_rpi", runtime: false, targets: :rpi0},
