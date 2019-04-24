@@ -22,6 +22,9 @@ Makerion is distributed in both .img and .fw formats. If you're familiar with Ra
 ## Installation
 
 * download the latest .img file in the [releases page](https://github.com/makerion/makerion/releases)
+  * Look for the filename matching your system
+  * If you have a Pi0W, you'll want makerion_firmware_rpi_v[x.x.x].img
+  * If you have a Pi3, you'll want makerion_firmware_rpi3_v[x.x.x].img
 * Insert the micro SD card into your laptop or desktop
 * Using a tool like [balena Etcher](https://www.balena.io/etcher/), burn the image to an SD card
 * Remove and re-insert the SD card once the fw burning tool has finished

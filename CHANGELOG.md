@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.1.8
+
+* Bugfixes
+  * Fix rpi firmware self-upgrade to look for the correct system on GitHub releases
+
 ## v0.1.7
 
 * Improvements
