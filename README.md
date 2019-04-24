@@ -10,27 +10,22 @@ Initially, this project is starting as a method of supporting people who purchas
 
 ## Software Prerequisites
 
-* [fwup](https://github.com/fhunleth/fwup)
-
-Makerion uses a tool called fwup to support installing and upgrading firmware on SD cards. You'll need to install the tool locally on your laptop.
+Makerion is distributed in both .img and .fw formats. If you're familiar with Raspbian, you've encountered img files before. Using a tool like [balena Etcher](https://www.balena.io/etcher/), you can burn the img file to an SD card.
 
 ## Hardware
 
-* Raspberry Pi 3 -- any of the variants should work
+* Raspberry Pi Zero W or 3/3A
 * Micro SD card -- anything 2GB or larger should do fine
 * WiFi network -- you'll need your ssid and psk (password) to connect
-* HDMI display (only for initial setup to determined IP address)
 * Laptop with Micro SD card slot
 
 ## Installation
 
-* download the latest .fw file in the [releases page](https://github.com/makerion/makerion/releases)
+* download the latest .img file in the [releases page](https://github.com/makerion/makerion/releases)
 * Insert the micro SD card into your laptop or desktop
-* Using fwup, burn the image to an SD card
-  * This usually involves opening a terminal on Linux or macOS or opening cmd.exe, then executing fwup from the prompt
-  * `sudo fwup <makerion_firmware.fw>` (Replace `<makerion_firmware.fw>` with the file you downloaded)
+* Using a tool like [balena Etcher](https://www.balena.io/etcher/), burn the image to an SD card
 * Remove and re-insert the SD card once the fw burning tool has finished
-* on the /boot/ filesystem of the SD card, add a `wifi.yml` file with each of the networks you would like the device to be able to join.
+* on the BOOT-A volume of the SD card, add a `wifi.yml` file with each of the networks you would like the device to be able to join.
 
 Example `wifi.yml` file:
 
@@ -45,10 +40,14 @@ networks:
 ```
 _Note: higher numbers are higher priority, as with wpa-supplicant_
 
-* unmount the SD card and plug it into the Raspberry Pi 3
-* Plug the Pi into a TV or HDMI monitor and power on the Pi
-* You should see some boot up messages eventually followed by an IP address
-* Write down the IP address for later
+* Eject the SD card and plug it into the Raspberry Pi
 * Put the Raspberry Pi next to the MOD-t and plug the MOD-t into one of the Pi's USB ports
 * Power on the Pi
-* In a web browser, visit the IP address you wrote down. You should see a page with "Upload a New File" and "Printer Status" headers.
+* In a web browser, visit (http://makerion.local). You should see a page with "Upload a New File" and "Printer Status" headers.
+
+## Upgrade
+
+Makerion Firmware has the capability of self-updating to a new version. In order to check for an update and apply it:
+
+* visit (http://makerion.local/firmware)
+* If an update is available you'll have the option to apply it. Click the button, wait a minute, and the device will reboot into the new firmware!

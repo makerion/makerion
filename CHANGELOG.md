@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.7
+
+* Improvements
+  * Moved network initiailization down into the shoehorn application (so that network is initialized before everything else comes up)
+  * Added mdns so that makerion.local is autoconfigured as the hostname
+
 ## v0.1.6
 
 * Improvements
