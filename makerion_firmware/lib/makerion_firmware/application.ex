@@ -10,10 +10,6 @@ defmodule MakerionFirmware.Application do
   require Logger
 
   def start(_type, _args) do
-    if @target != :host do
-      start_network()
-    end
-
     :ok = setup_db!()
 
     opts = [strategy: :one_for_one, name: MakerionFirmware.Supervisor]
@@ -33,42 +29,6 @@ defmodule MakerionFirmware.Application do
       # Starts a worker by calling: MakerionFirmware.Worker.start_link(arg)
       # {MakerionFirmware.Worker, arg},
     ]
-  end
-
-  def start_network do
-    maybe_config = Path.join("/boot", "wifi.yml")
-    if File.exists?(maybe_config) do
-      with {:ok, _config} <- YamlElixir.read_from_file(maybe_config),
-           :ok <- File.cp(maybe_config, "/root/wifi.yml") do
-        File.rm(maybe_config)
-      else
-        {:error, message} ->
-          Logger.error("Couldn't apply wifi configuration: #{inspect message}")
-      end
-    end
-
-    config = "/root/wifi.yml"
-    if File.exists?(config) do
-      {:ok, wifi} = YamlElixir.read_from_file(config)
-      networks =
-        wifi["networks"]
-        |> Enum.map(fn(network) ->
-          [
-            ssid: network["ssid"],
-            psk: network["psk"],
-            priority: Map.get(network, "priority", 1),
-            key_mgmt: String.to_atom(Map.get(network, "key_mgmt", "WPA-PSK"))
-          ]
-        end)
-
-      settings = [networks: networks]
-      case Application.get_env(:makerion_firmware, :nerves_network) do
-        nil ->
-          nil
-        nerves_network ->
-          nerves_network.setup("wlan0", settings)
-      end
-    end
   end
 
   defp setup_db! do
