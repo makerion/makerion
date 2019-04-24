@@ -74,7 +74,7 @@ defmodule MakerionUpdater.GitHubReleaseClient do
          firmware_url when not is_nil(firmware_url) ->
            {:ok, firmware_url}
          nil ->
-           {:error, "Could not find mathing firmware file for #{matching_file}"}
+           {:error, "Could not find matching firmware file for #{matching_file}"}
        end
   end
 

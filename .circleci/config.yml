@@ -510,8 +510,8 @@ workflows:
               only: /v.*/
 
       - release_firmware:
-          name: release_rpi0
-          mix_target: rpi0
+          name: release_rpi
+          mix_target: rpi
           requires:
             - makerion_credo
             - makerion_test
@@ -554,5 +554,5 @@ workflows:
             tags:
               only: /v.*/
           requires:
-            - release_rpi0
+            - release_rpi
             - release_rpi3

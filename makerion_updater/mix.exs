@@ -1,7 +1,7 @@
 defmodule MakerionUpdater.MixProject do
   use Mix.Project
 
-  @all_targets [:rpi0, :rpi3]
+  @all_targets [:rpi, :rpi3]
   @version Path.join([__DIR__, "..", "VERSION"])
            |> File.read!()
            |> String.trim()

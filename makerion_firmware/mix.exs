@@ -1,7 +1,7 @@
 defmodule MakerionFirmware.MixProject do
   use Mix.Project
 
-  @all_targets [:rpi0, :rpi3]
+  @all_targets [:rpi, :rpi3]
   @version Path.join([__DIR__, "..", "VERSION"])
            |> File.read!()
            |> String.trim()
@@ -77,7 +77,7 @@ defmodule MakerionFirmware.MixProject do
       {:nerves_time, "~> 0.2", targets: @all_targets},
 
       # Dependencies for specific targets
-      {:makerion_system_rpi, "1.0.0", github: "makerion/makerion_system_rpi", runtime: false, targets: :rpi0},
+      {:makerion_system_rpi, "1.0.0", github: "makerion/makerion_system_rpi", runtime: false, targets: :rpi},
       {:makerion_system_rpi3, "1.0.0", github: "makerion/makerion_system_rpi3", runtime: false, targets: :rpi3},
     ]
   end
