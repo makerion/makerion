@@ -5,22 +5,31 @@ defmodule MakerionUpdater.GitHubReleaseClient do
 
   require Logger
 
+  alias MakerionUpdater.RemoteReleaseClient
+
+  @behaviour RemoteReleaseClient
+
   @project Application.get_env(:makerion_updater, :project)
 
+  @impl RemoteReleaseClient
   def get_latest_version do
     with {:ok, %HTTPoison.Response{body: body, status_code: 200}} <- HTTPoison.get("https://api.github.com/repos/#{@project}/releases/latest"),
          {:ok, decoded} <- Jason.decode(body) do
 
-      decoded
-      |> Map.get("name")
-      |> String.replace_prefix("v", "")
+      version =
+        decoded
+        |> Map.get("name")
+        |> String.replace_prefix("v", "")
+
+      {:ok, version}
     else
       error ->
         Logger.warn "Couldn't fetch latest release version: #{inspect error}"
-        nil
+        {:error, error}
     end
   end
 
+  @impl RemoteReleaseClient
   def fetch_firmware(%Version{major: major, minor: minor, patch: patch}, target_board) do
     version_string = "v#{major}.#{minor}.#{patch}"
 
