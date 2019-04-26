@@ -16,7 +16,13 @@ defmodule MakerionUpdater.FirmwareManagerTest do
     end
 
     setup do
-      {:ok, pid} = start_supervised({FirmwareManager, version_metadata: FakeOldVersionMetadata, remote_release_client: MockRemoteReleaseClient, poll: false, name: :test_old})
+      {:ok, pid} = start_supervised({
+        FirmwareManager,
+        version_metadata: FakeOldVersionMetadata,
+        remote_release_client: MockRemoteReleaseClient,
+        poll: false,
+        name: :test_old
+          })
       {:ok, pid: pid}
     end
 
@@ -51,7 +57,13 @@ defmodule MakerionUpdater.FirmwareManagerTest do
     end
 
     setup do
-      {:ok, pid} = start_supervised({FirmwareManager, version_metadata: FakeNewVersionMetadata, remote_release_client: MockRemoteReleaseClient, poll: false, name: :test_new})
+      {:ok, pid} = start_supervised({
+        FirmwareManager,
+        version_metadata: FakeNewVersionMetadata,
+        remote_release_client: MockRemoteReleaseClient,
+        poll: false,
+        name: :test_new
+          })
       {:ok, pid: pid}
     end
 
@@ -71,7 +83,13 @@ defmodule MakerionUpdater.FirmwareManagerTest do
     end
 
     setup do
-      {:ok, pid} = start_supervised({FirmwareManager, version_metadata: OldVersionMetadata, remote_release_client: MockRemoteReleaseClient, name: :test_poll, delay_before_first_poll: 1_000})
+      {:ok, pid} = start_supervised({
+        FirmwareManager,
+        version_metadata: OldVersionMetadata,
+        remote_release_client: MockRemoteReleaseClient,
+        name: :test_poll,
+        delay_before_first_poll: 1_000
+          })
       FirmwareManager.subscribe()
       {:ok, pid: pid}
     end

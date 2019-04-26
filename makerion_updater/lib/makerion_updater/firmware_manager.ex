@@ -7,9 +7,9 @@ defmodule MakerionUpdater.FirmwareManager do
 
   require Logger
 
-  alias MakerionUpdater.GitHubReleaseClient
   alias MakerionUpdater.FirmwareManager.State
   alias MakerionUpdater.FirmwareStatus
+  alias MakerionUpdater.GitHubReleaseClient
 
   @version_metadata Application.get_env(:makerion_updater, :version_metadata)
   @runtime Application.get_env(:makerion_updater, :runtime)
