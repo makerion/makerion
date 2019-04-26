@@ -54,6 +54,10 @@ defmodule MakerionUpdater.FirmwareManager do
     end
   end
 
+  def do_check(pid \\ __MODULE__) do
+    GenServer.call(pid, :do_check)
+  end
+
   def do_update!(pid \\ __MODULE__) do
     GenServer.call(pid, :do_update)
   end
@@ -68,7 +72,9 @@ defmodule MakerionUpdater.FirmwareManager do
     end
   end
 
-  def handle_call(:do_check, _sender, %{firmware_status: firmware_status} = state), do: {:reply, firmware_status, state}
+  def handle_call(:do_check, _sender, %{firmware_status: firmware_status} = state) do
+    {:reply, {:ok, firmware_status}, state}
+  end
 
   def handle_call(:do_update, _sender, %{firmware_status: nil} = state) do
     {:reply, {:error, "No firmware status"}, state}
@@ -107,11 +113,14 @@ defmodule MakerionUpdater.FirmwareManager do
     notify_subscribers({:firmware_event, firmware_status})
 
     Task.async(fn ->
-      state.runtime.reboot()
+      :ok = state.runtime.reboot()
+      :firmware_rebooting
     end)
 
     {:noreply, %{state | firmware_status: firmware_status}}
   end
+
+  def handle_info({_task, :firmware_rebooting}, state), do: {:noreply, state}
 
   def handle_info({:DOWN, _task, :process, _pid, :normal}, state), do: {:noreply, state}
 

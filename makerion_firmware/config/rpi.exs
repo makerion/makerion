@@ -45,7 +45,8 @@ config :makerion, Makerion.Repo,
 config :makerion_updater,
   project: "makerion/makerion",
   runtime: Nerves.Runtime,
-  version_metadata: Nerves.Runtime.KV
+  version_metadata: Nerves.Runtime.KV,
+  firmware_path: Path.join("/root", "firmware")
 
 config :makerion_web, MakerionWeb.Endpoint,
   url: [host: "localhost"],

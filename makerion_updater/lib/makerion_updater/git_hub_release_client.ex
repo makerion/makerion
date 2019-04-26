@@ -88,7 +88,7 @@ defmodule MakerionUpdater.GitHubReleaseClient do
   end
 
   defp firmware_dir do
-    firmware_path = Path.join("/root", "firmware")
+    firmware_path = Application.get_env(:makerion_updater, :firmware_path)
     :ok = File.mkdir_p(firmware_path)
     firmware_path
   end
