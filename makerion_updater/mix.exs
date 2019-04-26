@@ -36,6 +36,7 @@ defmodule MakerionUpdater.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
+      mod: {MakerionUpdater.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -54,6 +55,7 @@ defmodule MakerionUpdater.MixProject do
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
+      {:mox, "~> 0.5", only: :test}
     ]
   end
 end
