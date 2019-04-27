@@ -22,10 +22,6 @@
         </li>
         <% end %>
       </ul>
-      <div class="card__footer centered">
-        <%= content_tag(:button, "Load Filament", "phx-click": "Load Filament", data: [test: "load_filament_button"], disabled: !assigns[:printer_idle?]) %>
-        <%= content_tag(:button, "Unload Filament", "phx-click": "Unload Filament", data: [test: "unload_filament_button"], disabled: !assigns[:printer_idle?]) %>
-      </div>
     </div>
   </div>
 <% end %>

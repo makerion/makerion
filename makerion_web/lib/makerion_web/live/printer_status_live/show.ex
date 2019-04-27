@@ -23,23 +23,11 @@ defmodule MakerionWeb.PrinterStatusLive.Show do
     end
   end
 
-  def handle_event("Load Filament", _, socket) do
-    Driver.load_filament()
-    {:noreply, socket}
-  end
-
-  def handle_event("Unload Filament", _, socket) do
-    Driver.unload_filament()
-    {:noreply, socket}
-  end
-
   def handle_info({:printer_status_event, printer_status}, socket) do
     {:noreply, assign_printer_status(socket, printer_status)}
   end
 
-  defp assign_printer_status(socket, printer_status = %PrinterStatus{idle?: idle}) do
-    socket
-    |> assign(printer_status: printer_status)
-    |> assign(printer_idle?: idle)
+  defp assign_printer_status(socket, %PrinterStatus{} = printer_status) do
+    assign(socket, printer_status: printer_status)
   end
 end

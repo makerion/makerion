@@ -25,4 +25,5 @@
 
 <div class="sidebar card-list">
   <%= live_render(@conn, MakerionWeb.PrinterStatusLive.Show) %>
+  <%= live_render(@conn, MakerionWeb.PrinterActionsLive.Show) %>
 </div>
