@@ -22,3 +22,7 @@
     <%= live_render(@conn, MakerionWeb.PrintFileLive.Index) %>
   </div>
 </div>
+
+<div class="sidebar card-list">
+  <%= live_render(@conn, MakerionWeb.PrinterStatusLive.Show) %>
+</div>

@@ -8,12 +8,9 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/js/app.css") %>"/>
   </head>
   <body>
-
+    <header>Makerion</header>
     <div class="grid">
       <%= render @view_module, @view_template, assigns %>
-      <div class="sidebar card-list">
-        <%= live_render(@conn, MakerionWeb.PrinterStatusLive.Show) %>
-      </div>
     </div>
 
     <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

@@ -17,6 +17,7 @@ defmodule MakerionWeb.PrintingAFileTest do
     navigate_to("/")
 
     print_file_element = PrintFilesIndexPage.print_file_element(print_file)
+    PrintFileComponent.select_card(print_file_element)
     assert PrintFileComponent.print_button(print_file_element, disabled: false)
     assert PrinterStatusComponent.load_filament_button(disabled: false)
     assert PrinterStatusComponent.unload_filament_button(disabled: false)
