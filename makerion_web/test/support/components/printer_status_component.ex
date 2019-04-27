@@ -5,28 +5,6 @@ defmodule MakerionWeb.PrinterStatusComponent do
 
   use Hound.Helpers
 
-  def load_filament_button(opts \\ []) do
-    opts
-    |> Keyword.get(:disabled, false)
-    |> case do
-         true ->
-           find_within_element(printer_status_element(), :css, "[data-test='load_filament_button']:disabled")
-         false ->
-           find_within_element(printer_status_element(), :css, "[data-test='load_filament_button']")
-       end
-  end
-
-  def unload_filament_button(opts \\ []) do
-    opts
-    |> Keyword.get(:disabled, false)
-    |> case do
-         true ->
-           find_within_element(printer_status_element(), :css, "[data-test='unload_filament_button']:disabled")
-         false ->
-           find_within_element(printer_status_element(), :css, "[data-test='unload_filament_button']")
-       end
-  end
-
   def printer_status do
     printer_status_element()
     |> find_all_within_element(:css, "[data-test='status_entry']")
