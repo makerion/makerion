@@ -1,4 +1,4 @@
-defmodule MakerionWeb.PrinterActionsLive.Show do
+defmodule MakerionWeb.PrinterActionsLive do
   @moduledoc """
   LiveView component to show printer actions
   """

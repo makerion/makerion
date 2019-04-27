@@ -1,4 +1,4 @@
-defmodule MakerionWeb.PrinterStatusLive.Show do
+defmodule MakerionWeb.PrinterStatusLive do
   @moduledoc """
   LiveView component to show printer status
   """
