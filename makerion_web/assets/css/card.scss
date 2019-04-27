@@ -6,21 +6,26 @@
   margin-top: 1.5em;
   background-color: $dark-secondary;
   display: flex;
-  box-shadow: 0 6px 10px -5px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+  box-shadow: 0 6px 5px -5px rgba(0, 0, 0, 0.2);
 
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    // box-shadow: 0 20px 20px -15px rgba(0, 0, 0, 0.3);
-  }
 
-  &-selected {
+  &--selected {
     background-color: darken($dark, 20%);
     color: $light;
     &:hover {
       cursor: auto;
+    }
+  }
+
+  &-selectable {
+    box-shadow: 0 6px 10px -5px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 20px 20px -15px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
     }
   }
 

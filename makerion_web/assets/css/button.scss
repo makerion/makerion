@@ -26,6 +26,14 @@ button {
     }
 
   }
+
+}
+
+.file_upload > input[type=file] {
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  visibility: hidden;
 }
 
 button:hover,

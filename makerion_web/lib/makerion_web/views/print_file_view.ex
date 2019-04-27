@@ -20,6 +20,6 @@ defmodule MakerionWeb.PrintFileView do
   def is_selected?(%PrintFile{id: id}, id), do: true
   def is_selected?(_, _), do: false
 
-  def card_selected_class(%PrintFile{id: id}, id), do: "card-selected"
+  def card_selected_class(%PrintFile{id: id}, id), do: "card--selected"
   def card_selected_class(_, _), do: ""
 end

@@ -6,10 +6,19 @@ class FileUploadHandler {
 
     this.fileInput = formElement.querySelector('[type=file]')
     this.fileInput.onchange = this.fileChanged
+
+    this.chooseFileButton = formElement.querySelector('[data-id=choose_file]')
+    this.chooseFileButton.onclick = this.chooseFile
+
+    this.fileNameField = formElement.querySelector('[data-id=file_name_field]')
   }
 
   fileChanged = (e) => {
-    console.log("here fileChanged")
+    this.fileNameField.innerHTML = e.target.files[0].name
+  }
+
+  chooseFile = (e) => {
+    this.fileInput.click()
   }
 
   uploadFile = (e) => {
