@@ -1,23 +1,5 @@
 <%= if assigns[:print_files] do %>
   <%= for print_file <- @print_files do %>
-    <div class="card <%= if assigns[:selected_print_file] == print_file.id, do: "card-selected" %>" phx-click="select_print_file" phx-value="<%= print_file.id %>" data-test="print_file" data-test-id="<%= print_file.id %>">
-      <div class="card__body">
-        <p class="card__title" data-test="print_file_name"><%= print_file.name %></p>
-        <p data-test="print_file_path" data-test-print-file-path="<%= print_file.path %>"><%= print_file.path %></p>
-        <div class="card__footer">
-          <%= if print_file.last_printed_at do %>
-            <p>Printed <span data-test-print-file-last-printed-at="<%= format_unix(print_file.last_printed_at) %>"><%= format_human(print_file.last_printed_at) %></span></p>
-          <% else %>
-            <p data-test-print-file-last-printed-at="">Never printed</p>
-          <% end %>
-        </div>
-      </div>
-      <%= if assigns[:selected_print_file] == print_file.id do %>
-        <div class="button card__action">
-          <!-- <button phx-click="delete_file" phx-value="<%= print_file.id %>" type="button" class="button button-danger">Delete</button> -->
-          <button phx-click="print_file" phx-value="<%= print_file.id %>" type="button" class="button" data-test="print_file_button" <%= if !assigns[:printer_idle?], do: "disabled" %>>Print</button>
-        </div>
-      <% end %>
-    </div>
+    <%= render("_card.html", Map.put(assigns, :print_file, print_file)) %>
   <% end %>
 <% end %>
