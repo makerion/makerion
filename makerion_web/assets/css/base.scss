@@ -11,7 +11,44 @@
 body {
   font-family: $family-sans-serif;
   margin: 0;
-  background-color: lighten($gray, 16%);
+  color: darken($dark, 20%);
+  background-color: #EEEEEE;
+}
+
+.header {
+  height: 4rem;
+  font-weight: bold;
+  background-color: darken($dark, 30%);
+  color: $light;
+  padding: 0.5em;
+
+  &__nav {
+    display: inline;
+
+    ul {
+      display: inline;
+
+    }
+
+    .nav-right {
+      margin: .5em;
+      float: right;
+    }
+  }
+
+  a {
+    color: $light;
+  }
+
+  &__title {
+    font-size: 2rem;
+    color: $light;
+    display: inline;
+
+    a {
+      text-decoration: none;
+    }
+  }
 }
 
 ul {

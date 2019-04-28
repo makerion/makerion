@@ -4,15 +4,29 @@
 
 .card {
   margin-top: 1.5em;
-  background-color: white;
+  background-color: $dark-secondary;
   display: flex;
-  box-shadow: 0 6px 10px -5px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+  box-shadow: 0 6px 5px -5px rgba(0, 0, 0, 0.2);
 
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.2);
-    // box-shadow: 0 20px 20px -15px rgba(0, 0, 0, 0.3);
+
+  &--selected {
+    background-color: darken($dark, 20%);
+    color: $light;
+    &:hover {
+      cursor: auto;
+    }
+  }
+
+  &-selectable {
+    box-shadow: 0 6px 10px -5px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 20px 20px -15px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
   }
 
   &__title {
@@ -24,14 +38,12 @@
   }
 
   &__body {
-    color: $primary-bold;
     flex: 1 1 100%;
     padding: 20px;
   }
 
   &__footer {
     padding-top: 1em;
-    border-top: 1px solid $gray;
     color: darken($gray, 15%);
   }
 

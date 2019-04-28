@@ -1,16 +1,16 @@
-defmodule MakerionWeb.PrinterStatusLive.Show do
+defmodule MakerionWeb.PrinterActionsLive do
   @moduledoc """
-  LiveView component to show printer status
+  LiveView component to show printer actions
   """
 
   use Phoenix.LiveView
   use Phoenix.HTML
 
-  alias MakerionWeb.PrinterStatusView
+  alias MakerionWeb.PrinterActionView
   alias Moddity.{Driver, PrinterStatus}
 
   def render(assigns) do
-    PrinterStatusView.render("show.html", assigns)
+    PrinterActionView.render("show.html", assigns)
   end
 
   def mount(_user, socket) do
@@ -19,7 +19,7 @@ defmodule MakerionWeb.PrinterStatusLive.Show do
       {:ok, %PrinterStatus{} = printer_status} ->
         {:ok, assign_printer_status(socket, printer_status)}
       _ ->
-        {:ok, socket}
+        {:ok, assign(socket, printer_idle?: false)}
     end
   end
 
@@ -37,9 +37,7 @@ defmodule MakerionWeb.PrinterStatusLive.Show do
     {:noreply, assign_printer_status(socket, printer_status)}
   end
 
-  defp assign_printer_status(socket, printer_status = %PrinterStatus{idle?: idle}) do
-    socket
-    |> assign(printer_status: printer_status)
-    |> assign(printer_idle?: idle)
+  defp assign_printer_status(socket, %PrinterStatus{idle?: idle}) do
+    assign(socket, printer_idle?: idle)
   end
 end

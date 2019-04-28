@@ -1,12 +1,21 @@
-<div class="container">
+<div class="card-list">
   <%= if assigns[:firmware_status] do %>
-    <%= if @firmware_status.action do %>
-      Status: <%= to_human(@firmware_status) %>
-    <% else %>
-      <%= if FirmwareStatus.update_available?(@firmware_status) do %>
-        There's an update available to <%= inspect @firmware_status.latest_version %>
-        <button class="btn" phx-click="Upgrade Firmware">Upgrade Firmware</button>
-      <% end %>
-    <% end %>
+    <div class="card">
+      <div class="card__body">
+        <%= if @firmware_status.action do %>
+          <div class="meter">
+            <%= tag "span", style: percent_complete(@firmware_status) %>
+          </div>
+          <div class="card__footer centered">
+            Status: <%= to_human(@firmware_status) %>
+          </div>
+        <% else %>
+          <%= if FirmwareStatus.update_available?(@firmware_status) do %>
+            There's an update available to v<%= latest_version(@firmware_status) %>
+            <button class="btn" phx-click="Upgrade Firmware">Upgrade Firmware</button>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
   <% end %>
 </div>

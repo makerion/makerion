@@ -1,31 +1,27 @@
 <%= if assigns[:printer_status] do %>
-  <div class="card" data-test="printer_status">
-    <div class="card__body">
-      <div class="card__title centered">Printer Status</div>
-      <ul class="data-list">
-        <li data-test="status_entry">
-          <span class="data-list__label" data-test="status_name">State</span>
-          <span class="data-list__value" data-test="status_value"><%= @printer_status.state_friendly %></span>
-        </li>
-        <li data-test="status_entry">
-          <span class="data-list__label" data-test="status_name">Progress</span>
-          <span class="data-list__value" data-test="status_value"><%= @printer_status.job_progress %>%</span>
-        </li>
-        <li data-test="status_entry">
-          <span class="data-list__label" data-test="status_name">Extruder</span>
-          <span class="data-list__value" data-test="status_value"><%= @printer_status.extruder_actual_temperature %>&deg; / <%= @printer_status.extruder_target_temperature %>&deg;</span>
-        </li>
-        <%= if @printer_status.error != nil && @printer_status.error != 0 do %>
-        <li data-test="status_entry">
-          <span class="data-list__label" data-test="status_name">Error</span>
-          <span class="data-list__value" data-test="status_value"><%= @printer_status.error %></span>
-        </li>
-        <% end %>
-      </ul>
-      <div class="card__footer centered">
-        <%= content_tag(:button, "Load Filament", "phx-click": "Load Filament", data: [test: "load_filament_button"], disabled: !assigns[:printer_idle?]) %>
-        <%= content_tag(:button, "Unload Filament", "phx-click": "Unload Filament", data: [test: "unload_filament_button"], disabled: !assigns[:printer_idle?]) %>
-      </div>
-    </div>
+<div class="card" data-test="printer_status">
+  <div class="card__body">
+    <div class="card__title centered">Printer Status</div>
+    <ul class="data-list">
+      <li data-test="status_entry">
+        <span class="data-list__label" data-test="status_name">State</span>
+        <span class="data-list__value" data-test="status_value"><%= @printer_status.state_friendly %></span>
+      </li>
+      <li data-test="status_entry">
+        <span class="data-list__label" data-test="status_name">Progress</span>
+        <span class="data-list__value" data-test="status_value"><%= @printer_status.job_progress %>%</span>
+      </li>
+      <li data-test="status_entry">
+        <span class="data-list__label" data-test="status_name">Extruder</span>
+        <span class="data-list__value" data-test="status_value"><%= @printer_status.extruder_actual_temperature %>&deg; / <%= @printer_status.extruder_target_temperature %>&deg;</span>
+      </li>
+      <%= if @printer_status.error != nil && @printer_status.error != 0 do %>
+      <li data-test="status_entry">
+        <span class="data-list__label" data-test="status_name">Error</span>
+        <span class="data-list__value" data-test="status_value"><%= @printer_status.error %></span>
+      </li>
+      <% end %>
+    </ul>
   </div>
+</div>
 <% end %>

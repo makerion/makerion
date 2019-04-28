@@ -1,0 +1,10 @@
+<div class="card" data-test="printer_actions">
+  <div class="card__body">
+    <div class="card__title centered">Printer Control</div>
+    <div>
+      <h3>Filament</h3>
+      <%= content_tag(:button, "Load", "phx-click": "Load Filament", data: [test: "load_filament_button"], disabled: !@printer_idle?) %>
+      <%= content_tag(:button, "Unload", "phx-click": "Unload Filament", data: [test: "unload_filament_button"], disabled: !@printer_idle?) %>
+    </div>
+  </div>
+</div>

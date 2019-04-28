@@ -8,12 +8,18 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/js/app.css") %>"/>
   </head>
   <body>
-
+    <header class="header">
+      <h1 class="header__title"><%= link "Makerion", to: "/" %></h1>
+      <nav class="header__nav">
+        <ul>
+          <li class="nav-right">
+            <%= live_render(@conn, MakerionWeb.FirmwareUpgradeCheckLive) %>
+          </li>
+        </ul>
+      </nav>
+    </header>
     <div class="grid">
       <%= render @view_module, @view_template, assigns %>
-      <div class="sidebar card-list">
-        <%= live_render(@conn, MakerionWeb.PrinterStatusLive.Show) %>
-      </div>
     </div>
 
     <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

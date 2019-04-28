@@ -2,7 +2,7 @@ defmodule MakerionWeb.PrintingAFileTest do
   use MakerionWeb.FeatureCase, async: false
 
   alias Makerion.Print
-  alias MakerionWeb.{PrinterStatusComponent, PrintFileComponent, PrintFilesIndexPage}
+  alias MakerionWeb.{PrinterActionsComponent, PrintFileComponent, PrintFilesIndexPage}
 
   hound_session()
 
@@ -17,12 +17,13 @@ defmodule MakerionWeb.PrintingAFileTest do
     navigate_to("/")
 
     print_file_element = PrintFilesIndexPage.print_file_element(print_file)
+    PrintFileComponent.select_card(print_file_element)
     assert PrintFileComponent.print_button(print_file_element, disabled: false)
-    assert PrinterStatusComponent.load_filament_button(disabled: false)
-    assert PrinterStatusComponent.unload_filament_button(disabled: false)
+    assert PrinterActionsComponent.load_filament_button(disabled: false)
+    assert PrinterActionsComponent.unload_filament_button(disabled: false)
     PrintFileComponent.click_print(print_file_element)
     assert PrintFileComponent.print_button(print_file_element, disabled: true)
-    assert PrinterStatusComponent.load_filament_button(disabled: true)
-    assert PrinterStatusComponent.unload_filament_button(disabled: true)
+    assert PrinterActionsComponent.load_filament_button(disabled: true)
+    assert PrinterActionsComponent.unload_filament_button(disabled: true)
   end
 end

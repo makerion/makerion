@@ -37,6 +37,12 @@ defmodule MakerionWeb.PrintFileLive.Index do
     {:noreply, assign(socket, printer_idle?: idle)}
   end
 
+  def handle_event("select_print_file", id, socket) do
+    file = Print.get_print_file!(id)
+
+    {:noreply, assign(socket, selected_print_file: file.id)}
+  end
+
   def handle_event("delete_file", id, socket) do
     file = Print.get_print_file!(id)
     Print.delete_print_file(file)

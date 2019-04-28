@@ -5,6 +5,11 @@ defmodule MakerionWeb.PrintFileComponent do
 
   use Hound.Helpers
 
+  def select_card(print_file_element) do
+    print_file_element
+    |> click()
+  end
+
   def click_print(print_file_element) do
     print_file_element
     |> print_button()

@@ -1,22 +1,7 @@
 {
-  "presets": [
-    [
-      "env",
-      {
-        "modules": false,
-        "targets": {
-          "browsers": "> 1%",
-          "uglify": true
-        },
-        "useBuiltIns": 'entry'
-      }
-    ]
-  ],
   "plugins": [
-    "syntax-dynamic-import",
-    "transform-object-rest-spread",
     [
-      "transform-class-properties",
+      "@babel/plugin-proposal-class-properties",
       {
         "spec": true
       }
