@@ -8,7 +8,16 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/js/app.css") %>"/>
   </head>
   <body>
-    <header>Makerion</header>
+    <header class="header">
+      <h1 class="header__title"><%= link "Makerion", to: "/" %></h1>
+      <nav class="header__nav">
+        <ul>
+          <li class="nav-right">
+            <%= live_render(@conn, MakerionWeb.FirmwareUpgradeCheckLive) %>
+          </li>
+        </ul>
+      </nav>
+    </header>
     <div class="grid">
       <%= render @view_module, @view_template, assigns %>
     </div>

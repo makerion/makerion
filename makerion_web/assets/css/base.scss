@@ -15,13 +15,40 @@ body {
   background-color: #EEEEEE;
 }
 
-header {
+.header {
   height: 4rem;
-  padding: 0.5em;
-  font-size: 2rem;
   font-weight: bold;
   background-color: darken($dark, 30%);
   color: $light;
+  padding: 0.5em;
+
+  &__nav {
+    display: inline;
+
+    ul {
+      display: inline;
+
+    }
+
+    .nav-right {
+      margin: .5em;
+      float: right;
+    }
+  }
+
+  a {
+    color: $light;
+  }
+
+  &__title {
+    font-size: 2rem;
+    color: $light;
+    display: inline;
+
+    a {
+      text-decoration: none;
+    }
+  }
 }
 
 ul {
