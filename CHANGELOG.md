@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.10
+
+* Improvements
+  * Added progress bar for firmware
+  * Links to firmware upgrade from nav bar when one is available
+  * Separate printer controls from printer status
+  * Minor visual tweaks (still a long way to go here)
+
 ## v0.1.9
 
 * Improvements
