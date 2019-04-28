@@ -367,7 +367,7 @@ jobs:
           working_directory: ~/project/makerion_firmware/deploy
       - run:
           name: Deploy artifacts to GitHub
-          command: ./ghr -draft -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME -b "$(cat ~/project/RELEASE_NOTES)" -replace $CIRCLE_TAG ~/project/makerion_firmware/deploy
+          command: ./ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME -b "$(cat ~/project/RELEASE_NOTES)" -replace $CIRCLE_TAG ~/project/makerion_firmware/deploy
 
 
 
