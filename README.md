@@ -1,6 +1,6 @@
 # Makerion
 
-Makerion is a 3D printer management project intended to be run on a Raspberry Pi. It will support the official Raspberry Pi touchscreen, camera, and host an embdedded web server to upload files, control, and manager print jobs.
+Makerion is a 3D printer management project intended to be run on a Raspberry Pi. It will support the official Raspberry Pi touchscreen, camera, and host an embedded web server to upload files, control, and manage print jobs.
 
 ![Screenshot](https://github.com/makerion/makerion/blob/master/images/Main.png)
 
