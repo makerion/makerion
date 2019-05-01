@@ -2,6 +2,8 @@
 
 Makerion is a 3D printer management project intended to be run on a Raspberry Pi. It will support the official Raspberry Pi touchscreen, camera, and host an embdedded web server to upload files, control, and manager print jobs.
 
+![Screenshot](https://github.com/makerion/makerion/blob/master/images/Main.png)
+
 # 3D printer support
 
 Initially, this project is starting as a method of supporting people who purchased the New Matter MOD-t printers. Since New Matter closed its doors, people can only print locally to the printer over USB. This project is intended to be installed on a Raspberry Pi 3 local to the printer, so that files can be uploaded remotely.
@@ -54,3 +56,6 @@ Makerion Firmware has the capability of self-updating to a new version. In order
 
 * visit (http://makerion.local/firmware)
 * If an update is available you'll have the option to apply it. Click the button, wait a minute, and the device will reboot into the new firmware!
+
+![Firmware Update Available](https://github.com/makerion/makerion/blob/master/images/Firmware%20Available.png)
+![Firmware Update in progress](https://github.com/makerion/makerion/blob/master/images/Firmware%20Update.png)
