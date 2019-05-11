@@ -6,12 +6,12 @@ defmodule Makerion.Application do
   use Application
 
   alias Makerion.Repo
-  alias Moddity.Backend.{PythonShell, Simulator}
+  alias Moddity.Backend.{Libusb, PythonShell, Simulator}
   alias Moddity.Driver
 
   def start(_type, _args) do
     printer_backend = printer_backend()
-    children = maybe_simulator(printer_backend) ++ [
+    children = maybe_backend(printer_backend) ++ [
       Repo,
       Driver.child_spec(backend: printer_backend),
       # Print Context Events PubSub
@@ -22,9 +22,10 @@ defmodule Makerion.Application do
   end
 
   defp printer_backend do
-    Application.get_env(:makerion, :printer_backend, PythonShell)
+    Application.get_env(:makerion, :printer_backend, Libusb)
   end
 
-  defp maybe_simulator(Simulator), do: [Simulator]
-  defp maybe_simulator(_), do: []
+  defp maybe_backend(Simulator), do: [Simulator]
+  defp maybe_backend(Libusb), do: [Libusb]
+  defp maybe_backend(_), do: []
 end
