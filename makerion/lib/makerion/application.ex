@@ -6,7 +6,7 @@ defmodule Makerion.Application do
   use Application
 
   alias Makerion.Repo
-  alias Moddity.Backend.{Libusb, PythonShell, Simulator}
+  alias Moddity.Backend.{Libusb, Simulator}
   alias Moddity.Driver
 
   def start(_type, _args) do
