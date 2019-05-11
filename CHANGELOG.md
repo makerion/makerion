@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.0
+
+* Improvements
+  * switch to use the native Elixir/libusb driver
+
 ## v0.1.10
 
 * Improvements
