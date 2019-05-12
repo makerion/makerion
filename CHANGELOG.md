@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.1
+
+* Bugfixes
+  * Read from status address after write batches of 20 to ensure the printer can keep up
+
 ## v0.2.0
 
 * Improvements
