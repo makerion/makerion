@@ -6,7 +6,7 @@ Makerion is a 3D printer management project intended to be run on a Raspberry Pi
 
 # 3D printer support
 
-Initially, this project is starting as a method of supporting people who purchased the New Matter MOD-t printers. Since New Matter closed its doors, people can only print locally to the printer over USB. This project is intended to be installed on a Raspberry Pi 3 local to the printer, so that files can be uploaded remotely.
+* New Matter MOD-t
 
 # Getting Started
 
@@ -23,12 +23,23 @@ Makerion is distributed in both .img and .fw formats. If you're familiar with Ra
 
 ## Installation
 
-* download the latest .img file in the [releases page](https://github.com/makerion/makerion/releases)
-  * Look for the filename matching your system
-  * If you have a Pi0W, you'll want makerion_firmware_rpi_v[x.x.x].img
-  * If you have a Pi3, you'll want makerion_firmware_rpi3_v[x.x.x].img
+### Download the files
+
+* Download [balena Etcher](https://www.balena.io/etcher/)
+* Go to the latest Makerion [release page](https://github.com/makerion/makerion/releases/latest)
+* Download the img file matching your Raspberry Pi
+  * If you have a Pi0W, you want `makerion_firmware_rpi_v[x.x.x].img`
+  * If you have a Pi3, you want `makerion_firmware_rpi3_v[x.x.x].img`
+  
+### Create the SD card
+
 * Insert the micro SD card into your laptop or desktop
-* Using a tool like [balena Etcher](https://www.balena.io/etcher/), burn the image to an SD card
+* Using Etcher, burn the img file to the SD card
+  * Under "Select image", choose the img file you downloaded
+  * Under "Select drive", choose the CD card you inserted (it is usually auto-selected for you)
+  
+### Configure WiFi
+
 * Remove and re-insert the SD card once the fw burning tool has finished
 * on the BOOT-A volume of the SD card, add a `wifi.yml` file with each of the networks you would like the device to be able to join.
 
@@ -44,6 +55,8 @@ networks:
     priority: 99
 ```
 _Note: higher numbers are higher priority, as with wpa-supplicant_
+
+### Hook it up
 
 * Eject the SD card and plug it into the Raspberry Pi
 * Put the Raspberry Pi next to the MOD-t and plug the MOD-t into one of the Pi's USB ports
