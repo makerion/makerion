@@ -10,16 +10,13 @@ Makerion is a 3D printer management project intended to be run on a Raspberry Pi
 
 # Getting Started
 
-## Software Prerequisites
+## Get the Hardware
 
-Makerion is distributed in both .img and .fw formats. If you're familiar with Raspbian, you've encountered img files before. Using a tool like [balena Etcher](https://www.balena.io/etcher/), you can burn the img file to an SD card.
-
-## Hardware
-
-* Raspberry Pi Zero W or 3/3A
+* Raspberry Pi 3
+  * (You can also use a Raspberry Pi Zero W if you prefer)
 * Micro SD card -- anything 2GB or larger should do fine
 * WiFi network -- you'll need your ssid and psk (password) to connect
-* Laptop with Micro SD card slot
+* Computer with Micro SD card slot
 
 ## Installation
 
@@ -63,7 +60,7 @@ _Note: higher numbers are higher priority, as with wpa-supplicant_
 * Power on the Pi
 * In a web browser, visit (http://makerion.local). You should see a page with "Upload a New File" and "Printer Status" headers.
 
-## Upgrade
+## Upgrading to a new version of Makerion
 
 Makerion Firmware has the capability of self-updating to a new version. In order to check for an update and apply it:
 
