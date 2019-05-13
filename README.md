@@ -34,6 +34,7 @@ Makerion is a 3D printer management project intended to be run on a Raspberry Pi
 * Using Etcher, burn the img file to the SD card
   * Under "Select image", choose the img file you downloaded
   * Under "Select drive", choose the CD card you inserted (it is usually auto-selected for you)
+  * Click "Flash!" and follow the prompts
   
 ### Configure WiFi
 
@@ -51,7 +52,8 @@ networks:
     psk: gettinstuffdone
     priority: 99
 ```
-_Note: higher numbers are higher priority, as with wpa-supplicant_
+_Note: indentation matters in the file. Use the above as a template if it helps._
+_Another Note: for priority, higher numbers indicate higher preference for that access point_
 
 ### Hook it up
 
