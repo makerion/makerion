@@ -57,7 +57,8 @@ defmodule Makerion.MixProject do
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
-      {:sqlite_ecto2, "~> 2.2"}
+      {:sqlite_ecto2, "~> 2.2"},
+      {:yaml_elixir, "~> 2.0"}
     ]
   end
 
