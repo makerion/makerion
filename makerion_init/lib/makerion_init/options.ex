@@ -6,7 +6,9 @@ defmodule MakerionInit.Options do
   defstruct address_method: :dhcp,
     ifname: "wlan0",
     wifi_networks: nil,
-    mdns_domain: "makerion.local"
+    mdns_domain: "makerion.local",
+    ssh_authorized_keys: nil,
+    ssh_console_port: 22
 
   def get do
     maybe_copy_config()
@@ -47,10 +49,15 @@ defmodule MakerionInit.Options do
              ]
         end)
 
-        case wifi["mdns_domain"] do
-          nil -> %{wifi_networks: wifi_networks}
-          mdns_domain -> %{mdns_domain: mdns_domain, wifi_networks: wifi_networks}
-        end
+      opts = %{
+        wifi_networks: wifi_networks,
+        ssh_authorized_keys: wifi["ssh_authorized_keys"]
+      }
+
+      case wifi["mdns_domain"] do
+        nil -> opts
+        mdns_domain -> Map.put(opts, :mdns_domain, mdns_domain)
+      end
     else
       %{}
     end
