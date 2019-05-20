@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.2.2
+
+* Improvements
+  * Setting `mdns_domain` on wifi.yml top level now sets the hostname (eg: `mdns_domain: makeriontest.local`)
+  * Adding an `ssh_authorized_keys` list on wifi.yml top level with each entry as a public key to be authorized now sets up remote ssh and firmware over ssh using those public keys. This is mostly for development and troubleshooting and is not expected for typical use cases.
+
+* Bugfixes
+  * Touch/click works to select a print file on mobile Safari browsers now
+
 ## v0.2.1
 
 * Bugfixes
