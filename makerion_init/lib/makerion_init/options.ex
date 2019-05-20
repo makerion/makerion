@@ -47,7 +47,10 @@ defmodule MakerionInit.Options do
              ]
         end)
 
-      %{wifi_networks: wifi_networks}
+        case wifi["mdns_domain"] do
+          nil -> %{wifi_networks: wifi_networks}
+          mdns_domain -> %{mdns_domain: mdns_domain, wifi_networks: wifi_networks}
+        end
     else
       %{}
     end
