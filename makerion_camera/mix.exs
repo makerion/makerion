@@ -47,6 +47,8 @@ defmodule MakerionCamera.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:picam, "~> 0.3.0"},
+
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test}

@@ -59,6 +59,7 @@ defmodule MakerionFirmware.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      # internal deps
       {:makerion, path: "../makerion"},
       {:makerion_kiosk, path: "../makerion_kiosk", targets: [:host, :rpi3]},
       {:makerion_web, path: "../makerion_web"},

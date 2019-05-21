@@ -54,6 +54,7 @@
   "phoenix_html": {:hex, :phoenix_html, "2.13.2", "f5d27c9b10ce881a60177d2b5227314fc60881e6b66b41dfe3349db6ed06cf57", [:mix], [{:plug, "~> 1.5", [hex: :plug, repo: "hexpm", optional: false]}], "hexpm"},
   "phoenix_live_view": {:git, "https://github.com/phoenixframework/phoenix_live_view.git", "38083c55714a07263fa2c452248a76f712861c12", []},
   "phoenix_pubsub": {:hex, :phoenix_pubsub, "1.1.2", "496c303bdf1b2e98a9d26e89af5bba3ab487ba3a3735f74bf1f4064d2a845a3e", [:mix], [], "hexpm"},
+  "picam": {:hex, :picam, "0.3.0", "9795358825fc856ffed54ba12bd2edcd7826bed3a427fd1201d8998df98ee6f6", [:make, :mix], [{:elixir_make, "~> 0.4", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm"},
   "plug": {:hex, :plug, "1.8.0", "9d2685cb007fe5e28ed9ac27af2815bc262b7817a00929ac10f56f169f43b977", [:mix], [{:mime, "~> 1.0", [hex: :mime, repo: "hexpm", optional: false]}, {:plug_crypto, "~> 1.0", [hex: :plug_crypto, repo: "hexpm", optional: false]}, {:telemetry, "~> 0.4", [hex: :telemetry, repo: "hexpm", optional: true]}], "hexpm"},
   "plug_cowboy": {:hex, :plug_cowboy, "2.0.2", "6055f16868cc4882b24b6e1d63d2bada94fb4978413377a3b32ac16c18dffba2", [:mix], [{:cowboy, "~> 2.5", [hex: :cowboy, repo: "hexpm", optional: false]}, {:plug, "~> 1.7", [hex: :plug, repo: "hexpm", optional: false]}], "hexpm"},
   "plug_crypto": {:hex, :plug_crypto, "1.0.0", "18e49317d3fa343f24620ed22795ec29d4a5e602d52d1513ccea0b07d8ea7d4d", [:mix], [], "hexpm"},
