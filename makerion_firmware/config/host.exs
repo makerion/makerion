@@ -26,6 +26,8 @@ config :makerion_web, MakerionWeb.Endpoint,
   code_reloader: false,
   check_origin: false
 
+config :picam, camera: Picam.FakeCamera
+
 if File.exists?("#{Mix.env()}.exs") do
   import_config "#{Mix.env()}.exs"
 end
