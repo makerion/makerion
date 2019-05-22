@@ -1,20 +1,15 @@
 defmodule MakerionCamera.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
   @moduledoc false
 
   use Application
 
   def start(_type, _args) do
-    # List all child processes to be supervised
     children = [
-      # Starts a worker by calling: MakerionCamera.Worker.start_link(arg)
-      # {MakerionCamera.Worker, arg}
+      Application.get_env(:picam, :camera, Picam.Camera),
+      MakerionCamera.Camera
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: MakerionCamera.Supervisor]
+    opts = [strategy: :rest_for_one, name: MakerionCamera.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end

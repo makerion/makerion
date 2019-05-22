@@ -23,6 +23,8 @@ config :makerion, Makerion.Repo,
   adapter: Sqlite.Ecto2,
   database: Path.expand("/root/repo.sqlite3")
 
+config :picam, camera: Picam.Camera
+
 config :makerion_updater,
   project: "makerion/makerion",
   runtime: Nerves.Runtime,
