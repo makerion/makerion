@@ -4,7 +4,10 @@ defmodule MakerionCamera.Camera do
   """
 
   use GenServer
-  require Logger
+
+  defmodule State do @moduledoc false
+    defstruct last_frame: nil
+  end
 
   defdelegate next_frame(), to: Picam
 
@@ -15,6 +18,6 @@ defmodule MakerionCamera.Camera do
   def init(_opts) do
     Picam.set_size(1280, 720)
     Picam.set_img_effect(:normal)
-    {:ok, %{}}
+    {:ok, %State{}}
   end
 end

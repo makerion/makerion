@@ -54,6 +54,7 @@ defmodule MakerionWeb.MixProject do
   defp deps do
     [
       {:makerion, path: "../makerion"},
+      {:makerion_camera, path: "../makerion_camera"},
       {:makerion_updater, path: "../makerion_updater"},
 
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
