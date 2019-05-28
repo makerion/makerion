@@ -23,6 +23,8 @@ config :makerion, Makerion.Repo,
   adapter: Sqlite.Ecto2,
   database: Path.expand("/root/repo.sqlite3")
 
+config :picam, camera: Picam.Camera
+
 config :makerion_updater,
   project: "makerion/makerion",
   runtime: Nerves.Runtime,
@@ -31,7 +33,10 @@ config :makerion_updater,
 
 config :makerion_web, MakerionWeb.Endpoint,
   url: [host: "localhost"],
-  http: [port: 80],
+  http: [
+    port: 80,
+    protocol_options: [idle_timeout: :infinity]
+  ],
   secret_key_base: "pYHbGO6Ir2A43i44U3VippGeoxu/wG1FjZKOX1bYvKzswsWROrSTDiFBhEoHFgrr",
   root: Path.dirname(__DIR__),
   server: true,

@@ -1,14 +1,13 @@
-defmodule MakerionUpdater.MixProject do
+defmodule MakerionCamera.MixProject do
   use Mix.Project
 
-  @all_targets [:rpi, :rpi3]
   @version Path.join([__DIR__, "..", "VERSION"])
-           |> File.read!()
-           |> String.trim()
+  |> File.read!()
+  |> String.trim()
 
   def project do
     [
-      app: :makerion_updater,
+      app: :makerion_camera,
       deps: deps(),
       dialyzer: [
         plt_add_apps: ~w(ex_unit mix)a,
@@ -27,8 +26,8 @@ defmodule MakerionUpdater.MixProject do
         credo: :test,
         dialyzer: :test
       ],
-      start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
+      start_permanent: Mix.env() == :prod,
       version: @version
     ]
   end
@@ -36,8 +35,8 @@ defmodule MakerionUpdater.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      mod: {MakerionUpdater.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger],
+      mod: {MakerionCamera.Application, []}
     ]
   end
 
@@ -48,16 +47,11 @@ defmodule MakerionUpdater.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # project deps
-      {:httpoison, "~> 1.5"},
-      {:jason, "~> 1.0"},
-      {:nerves_runtime, "~> 0.6", targets: @all_targets},
+      {:picam, "~> 0.3.0"},
 
-      # test/CI deps
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.10", only: :test},
-      {:mox, "~> 0.5", only: :test}
+      {:excoveralls, "~> 0.10", only: :test}
     ]
   end
 end

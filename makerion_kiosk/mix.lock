@@ -24,6 +24,7 @@
   "msgpax": {:hex, :msgpax, "2.2.2", "559a07806bbe5fdd31e4597455be030bd96356f7a621ca9eed832747c83bfb67", [:mix], [{:plug, "~> 1.0", [hex: :plug, repo: "hexpm", optional: true]}], "hexpm"},
   "nerves_runtime": {:hex, :nerves_runtime, "0.9.4", "c2f5e0f9bce552e9593f59c76ccecc8f40580d97d327fe1bae383a65153105de", [:make, :mix], [{:elixir_make, "~> 0.5", [hex: :elixir_make, repo: "hexpm", optional: false]}, {:system_registry, "~> 0.5", [hex: :system_registry, repo: "hexpm", optional: false]}, {:uboot_env, "~> 0.1", [hex: :uboot_env, repo: "hexpm", optional: false]}], "hexpm"},
   "parse_trans": {:hex, :parse_trans, "3.3.0", "09765507a3c7590a784615cfd421d101aec25098d50b89d7aa1d66646bc571c1", [:rebar3], [], "hexpm"},
+  "picam": {:hex, :picam, "0.3.0", "9795358825fc856ffed54ba12bd2edcd7826bed3a427fd1201d8998df98ee6f6", [:make, :mix], [{:elixir_make, "~> 0.4", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm"},
   "poolboy": {:hex, :poolboy, "1.5.2", "392b007a1693a64540cead79830443abf5762f5d30cf50bc95cb2c1aaafa006b", [:rebar3], [], "hexpm"},
   "sbroker": {:hex, :sbroker, "1.0.0", "28ff1b5e58887c5098539f236307b36fe1d3edaa2acff9d6a3d17c2dcafebbd0", [:rebar3], [], "hexpm"},
   "scenic": {:hex, :scenic, "0.10.1", "66e11d73207632912274c5bcebbccc4d758d3f3f6d75e646c3897f473fe93b81", [:make, :mix], [{:elixir_make, "~> 0.5", [hex: :elixir_make, repo: "hexpm", optional: false]}, {:font_metrics, "~> 0.3", [hex: :font_metrics, repo: "hexpm", optional: false]}], "hexpm"},

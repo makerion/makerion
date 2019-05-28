@@ -21,10 +21,15 @@ config :makerion_kiosk, :viewport, %{
 }
 
 config :makerion_web, MakerionWeb.Endpoint,
-  http: [port: 4000],
+  http: [
+    port: 4000,
+    protocol_options: [idle_timeout: :infinity]
+  ],
   debug_errors: true,
   code_reloader: false,
   check_origin: false
+
+config :picam, camera: Picam.FakeCamera
 
 if File.exists?("#{Mix.env()}.exs") do
   import_config "#{Mix.env()}.exs"

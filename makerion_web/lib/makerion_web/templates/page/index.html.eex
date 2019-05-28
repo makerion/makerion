@@ -7,6 +7,14 @@
 <div class="sidebar card-list">
   <%= live_render(@conn, MakerionWeb.PrinterStatusLive) %>
   <%= live_render(@conn, MakerionWeb.PrinterActionsLive) %>
+  <%= if @camera_active do %>
+    <div class="card">
+      <div class="card__body">
+        <p class="card__title centered">Camera</p>
+        <%= link "View Camera", to: "/video.mjpg" %>
+      </div>
+    </div>
+  <% end %>
   <div class="card">
     <div class="card__body">
       <p class="card__title">Upload a New File</p>

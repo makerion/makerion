@@ -38,6 +38,26 @@ jobs:
           name: "OTP_VERSION.lock"
           command: echo "${OTP_VERSION}" > OTP_VERSION.lock
 
+      # makerion_camera
+      - restore_cache:
+          keys:
+            - v2-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_camera/mix.lock" }}
+            - v2-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+      - run:
+          name: Compile Makerion Camera
+          command: mix do deps.get, compile
+          working_directory: ~/project/makerion_camera
+      - save_cache:
+          key: v2-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}-{{ checksum "makerion_camera/mix.lock" }}
+          paths:
+            - makerion_camera/deps
+            - makerion_camera/_build
+      - save_cache:
+          key: v2-mix-compile-{{ checksum "OTP_VERSION.lock" }}-{{ checksum "ELIXIR_VERSION.lock" }}
+          paths:
+            - makerion_camera/deps
+            - makerion_camera/_build
+
       # makerion
       - restore_cache:
           keys:
@@ -178,6 +198,7 @@ jobs:
             - ELIXIR_VERSION.lock
             - OTP_VERSION.lock
             - makerion
+            - makerion_camera
             - makerion_firmware
             - makerion_init
             - makerion_kiosk
@@ -380,6 +401,32 @@ workflows:
             tags:
               only: /v.*/
       - test:
+          project_name: makerion_camera
+          name: makerion_camera_test
+          requires:
+            - build
+          filters:
+            tags:
+              only: /v.*/
+      - credo:
+          project_name: makerion_camera
+          name: makerion_camera_credo
+          requires:
+            - build
+          filters:
+            tags:
+              only: /v.*/
+      - dialyzer:
+          project_name: makerion_camera
+          name: makerion_camera_dialyzer
+          requires:
+            - makerion_camera_credo
+            - makerion_camera_test
+          filters:
+            tags:
+              only: /v.*/
+
+      - test:
           project_name: makerion
           name: makerion_test
           requires:
@@ -513,6 +560,8 @@ workflows:
           name: release_rpi
           mix_target: rpi
           requires:
+            - makerion_camera_credo
+            - makerion_camera_test
             - makerion_credo
             - makerion_test
             - kiosk_credo
@@ -532,6 +581,8 @@ workflows:
           name: release_rpi3
           mix_target: rpi3
           requires:
+            - makerion_camera_credo
+            - makerion_camera_test
             - makerion_credo
             - makerion_test
             - kiosk_credo

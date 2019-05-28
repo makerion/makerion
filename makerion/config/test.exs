@@ -7,4 +7,6 @@ config :makerion, Makerion.Repo,
 
 config :makerion, printer_backend: Moddity.Backend.Simulator
 
+config :picam, camera: Picam.FakeCamera
+
 config :logger, level: :warn
