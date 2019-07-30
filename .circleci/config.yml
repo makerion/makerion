@@ -22,7 +22,7 @@ install_ghr: &install_ghr
 jobs:
   build:
     docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
+      - image: tmecklem/elixir:1.9-node-browsers-scenic
         environment:
           MIX_ENV: test
 
@@ -212,7 +212,7 @@ jobs:
         description: "project name"
         type: string
     docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
+      - image: tmecklem/elixir:1.9-node-browsers-scenic
         environment:
           MIX_ENV: test
 
@@ -246,7 +246,7 @@ jobs:
         description: "project name"
         type: string
     docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
+      - image: tmecklem/elixir:1.9-node-browsers-scenic
         environment:
           MIX_ENV: test
     steps:
@@ -285,7 +285,7 @@ jobs:
         description: "project name"
         type: string
     docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
+      - image: tmecklem/elixir:1.9-node-browsers-scenic
         environment:
           MIX_ENV: test
     steps:
@@ -301,7 +301,7 @@ jobs:
       mix_target:
         type: string
     docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
+      - image: tmecklem/elixir:1.9-node-browsers-scenic
         environment:
           MIX_TARGET: << parameters.mix_target >>
     steps:
@@ -372,7 +372,7 @@ jobs:
 
   deploy_artifacts:
     docker:
-      - image: tmecklem/elixir:1.8.1-node-browsers-scenic
+      - image: tmecklem/elixir:1.9-node-browsers-scenic
 
     steps:
       - checkout
