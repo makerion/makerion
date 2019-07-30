@@ -18,7 +18,7 @@ defmodule MakerionKiosk.MixProject do
         plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
         ignore_warnings: "../.dialyzer-ignore.exs"
       ],
-      elixir: "~> 1.8",
+      elixir: "~> 1.9",
       elixirc_options: [warnings_as_errors: true],
       elixirc_paths: elixirc_paths(Mix.env()),
       preferred_cli_env: [
