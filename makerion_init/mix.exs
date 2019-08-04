@@ -47,10 +47,10 @@ defmodule MakerionInit.MixProject do
     [
       {:mdns, "~> 1.0"},
       {:nerves_firmware_ssh, "~> 0.4"},
-      {:nerves_runtime, "~> 0.6"},
+      {:nerves_runtime, "~> 0.10"},
       {:nerves_network, "~> 0.5"},
       {:ring_logger, "~> 0.6"},
-      {:yaml_elixir, "~> 2.0"}
+      {:yaml_elixir, "~> 2.4"}
     ]
   end
 end

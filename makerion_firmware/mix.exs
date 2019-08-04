@@ -78,9 +78,9 @@ defmodule MakerionFirmware.MixProject do
       {:makerion_web, path: "../makerion_web"},
 
       # Dependencies for all targets
-      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.10", only: :test},
+      {:excoveralls, "~> 0.11", only: :test},
       {:nerves, "~> 1.5.0", runtime: false},
       {:ring_logger, "~> 0.6"},
       {:shoehorn, "~> 0.6"},

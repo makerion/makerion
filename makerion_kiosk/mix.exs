@@ -56,16 +56,15 @@ defmodule MakerionKiosk.MixProject do
       {:makerion_updater, path: "../makerion_updater"},
 
       # project deps
-      {:scenic, "~> 0.9"},
-      {:scenic_driver_glfw, "~> 0.9", targets: :host},
-      {:scenic_sensor, "~> 0.7"},
-      {:scenic_driver_nerves_rpi, "~> 0.9", targets: [:rpi3]},
-      {:scenic_driver_nerves_touch, "~> 0.9", targets: [:rpi3]},
+      {:scenic, "~> 0.10"},
+      {:scenic_driver_glfw, "~> 0.10", targets: :host},
+      {:scenic_driver_nerves_rpi, "~> 0.10", targets: [:rpi3]},
+      {:scenic_driver_nerves_touch, "~> 0.10", targets: [:rpi3]},
 
       # test/CI deps
-      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.10", only: :test}
+      {:excoveralls, "~> 0.11", only: :test}
     ]
   end
 end

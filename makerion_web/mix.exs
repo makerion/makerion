@@ -57,20 +57,20 @@ defmodule MakerionWeb.MixProject do
       {:makerion_camera, path: "../makerion_camera"},
       {:makerion_updater, path: "../makerion_updater"},
 
-      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.10", only: :test},
-      {:gettext, "~> 0.11"},
-      {:hound, "~> 1.0"},
-      {:jason, "~> 1.0"},
-      {:phoenix, "~> 1.4.2"},
+      {:excoveralls, "~> 0.11", only: :test},
+      {:gettext, "~> 0.17"},
+      {:hound, "~> 1.1"},
+      {:jason, "~> 1.1"},
+      {:phoenix, "~> 1.4"},
       {:phoenix_ecto, "~> 3.6"},
-      {:phoenix_html, "~> 2.11"},
+      {:phoenix_html, "~> 2.13"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
       {:phoenix_pubsub, "~> 1.1"},
-      {:plug_cowboy, "~> 2.0"},
-      {:timex, "~> 3.1"}
+      {:plug_cowboy, "~> 2.1"},
+      {:timex, "~> 3.6"}
     ]
   end
 
