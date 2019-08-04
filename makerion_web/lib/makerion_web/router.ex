@@ -14,7 +14,7 @@ defmodule MakerionWeb.Router do
     plug :accepts, ["json"]
   end
 
-  forward "/video.mjpg", MakerionWeb.JPEGStreamer
+  # forward "/video.mjpg", MakerionWeb.JPEGStreamer
 
   scope "/", MakerionWeb do
     pipe_through :browser
