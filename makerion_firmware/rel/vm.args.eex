@@ -5,7 +5,7 @@
 ##  for read only filesystem.
 
 # -name makerion_firmware@0.0.0.0
--setcookie qff5wnk3ns2j66ybfvpqqc7mrgvtwv54k6hvmmnmemxn4xlbh2hygmyhxh4vo463
+-setcookie <%= @release.options[:cookie] %>
 
 ## Use Ctrl-C to interrupt the current shell rather than invoking the emulator's
 ## break handler and possibly exiting the VM.
@@ -41,4 +41,3 @@
 -extra --no-halt
 --
 --dot-iex /etc/iex.exs
-

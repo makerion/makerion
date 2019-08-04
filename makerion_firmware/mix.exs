@@ -1,6 +1,7 @@
 defmodule MakerionFirmware.MixProject do
   use Mix.Project
 
+  @app :makerion_firmware
   @all_targets [:rpi, :rpi3]
   @version Path.join([__DIR__, "..", "VERSION"])
            |> File.read!()
@@ -10,8 +11,8 @@ defmodule MakerionFirmware.MixProject do
   def project do
     [
       aliases: [loadconfig: [&bootstrap/1]],
-      app: :makerion_firmware,
-      archives: [nerves_bootstrap: "~> 1.5"],
+      app: @app,
+      archives: [nerves_bootstrap: "~> 1.6"],
       build_embedded: true,
       dialyzer: [
         plt_add_apps: ~w(ex_unit mix)a,
@@ -31,6 +32,8 @@ defmodule MakerionFirmware.MixProject do
         credo: :test,
         dialyzer: :test
       ],
+      preferred_cli_target: [run: :host, test: :host],
+      releases: [{@app, release()}],
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
       version: @version
@@ -52,6 +55,16 @@ defmodule MakerionFirmware.MixProject do
     ]
   end
 
+  def release do
+    [
+      overwrite: true,
+      cookie: "#{@app}_cookie",
+      include_erts: &Nerves.Release.erts/0,
+      steps: [&Nerves.Release.init/1, :assemble],
+      strip_beams: Mix.env() == :prod
+    ]
+  end
+
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
@@ -68,9 +81,9 @@ defmodule MakerionFirmware.MixProject do
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
-      {:nerves, "~> 1.4", runtime: false},
+      {:nerves, "~> 1.5.0", runtime: false},
       {:ring_logger, "~> 0.6"},
-      {:shoehorn, "~> 0.4"},
+      {:shoehorn, "~> 0.6"},
       {:toolshed, "~> 0.2"},
 
       # Dependencies for all targets except :host
@@ -78,8 +91,9 @@ defmodule MakerionFirmware.MixProject do
       {:nerves_time, "~> 0.2", targets: @all_targets},
 
       # Dependencies for specific targets
-      {:makerion_system_rpi, "1.0.0", github: "makerion/makerion_system_rpi", runtime: false, targets: :rpi},
-      {:makerion_system_rpi3, "1.0.0", github: "makerion/makerion_system_rpi3", runtime: false, targets: :rpi3},
+      {:makerion_system_rpi, github: "makerion/makerion_system_rpi", tag: "v1.0.1", runtime: false, targets: :rpi},
+      # {:makerion_system_rpi3, "1.1.0", path: "../../makerion_system_rpi3", runtime: false, targets: :rpi3},
+      {:makerion_system_rpi3, github: "makerion/makerion_system_rpi3", tag: "v1.0.1", runtime: false, targets: :rpi3},
     ]
   end
 end
