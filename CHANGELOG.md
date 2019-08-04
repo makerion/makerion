@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.3
+
+* Improvements
+  * Initial picam support (disabled)
+  * Upgraded nerves to 1.5
+
 ## v0.2.2
 
 * Improvements
