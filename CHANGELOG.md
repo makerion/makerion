@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.4
+
+* Improvements
+  * Better handling of large gcode files by keeping UI responsive and updating progress of file send
+
 ## v0.2.3
 
 * Improvements
