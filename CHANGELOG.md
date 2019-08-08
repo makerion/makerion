@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.5
+
+* Improvements
+  * Pressing print now begins the print as soon as it is uploaded instead of waiting for a button press
+  * Added pause, resume, abort, and reset buttons
+  * Implemented a `send_gcode_command` backend action that send individual gcode commands instead of whole files
+
 ## v0.2.4
 
 * Improvements
