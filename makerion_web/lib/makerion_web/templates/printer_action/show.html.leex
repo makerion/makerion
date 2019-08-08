@@ -5,6 +5,11 @@
       <h3>Filament</h3>
       <%= content_tag(:button, "Load", "phx-click": "Load Filament", data: [test: "load_filament_button"], disabled: !@printer_idle?) %>
       <%= content_tag(:button, "Unload", "phx-click": "Unload Filament", data: [test: "unload_filament_button"], disabled: !@printer_idle?) %>
+      <h3>Printer</h3>
+      <%= content_tag(:button, "Reset", "phx-click": "Reset Printer") %>
+      <%= content_tag(:button, "Pause", "phx-click": "Pause Printer", disabled: @printer_idle?) %>
+      <%= content_tag(:button, "Resume", "phx-click": "Resume Printer") %>
+      <%= content_tag(:button, "Abort", "phx-click": "Abort Print") %>
     </div>
   </div>
 </div>

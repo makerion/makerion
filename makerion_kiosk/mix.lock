@@ -20,7 +20,7 @@
   "libusb": {:git, "https://github.com/makerion/elixir_libusb.git", "dfc7a991ce04ad887f33b46794c131922cbede41", []},
   "metrics": {:hex, :metrics, "1.0.1", "25f094dea2cda98213cecc3aeff09e940299d950904393b2a29d191c346a8486", [:rebar3], [], "hexpm"},
   "mimerl": {:hex, :mimerl, "1.2.0", "67e2d3f571088d5cfd3e550c383094b47159f3eee8ffa08e64106cdf5e981be3", [:rebar3], [], "hexpm"},
-  "moddity": {:git, "https://github.com/makerion/moddity.git", "496c9f9ed50f39791bdb9f7f5d8d404a25e96614", [branch: "master"]},
+  "moddity": {:git, "https://github.com/makerion/moddity.git", "cc083310387796ac078db2b10c8d097cef1612bf", [branch: "master"]},
   "msgpax": {:hex, :msgpax, "2.2.4", "7b3790ef684089076b63c0f08c2f4b079c6311daeb006b69e4ed2bf67518291e", [:mix], [{:plug, "~> 1.0", [hex: :plug, repo: "hexpm", optional: true]}], "hexpm"},
   "nerves_runtime": {:hex, :nerves_runtime, "0.10.2", "b6c3bac939c5726dc19b66fc7cb9a10a18b9ee388c5a2d7353cd13e75d541a6c", [:make, :mix], [{:elixir_make, "~> 0.5", [hex: :elixir_make, repo: "hexpm", optional: false]}, {:system_registry, "~> 0.5", [hex: :system_registry, repo: "hexpm", optional: false]}, {:uboot_env, "~> 0.1", [hex: :uboot_env, repo: "hexpm", optional: false]}], "hexpm"},
   "parse_trans": {:hex, :parse_trans, "3.3.0", "09765507a3c7590a784615cfd421d101aec25098d50b89d7aa1d66646bc571c1", [:rebar3], [], "hexpm"},

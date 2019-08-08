@@ -33,6 +33,26 @@ defmodule MakerionWeb.PrinterActionsLive do
     {:noreply, socket}
   end
 
+  def handle_event("Reset Printer", _, socket) do
+    Driver.reset_printer()
+    {:noreply, socket}
+  end
+
+  def handle_event("Pause Printer", _, socket) do
+    Driver.pause_printer()
+    {:noreply, socket}
+  end
+
+  def handle_event("Resume Printer", _, socket) do
+    Driver.resume_printer()
+    {:noreply, socket}
+  end
+
+  def handle_event("Abort Print", _, socket) do
+    Driver.abort_print()
+    {:noreply, socket}
+  end
+
   def handle_info({:printer_status_event, printer_status}, socket) do
     {:noreply, assign_printer_status(socket, printer_status)}
   end
