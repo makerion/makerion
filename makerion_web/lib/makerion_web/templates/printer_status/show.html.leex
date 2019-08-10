@@ -21,6 +21,10 @@
         <span class="data-list__value" data-test="status_value"><%= @printer_status.error %></span>
       </li>
       <% end %>
+      <li data-test="status_entry">
+        <span class="data-list__label">Firmware</span>
+        <span class="data-list__value"><%= @printer_status.firmware_version %></span>
+      </li>
     </ul>
   </div>
 </div>

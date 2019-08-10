@@ -17,9 +17,9 @@ defmodule MakerionWeb.PrinterActionsLive do
     Driver.subscribe()
     case Driver.get_status() do
       {:ok, %PrinterStatus{} = printer_status} ->
-        {:ok, assign_printer_status(socket, printer_status)}
+        {:ok, assign(assign_printer_status(socket, printer_status), show_advanced: false)}
       _ ->
-        {:ok, assign(socket, printer_idle?: false)}
+        {:ok, assign(socket, firmware_updating?: false, printer_idle?: false, show_advanced: false)}
     end
   end
 
@@ -53,11 +53,20 @@ defmodule MakerionWeb.PrinterActionsLive do
     {:noreply, socket}
   end
 
+  def handle_event("Update Firmware", _, socket) do
+    Driver.update_firmware("https://raw.githubusercontent.com/tripflex/MOD-t/master/firmware/0.14.0/firmware_modt_override.dfu", "beb6a02c4f5f4f69a4a8025f2f8d5e68d34a43a9bc0224a5f42592edf6dba67c")
+    {:noreply, socket}
+  end
+
+  def handle_event("Toggle Advanced", _, socket) do
+    {:noreply, assign(socket, show_advanced: !socket.assigns.show_advanced)}
+  end
+
   def handle_info({:printer_status_event, printer_status}, socket) do
     {:noreply, assign_printer_status(socket, printer_status)}
   end
 
-  defp assign_printer_status(socket, %PrinterStatus{idle?: idle}) do
-    assign(socket, printer_idle?: idle)
+  defp assign_printer_status(socket, %PrinterStatus{idle?: idle, firmware_updating?: firmware_updating}) do
+    assign(socket, printer_idle?: idle, firmware_updating?: firmware_updating)
   end
 end

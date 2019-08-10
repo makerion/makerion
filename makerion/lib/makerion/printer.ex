@@ -51,6 +51,10 @@ defimpl Makerion.Printer, for: Moddity.Driver do
   def unload_filament(_printer_backend) do
     Moddity.Driver.unload_filament()
   end
+
+  def update_firmware(_printer_backend, url, expected_sha256sum) do
+    Moddity.Driver.update_firmware(url, expected_sha256sum)
+  end
 end
 
 defimpl Makerion.Printer, for: Any do
