@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.6
+
+* Improvements
+  * Initial support for printer firmware upgrades in the app
+
 ## v0.2.5
 
 * Improvements
