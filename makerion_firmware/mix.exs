@@ -91,9 +91,9 @@ defmodule MakerionFirmware.MixProject do
       {:nerves_time, "~> 0.2", targets: @all_targets},
 
       # Dependencies for specific targets
-      {:makerion_system_rpi, github: "makerion/makerion_system_rpi", tag: "v1.0.1", runtime: false, targets: :rpi},
-      # {:makerion_system_rpi3, "1.1.0", path: "../../makerion_system_rpi3", runtime: false, targets: :rpi3},
-      {:makerion_system_rpi3, github: "makerion/makerion_system_rpi3", tag: "v1.0.1", runtime: false, targets: :rpi3},
+      {:makerion_system_rpi, github: "makerion/makerion_system_rpi", tag: "v1.13.0", runtime: false, targets: :rpi},
+      # {:makerion_system_rpi3, "1.13.0", path: "../../makerion_system_rpi3", runtime: false, targets: :rpi3},
+      {:makerion_system_rpi3, github: "makerion/makerion_system_rpi3", tag: "v1.13.0", runtime: false, targets: :rpi3},
     ]
   end
 end
