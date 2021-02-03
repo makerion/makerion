@@ -74,7 +74,7 @@ defmodule MakerionFirmware.MixProject do
     [
       # internal deps
       {:makerion, path: "../makerion"},
-      {:makerion_kiosk, path: "../makerion_kiosk", targets: [:host, :rpi3]},
+      # {:makerion_kiosk, path: "../makerion_kiosk", targets: [:host, :rpi3]},
       {:makerion_web, path: "../makerion_web"},
 
       # Dependencies for all targets
