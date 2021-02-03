@@ -81,14 +81,14 @@ defmodule MakerionFirmware.MixProject do
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.11", only: :test},
-      {:nerves, "~> 1.5.0", runtime: false},
-      {:ring_logger, "~> 0.6"},
-      {:shoehorn, "~> 0.6"},
+      {:nerves, "~> 1.7.3", runtime: false},
+      {:ring_logger, "~> 0.8"},
+      {:shoehorn, "~> 0.7"},
       {:toolshed, "~> 0.2"},
 
       # Dependencies for all targets except :host
       {:makerion_init, path: "../makerion_init", targets: @all_targets},
-      {:nerves_time, "~> 0.2", targets: @all_targets},
+      {:nerves_time, "~> 0.4", targets: @all_targets},
 
       # Dependencies for specific targets
       # {:makerion_system_rpi, github: "makerion/makerion_system_rpi", tag: "v1.0.1", runtime: false, targets: :rpi},
