@@ -52,9 +52,6 @@ defmodule Makerion.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      # internal deps
-      {:makerion_camera, path: "../makerion_camera"},
-
       # project deps
       {:moddity, github: "makerion/moddity", branch: "master"},
 

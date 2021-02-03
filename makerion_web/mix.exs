@@ -18,7 +18,7 @@ defmodule MakerionWeb.MixProject do
         ignore_warnings: "../.dialyzer-ignore.exs"
       ],
       elixir: "~> 1.9",
-      elixirc_options: [warnings_as_errors: true],
+      # elixirc_options: [warnings_as_errors: true],
       elixirc_paths: elixirc_paths(Mix.env()),
       preferred_cli_env: [
         coveralls: :test,
@@ -54,7 +54,6 @@ defmodule MakerionWeb.MixProject do
   defp deps do
     [
       {:makerion, path: "../makerion"},
-      {:makerion_camera, path: "../makerion_camera"},
       {:makerion_updater, path: "../makerion_updater"},
 
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
