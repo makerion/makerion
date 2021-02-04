@@ -10,6 +10,11 @@ defmodule MakerionFirmware.Application do
   require Logger
 
   def start(_type, _args) do
+    if should_start_wizard?() do
+      start_wizard()
+    else
+      start_web()
+    end
     :ok = setup_db!()
 
     opts = [strategy: :one_for_one, name: MakerionFirmware.Supervisor]
@@ -29,6 +34,26 @@ defmodule MakerionFirmware.Application do
       # Starts a worker by calling: MakerionFirmware.Worker.start_link(arg)
       # {MakerionFirmware.Worker, arg},
     ]
+  end
+
+  def handle_on_exit do
+    Logger.info("VintageNetWizard stopped")
+    start_web()
+  end
+
+  defp should_start_wizard? do
+    !VintageNetWizard.wifi_configured?("wlan0")
+  end
+
+  defp start_wizard do
+    VintageNetWizard.run_wizard(
+      ui: [title: "Makerion WiFi Setup"],
+      on_exit: {__MODULE__, :handle_on_exit, []}
+    )
+  end
+
+  defp start_web do
+    Application.ensure_all_started(:makerion_web)
   end
 
   defp setup_db! do

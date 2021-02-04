@@ -51,7 +51,8 @@ defmodule MakerionFirmware.MixProject do
   def application do
     [
       mod: {MakerionFirmware.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools],
+      included_applications: [:makerion_web]
     ]
   end
 
@@ -75,7 +76,7 @@ defmodule MakerionFirmware.MixProject do
       # internal deps
       {:makerion, path: "../makerion"},
       # {:makerion_kiosk, path: "../makerion_kiosk", targets: [:host, :rpi3]},
-      {:makerion_web, path: "../makerion_web"},
+      {:makerion_web, path: "../makerion_web", app: false},
 
       # Dependencies for all targets
       {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
@@ -86,13 +87,15 @@ defmodule MakerionFirmware.MixProject do
       {:shoehorn, "~> 0.7"},
       {:toolshed, "~> 0.2"},
 
-      # Dependencies for all targets except :host
-      {:makerion_init, path: "../makerion_init", targets: @all_targets},
-      {:nerves_time, "~> 0.4", targets: @all_targets},
-
       # Dependencies for specific targets
       # {:makerion_system_rpi, github: "makerion/makerion_system_rpi", tag: "v1.0.1", runtime: false, targets: :rpi},
       # {:makerion_system_rpi3, "2.0.0", path: "../../makerion_system_rpi3", runtime: false, targets: :rpi3},
+      {:nerves_pack, "~> 0.4.1", targets: @all_targets},
+      {:vintage_net_wizard, "~> 0.4", targets: @all_targets},
+      {:nerves_time, "~> 0.4", targets: @all_targets},
+
+      # Dependencies for specific targets
+      #{:makerion_system_rpi, github: "makerion/makerion_system_rpi", tag: "v1.0.1", runtime: false, targets: :rpi},
       {:makerion_system_rpi3, github: "makerion/makerion_system_rpi3", tag: "v2.0.0", runtime: false, targets: :rpi3}
     ]
   end

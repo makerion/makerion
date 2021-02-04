@@ -1,7 +1,7 @@
 use Mix.Config
 
 config :shoehorn,
-  init: [:nerves_runtime, :makerion_init, :nerves_network, :nerves_firmware_ssh],
+  init: [:nerves_runtime, :nerves_pack],
   app: Mix.Project.config()[:app]
 
 # Use Ringlogger as the logger backend and remove :console.
@@ -9,6 +9,41 @@ config :shoehorn,
 # configuring ring_logger.
 
 config :logger, backends: [RingLogger]
+
+config :mdns_lite,
+  # The `host` key specifies what hostnames mdns_lite advertises.  `:hostname`
+  # advertises the device's hostname.local. For the official Nerves systems, this
+  # is "nerves-<4 digit serial#>.local".  mdns_lite also advertises
+  # "nerves.local" for convenience. If more than one Nerves device is on the
+  # network, delete "nerves" from the list.
+
+  host: [:hostname, "makerion"],
+  ttl: 120,
+
+  # Advertise the following services over mDNS.
+  services: [
+    %{
+      name: "SSH Remote Login Protocol",
+      protocol: "ssh",
+      transport: "tcp",
+      port: 22
+    },
+    %{
+      name: "Secure File Transfer Protocol over SSH",
+      protocol: "sftp-ssh",
+      transport: "tcp",
+      port: 22
+    },
+    %{
+      name: "Erlang Port Mapper Daemon",
+      protocol: "epmd",
+      transport: "tcp",
+      port: 4369
+    }
+  ]
+
+config :vintage_net_wizard,
+  inactivity_timeout: 10
 
 config :nerves_network,
   regulatory_domain: "US"
